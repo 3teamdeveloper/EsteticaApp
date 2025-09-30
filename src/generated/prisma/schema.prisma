@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  name         String
+  username     String        @unique //usado para /[username]
+  phone        String?
+  createdAt    DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
+  services     Service[]
+  appointments Appointment[]
+  schedules    Schedule[]
+}
+
+model Client {
+  id           String        @id @default(uuid())
+  name         String
+  email        String?
+  phone        String?
+  createdAt    DateTime      @default(now())
+  appointments Appointment[]
+}
+
+model Appointment {
+  id        String   @id @default(uuid())
+  date      DateTime
+  status    String
+  notes     String?
+  createdAt DateTime @default(now())
+
+  //relaciones 
+  service   Service @relation(fields: [serviceId], references: [id], map: "AppointmentToService")
+  serviceId String
+
+  user   User   @relation(fields: [userId], references: [id], map: "AppointmentToUser") //prestador 
+  userId String
+
+  client   Client? @relation(fields: [clientId], references: [id], map: "AppointmentToClient")
+  clientId String?
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  name        String
+  duration    Int //en minutos
+  price       Float
+  description String?
+  createdAt   DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], map: "ServiceToUser")
+  userId String
+
+  appointments Appointment[]
+}
+
+model Schedule {
+  id        String @id @default(uuid())
+  dayOfWeek Int //0 (Domingo) - 6 (Sabado)
+  startTime String //"09:00"
+  endTime   String // "17:00"
+
+  user   User   @relation(fields: [userId], references: [id], map: "ScheduleToUser")
+  userId String
+}

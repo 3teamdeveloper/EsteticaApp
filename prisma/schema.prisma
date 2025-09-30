@@ -1,0 +1,277 @@
+// 🔧 REESTRUCTURACIÓN DE MODELO PARA SOPORTE MULTI-EMPLEADO POR SERVICIO:
+//
+// Nueva necesidad: Un prestador puede tener varios empleados que brindan los mismos o distintos servicios.
+// El cliente que solicita un turno puede elegir (o no) al profesional específico. El sistema debe soportar ambas opciones.
+//
+// Cambios esperados:
+// - Crear modelo Empleado con relación a Prestador.
+// - Crear tabla intermedia EmpleadoServicio para vincular muchos a muchos.
+// - Asegurar que Horario esté vinculado al Empleado y al Servicio.
+// - Modificar Turno para que el campo empleadoId sea opcional.
+//
+// En los próximos pasos vamos a ajustar los modelos y relaciones para esto. Primero, revisá si hay colisiones con los modelos actuales.
+
+
+generator client {
+  provider = "prisma-client-js"
+ 
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN           // Acceso total al sistema
+  PRESTADOR       // Dueño del negocio
+  EMPLEADO        // Profesional que brinda servicios
+  RECEPCIONISTA   // Gestiona turnos y clientes
+  CLIENTE         // Usuario que solicita servicios
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  name         String
+  username     String        @unique //usado para /[username]
+  phone        String?
+  businessType String?
+  termsAcceptedAt DateTime?
+  onboardingCompleted Boolean @default(false)
+  role         UserRole      @default(PRESTADOR)
+  createdAt    DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
+  lastInvitationSentAt DateTime?
+  services     Service[]
+  appointments Appointment[]
+  schedules    Schedule[]    // Mantenemos esta relación para gestión del negocio
+  publicProfile PublicProfile?
+  employees    Employee[]    // empleados que administra (prestador)
+  // NUEVO: Relación inversa para la cuenta de empleado
+  employeeAccount Employee?  @relation("EmployeeAccount")
+  businessHours BusinessHours[] // Horarios de empresa del prestador
+
+  // NUEVOS CAMPOS PARA INVITACIÓN/RESET
+  passwordResetToken       String?
+  passwordResetTokenExpiry DateTime?
+
+  // CAMPOS PARA TRIAL DE 14 DÍAS
+  trialStartDate           DateTime?
+  trialEndDate             DateTime?
+  isTrialActive            Boolean   @default(true)
+  trialExpirationNotified  Boolean   @default(false)
+  
+  // Relación con tickets de soporte
+  supportTickets           SupportTicket[]
+}
+
+model Client {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String?
+  phone        String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  appointments Appointment[]
+
+  // @@index([email])
+  // @@index([phone])
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model Appointment {
+  id        Int             @id @default(autoincrement())
+  date      DateTime
+  status    AppointmentStatus
+  notes     String?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  //relaciones 
+  service   Service         @relation(fields: [serviceId], references: [id], map: "AppointmentToService")
+  serviceId Int
+
+  user   User   @relation(fields: [userId], references: [id], map: "AppointmentToUser") //prestador 
+  userId Int
+
+  client   Client? @relation(fields: [clientId], references: [id], map: "AppointmentToClient")
+  clientId Int?
+
+  employee   Employee? @relation(fields: [employeeId], references: [id], map: "AppointmentToEmployee")
+  employeeId Int?
+
+  // @@index([date])
+  // @@index([status])
+}
+
+model Service {
+  id          Int           @id @default(autoincrement())
+  name        String
+  duration    Int //en minutos
+  price       Float
+  description String?
+  serviceImage String?
+  isActive    Boolean       @default(true)
+  deleted     Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], map: "ServiceToUser")
+  userId Int
+
+  appointments Appointment[]
+  schedules    Schedule[]
+  employees    EmployeeService[]
+  roundRobinTracking RoundRobinTracking[]
+
+  // @@index([name])
+}
+
+model Schedule {
+  id        Int     @id @default(autoincrement())
+  dayOfWeek Int     //0 (Domingo) - 6 (Sabado)
+  period    Int     @default(1) // 1 = primer período, 2 = segundo período
+  startTime String  //"09:00"
+  endTime   String  // "17:00"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], map: "ScheduleToUser")
+  userId    Int
+
+  employee   Employee @relation(fields: [employeeId], references: [id], map: "ScheduleToEmployee")
+  employeeId Int
+
+  service   Service @relation(fields: [serviceId], references: [id], map: "ScheduleToService")
+  serviceId Int
+
+  // @@index([dayOfWeek])
+  // @@unique([employeeId, dayOfWeek, serviceId, period])
+}
+
+model PublicProfile {
+  id            Int      @id @default(autoincrement())
+  urlName       String   @unique // URL amigable para el perfil público
+  pageTitle     String?  // Título de la página que se muestra en el H1 (separado del urlName)
+  bio           String?
+  coverImage    String?
+  profileImage  String?
+  publicLinks   Json?    // Array de objetos {name, url}
+  // Personalización de mini landing
+  fontFamily            String?
+  backgroundColor       String?
+  cardBackgroundColor   String?
+  primaryColor          String?
+  textColor             String?
+  slogan                String?
+  layoutVariant         String? // 'signature' | 'split' | 'minimal' | 'gallery'
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int      @unique
+}
+
+model BusinessHours {
+  id        Int     @id @default(autoincrement())
+  dayOfWeek Int     //0 (Domingo) - 6 (Sabado)
+  startTime String  //"09:00"
+  endTime   String  // "17:00"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], map: "BusinessHoursToUser")
+  userId    Int
+
+  // @@index([dayOfWeek])
+}
+
+// Nuevos modelos para soporte multi-empleado
+model Employee {
+  id        Int           @id @default(autoincrement())
+  name      String
+  email     String?
+  phone     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  employeeImage String?
+
+  // Relaciones
+  user      User          @relation(fields: [userId], references: [id], map: "EmployeeToUser")
+  userId    Int
+
+  // NUEVO: Relación con la cuenta User del empleado
+  accountUserId Int?      @unique // <- este es el User.id del empleado (puede ser null para empleados sin cuenta)
+  accountUser   User?     @relation("EmployeeAccount", fields: [accountUserId], references: [id])
+
+  services  EmployeeService[]
+  schedules Schedule[]
+  appointments Appointment[]
+}
+
+model EmployeeService {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+
+  // Relaciones
+  employee  Employee  @relation(fields: [employeeId], references: [id], map: "EmployeeServiceToEmployee")
+  employeeId Int
+
+  service   Service   @relation(fields: [serviceId], references: [id], map: "EmployeeServiceToService")
+  serviceId Int
+
+  @@unique([employeeId, serviceId])
+}
+
+// Modelo para tracking de Round Robin
+model RoundRobinTracking {
+  id        Int      @id @default(autoincrement())
+  serviceId Int
+  date      DateTime @db.Date
+  timeSlot  String   // "09:00", "10:00", etc.
+  lastIndex Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  service Service @relation(fields: [serviceId], references: [id])
+
+  @@unique([serviceId, date, timeSlot])
+}
+
+// Modelo para tickets de soporte técnico
+model SupportTicket {
+  id          Int      @id @default(autoincrement())
+  subject     String
+  message     String   @db.Text
+  priority    String   @default("MEDIUM") // LOW, MEDIUM, HIGH, URGENT
+  status      String   @default("OPEN")   // OPEN, IN_PROGRESS, RESOLVED, CLOSED
+  category    String?  // TECHNICAL, BILLING, FEATURE_REQUEST, BUG_REPORT, OTHER
+  
+  // Información del usuario
+  userEmail   String
+  userName    String
+  userPhone   String?
+  businessName String?
+  
+  // Información técnica adicional
+  browserInfo String?
+  deviceInfo  String?
+  errorDetails String? @db.Text
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  resolvedAt  DateTime?
+  
+  // Relación con el usuario (opcional, por si el usuario está logueado)
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+}
