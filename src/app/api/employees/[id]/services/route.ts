@@ -33,7 +33,7 @@ async function getBusinessHoursFromDatabase(userId: number) {
     }
 
     // Agrupar por día
-    businessHours.forEach(({ dayOfWeek, startTime, endTime }) => {
+    businessHours.forEach(({ dayOfWeek, startTime, endTime }: { dayOfWeek: number; startTime: string; endTime: string }) => {
       formattedHours[dayOfWeek].push({
         startTime,
         endTime
@@ -73,7 +73,7 @@ async function copyBusinessHoursToDatabase(employeeId: number, serviceId: number
       const dayHours = businessHours[dayOfWeek];
       
       if (dayHours && dayHours.length > 0) {
-        for (const period of dayHours) {
+        for (const period of dayHours as Array<{ startTime: string; endTime: string }>) {
           await prisma.schedule.create({
             data: {
               employeeId: employeeId,

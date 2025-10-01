@@ -40,7 +40,7 @@ export async function GET() {
     }
 
     // Agrupar por día
-    businessHours.forEach(({ dayOfWeek, startTime, endTime }) => {
+    businessHours.forEach(({ dayOfWeek, startTime, endTime }: { dayOfWeek: number; startTime: string; endTime: string }) => {
       formattedHours[dayOfWeek].push({
         startTime,
         endTime
@@ -77,7 +77,7 @@ export async function PUT(request: Request) {
     });
 
     // Crear nuevos horarios
-    const hoursToCreate = [];
+    const hoursToCreate: Array<{ userId: number; dayOfWeek: number; startTime: string; endTime: string }> = [];
     for (let day = 0; day < 7; day++) {
       const dayHours = businessHours[day];
       for (const hour of dayHours) {
