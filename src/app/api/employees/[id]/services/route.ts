@@ -33,10 +33,10 @@ async function getBusinessHoursFromDatabase(userId: number) {
     }
 
     // Agrupar por día
-    businessHours.forEach(hour => {
-      formattedHours[hour.dayOfWeek].push({
-        startTime: hour.startTime,
-        endTime: hour.endTime
+    businessHours.forEach(({ dayOfWeek, startTime, endTime }) => {
+      formattedHours[dayOfWeek].push({
+        startTime,
+        endTime
       });
     });
 

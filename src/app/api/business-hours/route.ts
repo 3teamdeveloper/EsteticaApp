@@ -34,17 +34,16 @@ export async function GET() {
 
     // Convertir a formato esperado por el frontend
     const formattedHours: Record<number, Array<{ startTime: string; endTime: string }>> = {};
-    
     // Inicializar todos los días
     for (let day = 0; day < 7; day++) {
       formattedHours[day] = [];
     }
 
     // Agrupar por día
-    businessHours.forEach(hour => {
-      formattedHours[hour.dayOfWeek].push({
-        startTime: hour.startTime,
-        endTime: hour.endTime
+    businessHours.forEach(({ dayOfWeek, startTime, endTime }) => {
+      formattedHours[dayOfWeek].push({
+        startTime,
+        endTime
       });
     });
 
