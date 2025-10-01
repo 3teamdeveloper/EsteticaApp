@@ -88,7 +88,7 @@ async function copyBusinessHoursToDatabase(employeeId: number, serviceId: number
       }
     }
 
-    console.log(`Horarios copiados exitosamente para empleado ${employeeId} y servicio ${serviceId}`);
+    //console.log(`Horarios copiados exitosamente para empleado ${employeeId} y servicio ${serviceId}`);
   } catch (error) {
     console.error('Error al copiar horarios a la base de datos:', error);
   }
@@ -104,7 +104,7 @@ async function deleteBusinessHoursFromDatabase(employeeId: number, serviceId: nu
       }
     });
     
-    console.log(`Horarios eliminados para empleado ${employeeId} y servicio ${serviceId}`);
+    //console.log(`Horarios eliminados para empleado ${employeeId} y servicio ${serviceId}`);
   } catch (error) {
     console.error('Error al eliminar horarios:', error);
   }
@@ -152,13 +152,13 @@ export async function GET(
       });
     }
 
-    console.log('employee:', JSON.stringify(employee, null, 2));
+    //console.log('employee:', JSON.stringify(employee, null, 2));
     if (!employee) {
       return new NextResponse("Empleado no encontrado", { status: 404 });
     }
 
     const servicios = employee.services.map(es => es.service);
-    console.log('servicios:', JSON.stringify(servicios, null, 2));
+    //console.log('servicios:', JSON.stringify(servicios, null, 2));
     return NextResponse.json(servicios);
   } catch (error) {
     console.error("Error al obtener servicios del empleado:", error);

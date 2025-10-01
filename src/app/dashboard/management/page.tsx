@@ -262,13 +262,14 @@ export default function CalendarCardsPage() {
      });
 
      // DEBUG: Log para ver qué appointments se encontraron para el día
-     console.log('📅 Appointments del día', date.toDateString(), ':', dayAppointments.map(appt => ({
+     /*console.log('📅 Appointments del día', date.toDateString(), ':', dayAppointments.map(appt => ({
        id: appt.id,
        start: appt.start,
        employee: appt.extendedProps.employee,
        service: appt.extendedProps.service,
        status: appt.extendedProps.status
      })));
+     */
 
     for (const service of servicesToCheck) {
       let serviceSchedules = schedules.filter(s =>
@@ -301,7 +302,7 @@ export default function CalendarCardsPage() {
               : employee?.name;
             
             // DEBUG: Log para identificar el problema
-            console.log('🔍 Comparando slot:', {
+            /*console.log('🔍 Comparando slot:', {
               timeString,
               apptTimeString,
               apptTimeUTC: appt.start,
@@ -313,7 +314,7 @@ export default function CalendarCardsPage() {
               apptService: appt.extendedProps.service,
               apptStatus: appt.extendedProps.status
             });
-            
+            */
             return apptTimeString === timeString &&
               appt.extendedProps.employee === employeeToCompare &&
               appt.extendedProps.service === service.name;

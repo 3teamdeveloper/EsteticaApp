@@ -41,7 +41,7 @@ export default function EditServicePage() {
       
       if (response.ok) {
         const data = await response.json()
-        console.log("Datos del servicio cargados:", data)
+        //console.log("Datos del servicio cargados:", data)
         setService(data)
         if (data?.serviceImage) {
           setImagePreview(data.serviceImage)

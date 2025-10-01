@@ -15,8 +15,8 @@ export async function GET(
     const end = new Date();
     end.setDate(now.getDate() + 56); // 8 semanas
 
-    console.log('Buscando empleados para servicio:', serviceId);
-    console.log('Rango de fechas:', now.toISOString(), 'a', end.toISOString());
+    //console.log('Buscando empleados para servicio:', serviceId);
+    //console.log('Rango de fechas:', now.toISOString(), 'a', end.toISOString());
 
     // Obtener empleados que tienen asignado este servicio
     const employees = await prisma.employee.findMany({
@@ -48,7 +48,7 @@ export async function GET(
       }
     });
 
-    console.log('Empleados encontrados:', employees.length);
+    //console.log('Empleados encontrados:', employees.length);
 
             // Para cada empleado, obtener sus reservas por separado (PENDING, CONFIRMED, COMPLETED)
     const employeesWithAppointments = await Promise.all(
@@ -68,9 +68,9 @@ export async function GET(
             status: true
           }
         });
-        console.log(`Empleado ${employee.name} (${employee.id}) appointments:`, appointments);
+        //console.log(`Empleado ${employee.name} (${employee.id}) appointments:`, appointments);
 
-        console.log(`Empleado ${employee.name}: ${appointments.length} reservas`);
+        //console.log(`Empleado ${employee.name}: ${appointments.length} reservas`);
 
         return {
           id: employee.id,

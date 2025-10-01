@@ -142,12 +142,12 @@ export default async function PublicProfilePage({
     '--bb-text': profile.textColor || '#111827',
   } as React.CSSProperties
 
-  console.log('Profile colors:', {
+  /*console.log('Profile colors:', {
     backgroundColor: profile.backgroundColor,
     cardBackgroundColor: profile.cardBackgroundColor,
     primaryColor: profile.primaryColor,
     textColor: profile.textColor
-  });
+  });*/
 
   return (
     <div 

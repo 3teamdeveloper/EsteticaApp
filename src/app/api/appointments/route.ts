@@ -7,7 +7,7 @@ import { verifyTrialAccess } from "@/lib/trial";
 // Función para asignar empleado usando Round Robin
 async function assignEmployeeRoundRobin(serviceId: number, appointmentDate: Date) {
   try {
-    console.log("🔍 Round Robin iniciado para servicio:", serviceId, "fecha:", appointmentDate);
+    // console.log("🔍 Round Robin iniciado para servicio:", serviceId, "fecha:", appointmentDate);
     
     // 1. Obtener empleados disponibles para este servicio
     const availableEmployees = await prisma.employee.findMany({
@@ -21,7 +21,7 @@ async function assignEmployeeRoundRobin(serviceId: number, appointmentDate: Date
       orderBy: { id: 'asc' }
     });
 
-    console.log("👥 Empleados disponibles para el servicio:", availableEmployees.map(e => ({ id: e.id, name: e.name })));
+    // console.log("👥 Empleados disponibles para el servicio:", availableEmployees.map(e => ({ id: e.id, name: e.name })));
 
     if (availableEmployees.length === 0) {
       throw new Error("No hay empleados disponibles para este servicio");
@@ -49,7 +49,7 @@ async function assignEmployeeRoundRobin(serviceId: number, appointmentDate: Date
       });
     }
 
-    console.log("📊 Tracking actual - lastIndex:", tracking.lastIndex);
+    // console.log("📊 Tracking actual - lastIndex:", tracking.lastIndex);
 
     // 3. Verificar disponibilidad de empleados para este horario específico
     const date = new Date(appointmentDate);
@@ -57,7 +57,7 @@ async function assignEmployeeRoundRobin(serviceId: number, appointmentDate: Date
     const dayOfWeek = date.getDay();
     const appointmentDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-    console.log("⏰ Verificando disponibilidad para:", { timeSlot, dayOfWeek, appointmentDateOnly });
+    // console.log("⏰ Verificando disponibilidad para:", { timeSlot, dayOfWeek, appointmentDateOnly });
 
     // 4. Encontrar el siguiente empleado disponible en el ciclo
     let assignedEmployee = null;
@@ -68,7 +68,7 @@ async function assignEmployeeRoundRobin(serviceId: number, appointmentDate: Date
       const nextIndex = (tracking.lastIndex + attempts) % availableEmployees.length;
       const candidateEmployee = availableEmployees[nextIndex];
       
-      console.log(`🔍 Intentando empleado ${candidateEmployee.name} (índice ${nextIndex})`);
+      // console.log(`🔍 Intentando empleado ${candidateEmployee.name} (índice ${nextIndex})`);
       
       // Verificar si el candidato está disponible para este horario específico
       // 1. Verificar que tiene horario disponible
@@ -82,7 +82,7 @@ async function assignEmployeeRoundRobin(serviceId: number, appointmentDate: Date
         }
       });
 
-      console.log(`📅 ${candidateEmployee.name} tiene horario:`, !!hasSchedule);
+      // console.log(`📅 ${candidateEmployee.name} tiene horario:`, !!hasSchedule);
 
       if (hasSchedule) {
         // 2. Verificar que no tiene citas en ese horario específico
@@ -96,11 +96,11 @@ async function assignEmployeeRoundRobin(serviceId: number, appointmentDate: Date
           }
         });
 
-        console.log(`📋 ${candidateEmployee.name} tiene cita existente:`, !!existingAppointment);
+        // console.log(`📋 ${candidateEmployee.name} tiene cita existente:`, !!existingAppointment);
 
         if (!existingAppointment) {
           assignedEmployee = candidateEmployee;
-          console.log(`✅ ${candidateEmployee.name} asignado!`);
+          // console.log(`✅ ${candidateEmployee.name} asignado!`);
         }
       }
       
@@ -117,7 +117,7 @@ async function assignEmployeeRoundRobin(serviceId: number, appointmentDate: Date
       data: { lastIndex: tracking.lastIndex + 1 }
     });
 
-    console.log("🔄 Índice actualizado a:", tracking.lastIndex + 1);
+    //console.log("🔄 Índice actualizado a:", tracking.lastIndex + 1);
 
     return assignedEmployee.id;
   } catch (error) {
@@ -205,7 +205,7 @@ export async function GET(request: Request) {
 // POST - Crear una nueva reserva
 export async function POST(request: Request) {
   try {
-    console.log("🚀 POST /api/appointments iniciado");
+    //console.log("🚀 POST /api/appointments iniciado");
     
     // Verificar autenticación
     const token = (await cookies()).get("token")?.value;
@@ -237,7 +237,7 @@ export async function POST(request: Request) {
       duration
     } = await request.json();
 
-    console.log("📝 Datos recibidos:", { serviceId, employeeId, clientName, appointmentDate });
+    //console.log("📝 Datos recibidos:", { serviceId, employeeId, clientName, appointmentDate });
 
     // Validaciones
     if (!serviceId || !clientName || !clientPhone || !clientEmail || !appointmentDate) {
@@ -260,16 +260,16 @@ export async function POST(request: Request) {
     // Asignar empleado usando Round Robin si no se proporciona
     let finalEmployeeId = employeeId;
     if (!employeeId) {
-      console.log("🎯 No se proporcionó employeeId, usando Round Robin");
+      //console.log("🎯 No se proporcionó employeeId, usando Round Robin");
       try {
         finalEmployeeId = await assignEmployeeRoundRobin(parseInt(serviceId), new Date(appointmentDate));
-        console.log("✅ Round Robin asignó empleado:", finalEmployeeId);
+        //console.log("✅ Round Robin asignó empleado:", finalEmployeeId);
       } catch (error) {
         console.error("❌ Error en Round Robin:", error);
         return new NextResponse("No hay empleados disponibles para este horario", { status: 400 });
       }
     } else {
-      console.log("👤 Usando employeeId proporcionado:", employeeId);
+      //console.log("👤 Usando employeeId proporcionado:", employeeId);
     }
 
     // Verificar que el empleado existe y tiene asignado este servicio
@@ -288,7 +288,7 @@ export async function POST(request: Request) {
       return new NextResponse("Empleado no encontrado o no asignado a este servicio", { status: 404 });
     }
 
-    console.log("👤 Empleado verificado:", employee.name);
+    //console.log("👤 Empleado verificado:", employee.name);
 
     // Crear o encontrar el cliente
     let client = await prisma.client.findFirst({
@@ -308,7 +308,7 @@ export async function POST(request: Request) {
           phone: clientPhone
         }
       });
-      console.log("👤 Cliente creado:", client.name);
+      //console.log("👤 Cliente creado:", client.name);
     } else {
       // Actualizar datos del cliente si es necesario
       client = await prisma.client.update({
@@ -319,7 +319,7 @@ export async function POST(request: Request) {
           phone: clientPhone
         }
       });
-      console.log("👤 Cliente actualizado:", client.name);
+      //console.log("👤 Cliente actualizado:", client.name);
     }
 
     // Crear la reserva
@@ -339,12 +339,12 @@ export async function POST(request: Request) {
       }
     });
 
-    console.log("✅ Cita creada exitosamente:", {
+    /*console.log("✅ Cita creada exitosamente:", {
       id: appointment.id,
       employee: appointment.employee?.name || "Sin empleado",
       service: appointment.service.name,
       date: appointment.date
-    });
+    });*/
 
     // TODO: Aquí se enviaría el email de confirmación
     // Por ahora solo retornamos la reserva creada

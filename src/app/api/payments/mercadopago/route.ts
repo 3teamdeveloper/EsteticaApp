@@ -5,9 +5,9 @@ import { mercadopago } from "@/lib/apimp";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    console.log('*****************************')
-    console.log('*****************************')
-    console.log("Webhook recibido:", body);
+    //console.log('*****************************')
+    //console.log('*****************************')
+    //console.log("Webhook recibido:", body);
 
     // Verificamos que venga el id
     const paymentId = body?.data?.id;
@@ -19,14 +19,14 @@ export async function POST(request: Request) {
 
     // Obtenemos el pago
     const payment = await new Payment(mercadopago).get({ id: paymentId });
-    console.log("Pago encontrado:", payment);
+    //console.log("Pago encontrado:", payment);
 
     if (payment?.status === "approved") {
-      console.log("Suscripción ok");
+      //console.log("Suscripción ok");
       // TODO: actualizar base de datos, avisar usuario, etc.
       // revalidatePath("/");
     } else {
-      console.log("Suscripción falló");
+      //console.log("Suscripción falló");
     }
 
     return new Response(null, { status: 200 });
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
 // export async function POST(request: Request) {
 //   // Obtenemos el cuerpo de la petición que incluye información sobre la notificación
 //   const body: {data: {id: string}} = await request.json();
-//   console.log(body)
+//   //console.log(body)
 //   console.log('🚀')
 
 //   // Obtenemos el pago
@@ -52,13 +52,13 @@ export async function POST(request: Request) {
 //   // TODO: Si se aprueba, avisamos al usuario y otras cosas
 //   if (payment.status === "approved") {
 //     // Obtenemos los datos
-//     console.log('Suscripcion ok');
+//     //console.log('Suscripcion ok');
     
 //     // Revalidamos la página para mostrar los datos actualizados
 //     // revalidatePath("/");
 // }else{
     
-//     console.log('Suscripcion falló');
+//     //console.log('Suscripcion falló');
 //   }
 
 //   // Respondemos con un estado 200 para indicarle que la notificación fue recibida
