@@ -3,8 +3,7 @@ import { verifyToken } from "@/lib/auth"
 import { verifyTrialAccess } from "@/lib/trial"
 import { prisma } from "@/lib/db"
 import { cookies } from "next/headers"
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
+import { uploadToBlob, deleteFromBlob } from "@/lib/blob"
 
 export async function GET(
   request: Request,
@@ -78,19 +77,23 @@ export async function PUT(
 
       const image = formData.get('serviceImage') as File | null
       if (image && typeof image !== 'string' && image.size > 0) {
-        const buffer = Buffer.from(await image.arrayBuffer())
-        const uploadDir = path.join(process.cwd(), 'public', 'images', 'services')
-        await mkdir(uploadDir, { recursive: true })
-        const fileName = `${Date.now()}_${image.name.replace(/\s/g, '_')}`
-        const filePath = path.join(uploadDir, fileName)
-        await writeFile(filePath, buffer)
-        serviceImageUrl = `/images/services/${fileName}`
+        const blob = await uploadToBlob(image, 'services')
+        serviceImageUrl = blob.url
       }
     } else {
       payload = await request.json()
     }
 
     const { name, description, price, duration } = payload
+
+    // Obtener servicio actual para eliminar imagen antigua si se reemplaza
+    const currentService = await prisma.service.findUnique({
+      where: { id: parseInt(id) }
+    });
+
+    if (serviceImageUrl && currentService?.serviceImage) {
+      await deleteFromBlob(currentService.serviceImage);
+    }
 
     const service = await prisma.service.update({
       where: {
@@ -176,7 +179,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } } // ✅ ya no es Promise
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
@@ -228,6 +231,11 @@ export async function DELETE(
       });
     } else {
       // Si no tiene relaciones, eliminar completamente
+      // Eliminar imagen del blob si existe
+      if (service.serviceImage) {
+        await deleteFromBlob(service.serviceImage);
+      }
+      
       await prisma.service.delete({
         where: {
           id: parseInt(id),

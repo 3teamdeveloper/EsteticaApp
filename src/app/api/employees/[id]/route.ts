@@ -2,10 +2,9 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
-import { writeFile, mkdir, unlink } from 'fs/promises';
-import path from 'path';
 import crypto from 'crypto';
 import { generateUniqueUsername, slugifyUsername } from '@/lib/username';
+import { uploadToBlob, deleteFromBlob } from '@/lib/blob';
 
 // GET /api/employees/[id] - Get a specific employee
 export async function GET(
@@ -95,22 +94,15 @@ export async function PUT(
 
     // Si se sube una nueva imagen, guardar y eliminar la anterior
     if (image && image.size > 0) {
-      const buffer = Buffer.from(await image.arrayBuffer());
-      const uploadDir = path.join(process.cwd(), 'public', 'images', 'employees');
-      await mkdir(uploadDir, { recursive: true });
-      const fileName = `${Date.now()}_${image.name.replace(/\s/g, '_')}`;
-      const filePath = path.join(uploadDir, fileName);
-      await writeFile(filePath, buffer);
+      const blob = await uploadToBlob(image, 'employees');
       // Eliminar imagen anterior si existe
       if (employeeImageUrl) {
-        const prevPath = path.join(process.cwd(), 'public', employeeImageUrl);
-        try { await unlink(prevPath); } catch {}
+        await deleteFromBlob(employeeImageUrl);
       }
-      employeeImageUrl = `/images/employees/${fileName}`;
+      employeeImageUrl = blob.url;
     } else if (removeImage && employeeImageUrl) {
       // Si se solicita eliminar la imagen
-      const prevPath = path.join(process.cwd(), 'public', employeeImageUrl);
-      try { await unlink(prevPath); } catch {}
+      await deleteFromBlob(employeeImageUrl);
       employeeImageUrl = null;
     }
 
@@ -205,6 +197,12 @@ export async function DELETE(
       return new NextResponse("No autorizado", { status: 401 });
     }
 
+    // Obtener empleado para eliminar su imagen del blob
+    const employee = await prisma.employee.findUnique({
+      where: { id: parseInt(id) },
+      select: { employeeImage: true }
+    });
+
     // Use a transaction to delete related records first
     await prisma.$transaction(async (tx) => {
       // First, delete all related records
@@ -238,6 +236,11 @@ export async function DELETE(
         }
       });
     });
+
+    // Eliminar imagen del blob después de la transacción exitosa
+    if (employee?.employeeImage) {
+      await deleteFromBlob(employee.employeeImage);
+    }
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {

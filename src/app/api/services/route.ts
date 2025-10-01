@@ -3,8 +3,7 @@ import prisma from "@/lib/prisma"
 import { cookies } from "next/headers"
 import { verifyToken } from "@/lib/auth"
 import { verifyTrialAccess } from "@/lib/trial"
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
+import { uploadToBlob } from "@/lib/blob"
 
 export async function GET() {
   try {
@@ -69,13 +68,8 @@ export async function POST(req: Request) {
 
       const image = formData.get('serviceImage') as File | null
       if (image && typeof image !== 'string' && image.size > 0) {
-        const buffer = Buffer.from(await image.arrayBuffer())
-        const uploadDir = path.join(process.cwd(), 'public', 'images', 'services')
-        await mkdir(uploadDir, { recursive: true })
-        const fileName = `${Date.now()}_${image.name.replace(/\s/g, '_')}`
-        const filePath = path.join(uploadDir, fileName)
-        await writeFile(filePath, buffer)
-        serviceImageUrl = `/images/services/${fileName}`
+        const blob = await uploadToBlob(image, 'services')
+        serviceImageUrl = blob.url
       }
     } else {
       payload = await req.json()

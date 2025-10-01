@@ -220,7 +220,7 @@ export default function EditServicePage() {
         </div>
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={trialStatus && !trialStatus.isActive}>
+          <Button type="submit" disabled={trialStatus ? !trialStatus.isActive : false}>
             {params.id === "new" ? "Crear" : "Guardar"}
           </Button>
           <Button

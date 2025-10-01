@@ -4,8 +4,7 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import { verifyTrialAccess } from "@/lib/trial";
 import { prisma } from "@/lib/db";
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+import { uploadToBlob, deleteFromBlob } from "@/lib/blob";
 
 // GET /api/profile
 export async function GET() {
@@ -80,24 +79,14 @@ export async function POST(req: Request) {
       // Guardar imagen de perfil
       const profileImage = formData.get('profileImage') as File | null;
       if (profileImage && typeof profileImage !== 'string' && profileImage.size > 0) {
-        const buffer = Buffer.from(await profileImage.arrayBuffer());
-        const uploadDir = path.join(process.cwd(), 'public', 'images', 'profiles');
-        await mkdir(uploadDir, { recursive: true });
-        const fileName = `${Date.now()}_${profileImage.name.replace(/\s/g, '_')}`;
-        const filePath = path.join(uploadDir, fileName);
-        await writeFile(filePath, buffer);
-        profileImageUrl = `/images/profiles/${fileName}`;
+        const blob = await uploadToBlob(profileImage, 'profiles');
+        profileImageUrl = blob.url;
       }
       // Guardar imagen de portada
       const coverImage = formData.get('coverImage') as File | null;
       if (coverImage && typeof coverImage !== 'string' && coverImage.size > 0) {
-        const buffer = Buffer.from(await coverImage.arrayBuffer());
-        const uploadDir = path.join(process.cwd(), 'public', 'images', 'profiles');
-        await mkdir(uploadDir, { recursive: true });
-        const fileName = `${Date.now()}_${coverImage.name.replace(/\s/g, '_')}`;
-        const filePath = path.join(uploadDir, fileName);
-        await writeFile(filePath, buffer);
-        coverImageUrl = `/images/profiles/${fileName}`;
+        const blob = await uploadToBlob(coverImage, 'profiles');
+        coverImageUrl = blob.url;
       }
     } else {
       data = await req.json();
@@ -121,6 +110,16 @@ export async function POST(req: Request) {
 
     // Obtener el perfil actual para saber si hay que borrar imágenes
     const currentProfile = await prisma.publicProfile.findUnique({ where: { userId: decoded.id } });
+
+    // Eliminar imágenes antiguas del blob si se están reemplazando o removiendo
+    if (currentProfile) {
+      if ((profileImageUrl || removeProfileImage) && currentProfile.profileImage) {
+        await deleteFromBlob(currentProfile.profileImage);
+      }
+      if ((coverImageUrl || removeCoverImage) && currentProfile.coverImage) {
+        await deleteFromBlob(currentProfile.coverImage);
+      }
+    }
 
     // Crear o actualizar el perfil
     const profile = await prisma.publicProfile.upsert({

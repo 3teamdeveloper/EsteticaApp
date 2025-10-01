@@ -3,11 +3,10 @@ import prisma from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 import { verifyTrialAccess } from '@/lib/trial';
 import { cookies } from 'next/headers';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
 import crypto from 'crypto';
 import { generateUniqueUsername, slugifyUsername } from '@/lib/username';
 import { emailService } from '@/lib/email/emailService';
+import { uploadToBlob } from '@/lib/blob';
 
 // GET /api/employees - Get all employees for the current user
 export async function GET() {
@@ -92,13 +91,8 @@ export async function POST(request: Request) {
 
     let employeeImageUrl: string | null = null;
     if (image && image.size > 0) {
-      const buffer = Buffer.from(await image.arrayBuffer());
-      const uploadDir = path.join(process.cwd(), 'public', 'images', 'employees');
-      await mkdir(uploadDir, { recursive: true });
-      const fileName = `${Date.now()}_${image.name.replace(/\s/g, '_')}`;
-      const filePath = path.join(uploadDir, fileName);
-      await writeFile(filePath, buffer);
-      employeeImageUrl = `/images/employees/${fileName}`;
+      const blob = await uploadToBlob(image, 'employees');
+      employeeImageUrl = blob.url;
     }
 
     // Crear usuario EMPLEADO con token de invitación
