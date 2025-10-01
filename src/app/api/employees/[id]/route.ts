@@ -6,6 +6,8 @@ import crypto from 'crypto';
 import { generateUniqueUsername, slugifyUsername } from '@/lib/username';
 import { uploadToBlob, deleteFromBlob } from '@/lib/blob';
 
+type PrismaTransactionClient = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
+
 // GET /api/employees/[id] - Get a specific employee
 export async function GET(
   request: Request,
@@ -204,7 +206,7 @@ export async function DELETE(
     });
 
     // Use a transaction to delete related records first
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: PrismaTransactionClient) => {
       // First, delete all related records
       await tx.employeeService.deleteMany({
         where: {

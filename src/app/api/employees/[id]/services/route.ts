@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 
+type PrismaTransactionClient = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
+
 // Función para obtener horarios de negocio desde la base de datos
 async function getBusinessHoursFromDatabase(userId: number) {
   try {
@@ -227,7 +229,7 @@ export async function POST(
     }
 
     // Usar transacción para crear la relación y copiar horarios
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: PrismaTransactionClient) => {
       // Crear la relación
       await tx.employeeService.create({
         data: {
@@ -285,7 +287,7 @@ export async function DELETE(
     }
 
     // Usar transacción para eliminar la relación y los horarios
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: PrismaTransactionClient) => {
       // Eliminar horarios primero
       await deleteBusinessHoursFromDatabase(parseInt(id), serviceId);
       
