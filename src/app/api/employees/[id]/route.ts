@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { Prisma } from '@prisma/client';
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
@@ -204,7 +205,7 @@ export async function DELETE(
     });
 
     // Use a transaction to delete related records first
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       // First, delete all related records
       await tx.employeeService.deleteMany({
         where: {
