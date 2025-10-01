@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 
@@ -229,7 +230,9 @@ export async function POST(
     }
 
     // Usar transacción para crear la relación y copiar horarios
+
     await prisma.$transaction(async (tx: PrismaTransactionClient) => {
+
       // Crear la relación
       await tx.employeeService.create({
         data: {
@@ -287,7 +290,9 @@ export async function DELETE(
     }
 
     // Usar transacción para eliminar la relación y los horarios
+
     await prisma.$transaction(async (tx: PrismaTransactionClient) => {
+
       // Eliminar horarios primero
       await deleteBusinessHoursFromDatabase(parseInt(id), serviceId);
       
