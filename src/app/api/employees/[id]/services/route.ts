@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 
 type PrismaTransactionClient = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
 
 // Función para obtener horarios de negocio desde la base de datos
-async function getBusinessHoursFromDatabase(userId: number) {
+async function getBusinessHoursFromDatabase(userId: number): Promise<Record<number, Array<{ startTime: string; endTime: string }>> | null> {
   try {
     const businessHours = await prisma.businessHours.findMany({
       where: { userId },

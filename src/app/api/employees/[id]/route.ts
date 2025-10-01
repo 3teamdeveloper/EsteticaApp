@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
 import { verifyToken } from '@/lib/auth';
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
