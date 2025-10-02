@@ -33,7 +33,7 @@ export async function GET() {
       }
     });
 
-    const withStatus = employees.map(e => ({
+    const withStatus = employees.map((e: any) => ({
       id: e.id,
       name: e.name,
       email: e.email,
