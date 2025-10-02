@@ -159,7 +159,7 @@ export async function GET(
       return new NextResponse("Empleado no encontrado", { status: 404 });
     }
 
-    const servicios = employee.services.map(es => es.service);
+    const servicios = employee.services.map((es: { service: any }) => es.service);
     //console.log('servicios:', JSON.stringify(servicios, null, 2));
     return NextResponse.json(servicios);
   } catch (error) {
