@@ -1,17 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+// Re-export prisma from the main prisma file to maintain compatibility
+import prismaClient from './prisma';
 
-const prismaClientSingleton = () => {
-  return new PrismaClient();
-};
-
-declare global {
-  var prismaInstance: undefined | ReturnType<typeof prismaClientSingleton>;
-}
-
-const prisma = globalThis.prismaInstance ?? prismaClientSingleton();
-
-if (process.env.NODE_ENV !== 'production') {
-  globalThis.prismaInstance = prisma;
-}
-
-export { prisma };
+export const prisma = prismaClient;
