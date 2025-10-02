@@ -114,7 +114,7 @@ export async function GET() {
     });
 
     // Obtener nombres de servicios
-    const serviceIds = topServices.map(s => s.serviceId);
+    const serviceIds = topServices.map((s: any) => s.serviceId);
     const services = await prisma.service.findMany({
       where: { 
         id: { in: serviceIds },
@@ -122,8 +122,8 @@ export async function GET() {
       }
     });
 
-    const topServicesWithNames = topServices.map(ts => {
-      const service = services.find(s => s.id === ts.serviceId);
+    const topServicesWithNames = topServices.map((ts: any) => {
+      const service = services.find((s: any) => s.id === ts.serviceId);
       return {
         name: service?.name || 'Servicio desconocido',
         count: ts._count.serviceId
@@ -140,7 +140,7 @@ export async function GET() {
     });
 
     const employeeIds = appointmentsByEmployee
-      .map(a => a.employeeId)
+      .map((a: any) => a.employeeId)
       .filter((id): id is number => id !== null);
 
     const employees = await prisma.employee.findMany({
@@ -150,8 +150,8 @@ export async function GET() {
       }
     });
 
-    const appointmentsByEmployeeWithNames = appointmentsByEmployee.map(ae => {
-      const employee = employees.find(e => e.id === ae.employeeId);
+    const appointmentsByEmployeeWithNames = appointmentsByEmployee.map((ae: any) => {
+      const employee = employees.find((e: any) => e.id === ae.employeeId);
       return {
         name: employee?.name || 'Empleado desconocido',
         count: ae._count.employeeId
@@ -170,7 +170,7 @@ export async function GET() {
     });
 
     const estimatedRevenue = confirmedAppointmentsWithPrices.reduce(
-      (sum, appointment) => sum + appointment.service.price, 
+      (sum: number, appointment: any) => sum + appointment.service.price, 
       0
     );
 

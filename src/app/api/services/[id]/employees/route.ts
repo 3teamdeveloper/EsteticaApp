@@ -52,7 +52,7 @@ export async function GET(
 
             // Para cada empleado, obtener sus reservas por separado (PENDING, CONFIRMED, COMPLETED)
     const employeesWithAppointments = await Promise.all(
-      employees.map(async (employee) => {
+      employees.map(async (employee : any) => {
         const appointments = await prisma.appointment.findMany({
           where: {
             employeeId: employee.id,
