@@ -2,3 +2,5 @@
 import prismaClient from './prisma';
 
 export const prisma = prismaClient;
+
+console.log("Prisma");
