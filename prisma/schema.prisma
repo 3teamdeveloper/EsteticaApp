@@ -1,17 +1,3 @@
-// 🔧 REESTRUCTURACIÓN DE MODELO PARA SOPORTE MULTI-EMPLEADO POR SERVICIO:
-//
-// Nueva necesidad: Un prestador puede tener varios empleados que brindan los mismos o distintos servicios.
-// El cliente que solicita un turno puede elegir (o no) al profesional específico. El sistema debe soportar ambas opciones.
-//
-// Cambios esperados:
-// - Crear modelo Empleado con relación a Prestador.
-// - Crear tabla intermedia EmpleadoServicio para vincular muchos a muchos.
-// - Asegurar que Horario esté vinculado al Empleado y al Servicio.
-// - Modificar Turno para que el campo empleadoId sea opcional.
-//
-// En los próximos pasos vamos a ajustar los modelos y relaciones para esto. Primero, revisá si hay colisiones con los modelos actuales.
-
-
 generator client {
   provider = "prisma-client-js"
  
@@ -20,6 +6,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum UserRole {
