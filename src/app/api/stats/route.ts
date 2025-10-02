@@ -141,7 +141,7 @@ export async function GET() {
 
     const employeeIds = appointmentsByEmployee
       .map((a: any) => a.employeeId)
-      .filter((id): id is number => id !== null);
+      .filter((id: any): id is number => id !== null);
 
     const employees = await prisma.employee.findMany({
       where: { 

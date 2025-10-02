@@ -31,7 +31,7 @@ export async function GET() {
     });
 
     // Format tickets with padded IDs
-    const formattedTickets = tickets.map(ticket => ({
+    const formattedTickets = tickets.map((ticket: any) => ({
       ...ticket,
       ticketNumber: `#${ticket.id.toString().padStart(6, '0')}`
     }));
