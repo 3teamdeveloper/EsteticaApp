@@ -72,7 +72,7 @@ export async function GET(request: Request) {
     });
     
 
-    const formattedNotifications = notifications.map(appointment => ({
+    const formattedNotifications = notifications.map((appointment: any) => ({
       id: appointment.id,
       subject: `Nuevo turno - ${appointment.client?.name || 'Cliente'}`,
       time: appointment.createdAt.toLocaleTimeString('es-ES', { 
