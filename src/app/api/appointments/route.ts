@@ -207,25 +207,25 @@ export async function POST(request: Request) {
   try {
     //console.log("🚀 POST /api/appointments iniciado");
     
-    // Verificar autenticación
+    // Verificar autenticación (OPCIONAL para reservas públicas)
     const token = (await cookies()).get("token")?.value;
-    if (!token) {
-      return new NextResponse("No autorizado", { status: 401 });
-    }
+    let session: { id: number; email: string } | null = null;
 
-    const session = verifyToken(token) as { id: number; email: string };
-    if (!session?.id) {
-      return new NextResponse("No autorizado", { status: 401 });
+    if (token) {
+      session = verifyToken(token) as { id: number; email: string };
+      
+      // Si hay usuario logueado, verificar acceso del trial
+      if (session?.id) {
+        const { hasAccess } = await verifyTrialAccess(session.id, 'create_appointments');
+        if (!hasAccess) {
+          return NextResponse.json(
+            { error: 'Tu trial ha expirado. Actualiza tu plan para crear nuevas reservas.' },
+            { status: 403 }
+          );
+        }
+      }
     }
-
-    // Verificar acceso del trial
-    const { hasAccess } = await verifyTrialAccess(session.id, 'create_appointments');
-    if (!hasAccess) {
-      return NextResponse.json(
-        { error: 'Tu trial ha expirado. Actualiza tu plan para crear nuevas reservas.' },
-        { status: 403 }
-      );
-    }
+    // Si no hay token, es una reserva pública desde la minilanding (permitido)
     
     const {
       serviceId,
@@ -328,7 +328,7 @@ export async function POST(request: Request) {
         date: new Date(appointmentDate),
         status: "PENDING",
         serviceId: parseInt(serviceId),
-        userId: employee.userId, // El userId del empleado (que es el prestador)
+        userId: service.userId, // El userId del prestador (dueño del servicio)
         employeeId: parseInt(finalEmployeeId),
         clientId: client.id
       },

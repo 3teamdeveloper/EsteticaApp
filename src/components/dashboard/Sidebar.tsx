@@ -98,7 +98,7 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
     <>
       {/* Botón hamburguesa solo en mobile */}
       <button
-        className={`fixed top-4 left-4 z-20 md:hidden bg-white border border-gray-200 rounded-lg p-2 shadow ${open ? 'hidden' : ''}`}
+        className={`fixed opacity-60 top-4 left-4 z-20 md:hidden bg-white border border-gray-200 rounded-lg p-2 shadow ${open ? 'hidden' : ''}`}
         onClick={() => setOpen(true)}
         aria-label="Abrir menú"
         aria-expanded={open}
@@ -121,7 +121,7 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
       >
         {/* Logo y nombre de la app */}
         <div className={`h-16 relative flex items-center border-b border-gray-200 px-4`}>
-          <h1 className={`text-xl font-bold text-gray-800 transition-opacity duration-200 ${collapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>BeautyBook</h1>
+          <h1 className={`text-xl font-bold text-gray-800 transition-opacity duration-200 ${collapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>CitaUp</h1>
           
           {/* Botón colapsar solo en md+ */}
           <button

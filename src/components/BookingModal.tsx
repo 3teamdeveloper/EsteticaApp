@@ -712,7 +712,7 @@ export default function BookingModal({ service, isOpen, onClose }: BookingModalP
                           disabled={loading}
                           className="flex-1 bg-rose-600 hover:bg-rose-700"
                         >
-                          {loading ? 'Confirmando...' : 'Confirmar Reserva'}
+                          {loading ? 'Confirmando...' : 'Confirmar'}
                         </Button>
                       </div>
                     </form>

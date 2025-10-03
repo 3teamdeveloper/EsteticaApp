@@ -135,7 +135,7 @@ export default function Register() {
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
             <Calendar className="w-6 h-6 text-rose-600" />
-            <span className="text-xl text-gray-800 font-bold">BeautyBook</span>
+            <span className="text-xl text-gray-800 font-bold">CitaUp</span>
           </Link>
         </div>
       </header>
@@ -418,7 +418,7 @@ export default function Register() {
       {/* Footer */}
       <footer className="py-4 border-t">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <p className="text-center text-xs text-gray-500"> 2025 BeautyBook. Todos los derechos reservados.</p>
+          <p className="text-center text-xs text-gray-500"> 2025 CitaUp. Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>

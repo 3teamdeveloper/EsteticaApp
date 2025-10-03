@@ -33,7 +33,7 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-gray-600">
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-gray-600">
                   Gestiona tu negocio de belleza con facilidad
                 </h1>
                 <p className="max-w-[600px] text-gray-600 md:text-xl">
@@ -43,7 +43,7 @@ export default function Home() {
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Link
                   href="/register"
-                  className="px-8 py-3 text-sm md:text-base font-medium text-white bg-rose-600 rounded-md hover:bg-rose-700 transition-colors"
+                  className="px-8 py-3 text-sm md:text-base text-center font-medium text-white bg-rose-600 rounded-md hover:bg-rose-700 transition-colors"
                 >
                   Comenzar ahora
                 </Link>
@@ -59,7 +59,7 @@ export default function Home() {
             <div className="mx-auto lg:mx-0 relative h-[360px] overflow-hidden rounded-xl border border-gray-200 shadow-lg">
               <Image
                 src="/images/dashboard-preview.png"
-                alt="Dashboard de BeautyBook"
+                alt="Dashboard de CitaUp"
                 width={1280}
                 height={720}
                 className="object-cover h-full w-full"
@@ -270,7 +270,7 @@ export default function Home() {
                 ))}
               </div>
               <p className="text-gray-700">
-                "Desde que uso BeautyBook, mi agenda está perfectamente organizada. Los clientes pueden reservar online y yo tengo todo bajo control. ¡Totalmente recomendado! 💇‍♀️✨"
+                "Desde que uso CitaUp, mi agenda está perfectamente organizada. Los clientes pueden reservar online y yo tengo todo bajo control. ¡Totalmente recomendado! 💇‍♀️✨"
               </p>
             </div>
 
@@ -336,7 +336,7 @@ export default function Home() {
               <Link href="#" className="group inline-block">
                 <IconInstagram className="w-10 h-10 text-rose-600 mx-auto mb-3 group-hover:opacity-90 transition" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-1">Instagram</h3>
-                <p className="text-gray-600">@beautybook_app</p>
+                <p className="text-gray-600">@3teamdeveloper</p>
               </Link>
             </div>
 
@@ -344,7 +344,7 @@ export default function Home() {
               <Link href="#" className="group inline-block">
                 <Mail className="w-10 h-10 text-rose-600 mx-auto mb-3 group-hover:opacity-90 transition" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-1">Email</h3>
-                <p className="text-gray-600">hola@beautybook.com</p>
+                <p className="text-gray-600">3team.developer@gmail.com</p>
               </Link>
             </div>
 
@@ -352,7 +352,7 @@ export default function Home() {
               <Link href="https://wa.me/15551234567" className="group inline-block">
                 <Phone className="w-10 h-10 text-rose-600 mx-auto mb-3 group-hover:opacity-90 transition" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-1">WhatsApp</h3>
-                <p className="text-gray-600">+1 (555) 123-4567</p>
+                <p className="text-gray-600">+54 9 11 2233 4455</p>
               </Link>
             </div>
           </div>
@@ -364,11 +364,11 @@ export default function Home() {
         
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-            <p className="text-sm text-gray-600">© {new Date().getFullYear()} BeautyBook. Todos los derechos reservados.</p>
+            <p className="text-sm text-gray-600">© {new Date().getFullYear()} CitaUp. Todos los derechos reservados.</p>
+              <p className="text-sm text-gray-600">Desarrollado con ❤️ por <span className="font-semibold">3TeamDeveloper</span></p>
             <div className="flex items-center gap-4 text-sm text-gray-600">
-              <a href="#" className="hover:text-rose-600">Privacidad</a>
-              <a href="#" className="hover:text-rose-600">Términos</a>
-              <a href="#" className="hover:text-rose-600">Cookies</a>
+              <a href="https://citaup.vercel.app/privacy" className="hover:text-rose-600">Políticas de privacidad</a>
+              <a href="https://citaup.vercel.app/terms" className="hover:text-rose-600">Términos y condiciones</a>
             </div>
           </div>
         </div>

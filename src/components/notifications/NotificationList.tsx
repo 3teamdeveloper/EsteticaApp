@@ -40,8 +40,8 @@ export default function NotificationList({ initialNotifications }: { initialNoti
 
   return (
     <div className="w-full md:w-2/3 bg-white text-gray-900 shadow-sm p-3 sm:p-4 overflow-y-auto border-r border-gray-200">
-      <div className="flex items-center justify-between mb-2 sm:mb-3">
-        <h2 className="text-base sm:text-lg font-semibold">Notificaciones</h2>
+      <div className="flex items-center pt-8 justify-between mb-2 sm:mb-3">
+        <h2 className="text-2xl sm:text-lg font-semibold">Notificaciones</h2>
         <div className="flex items-center gap-1.5">
           <button
             className={`p-1.5 rounded-md border text-xs inline-flex items-center gap-1 ${filter === 'today' ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-700 border-gray-300'}`}

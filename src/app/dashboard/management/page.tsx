@@ -698,6 +698,7 @@ export default function CalendarCardsPage() {
           )}
         </div>
       </div>
+
       {/* Calendario y panel de horarios */}
       <div className="flex flex-col md:flex-row gap-2">
         {/* Calendario compacto */}
@@ -744,6 +745,7 @@ export default function CalendarCardsPage() {
                 ))}
               </div>
             </div>
+
             {/* Grid de días */}
             <div className="grid grid-cols-7 gap-0.5 p-1">
               {days.map((day, index) => {
@@ -866,7 +868,7 @@ export default function CalendarCardsPage() {
                           <div key={index}>
                             <div
                               className={`
-                                flex items-center justify-between p-2 rounded-lg border transition-all duration-200 text-sm
+                                flex items-center  justify-between pt-2 pb-6 px-1 md:p-2  rounded-lg border relative transition-all duration-200 text-sm
                                 ${slot.isOccupied 
                                   ? 'bg-blue-50 border-blue-200 hover:bg-blue-100' 
                                   : 'bg-green-50 border-green-200 hover:bg-green-100 cursor-pointer'
@@ -876,12 +878,12 @@ export default function CalendarCardsPage() {
                             >
                               {/* Izquierda: hora y empleado */}
                               <div className="flex items-center gap-2 min-w-0">
-                                <span className="font-mono font-bold w-12 text-center">{slot.time}</span>
+                                <span className="font-mono font-bold text-base w-12 text-center">{slot.time}</span>
                                 <span className="truncate max-w-[120px]">{slot.employee?.name}</span>
                               </div>
                               {/* Centro: cliente si ocupado */}
                               {slot.isOccupied && (
-                                <span className="truncate max-w-[120px] text-blue-700 text-center flex-1">
+                                <span className="truncate max-w-[210px] text-blue-700 text-center flex-1 absolute md:static left-24 bottom-1">
                                   {slot.appointment?.extendedProps.client}
                                 </span>
                               )}
@@ -889,8 +891,8 @@ export default function CalendarCardsPage() {
                               <div className="flex items-center gap-2 min-w-0">
                                 {slot.isOccupied ? (
                                   <>
-                                    <span className="text-blue-700 font-semibold">OCUPADO</span>
-                                    <span className={`px-2 py-0.5 rounded text-xs ${
+                                    {/* <span className="text-blue-700 font-semibold">OCUPADO</span> */}
+                                    <span className={`px-2 py-0.5 rounded text-[10px] absolute bottom-1.5 left-1 md:static md:left-0 ${
                                       slot.appointment?.extendedProps.status?.toLowerCase() === 'confirmed'
                                         ? 'bg-blue-400 text-white'
                                         : slot.appointment?.extendedProps.status?.toLowerCase() === 'completed'
@@ -903,8 +905,10 @@ export default function CalendarCardsPage() {
                                     }`}>
                                       {slot.appointment?.extendedProps.status}
                                     </span>
+
                                     {/* Botones de acción para turnos ocupados */}
                                     <div className="flex items-center gap-1 sm:gap-2">
+
                                       {/* Botón Confirmar - solo si está pendiente */}
                                       {slot.appointment?.extendedProps.status?.toLowerCase() === 'pending' && (
                                         <Button 
@@ -948,6 +952,7 @@ export default function CalendarCardsPage() {
                                         <Trash className="w-4 h-4" />
                                         <span className="hidden sm:inline ml-1">Cancelar</span>
                                       </Button>
+
                                     </div>
                                   </>
                                 ) : (

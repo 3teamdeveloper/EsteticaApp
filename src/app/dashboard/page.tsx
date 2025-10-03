@@ -157,13 +157,13 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-8">
       {/* Header con bienvenida */}
       <div className="bg-gradient-to-r from-rose-500 to-pink-600 rounded-2xl p-8 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">
-              ¡Hola, {userData?.name || 'Usuario'}! 👋
+              ¡Hola, {userData?.name || 'Usuario'}! 
             </h1>
             <p className="text-rose-100 text-lg">
               Bienvenido a tu panel de control

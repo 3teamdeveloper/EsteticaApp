@@ -48,7 +48,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
           <Calendar className="w-6 h-6 text-rose-600" />
-          <span className="text-xl font-bold text-gray-800">BeautyBook</span>
+          <span className="text-xl font-bold text-gray-800">CitaUp</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
