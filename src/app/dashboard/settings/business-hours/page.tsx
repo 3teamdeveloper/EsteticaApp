@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useToastContext } from "@/components/ui/toast/ToastProvider";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Plus, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/hooks/useSession";
 
@@ -129,15 +130,12 @@ export default function BusinessHoursConfig() {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-6 flex items-center gap-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => router.push('/dashboard/settings')}
-          className="flex items-center gap-2"
+        <Link
+          href="/dashboard/settings"
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
-          Volver
-        </Button>
+          <ArrowLeft className="h-5 w-5 text-gray-600" />
+        </Link>
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Horarios de Atención</h1>
           <p className="text-gray-600 mt-1">
@@ -146,21 +144,21 @@ export default function BusinessHoursConfig() {
         </div>
       </div>
       
-      <div className="bg-white shadow rounded-lg p-6">
+      <div>
         <div className="space-y-6">
           {days.map((day) => {
             const dayPeriods = hours[day.key] || [];
             const hasSchedules = dayPeriods.length > 0;
 
             return (
-              <div key={day.key} className="border rounded-lg p-4">
+              <div key={day.key} className="border border-gray-400 rounded-lg p-4 bg-gray-50">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-medium text-gray-900">{day.name}</h3>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => addPeriod(day.key)}
-                    className="flex items-center gap-2"
+                    className="flex text-sm md:text-[0.925rem] items-center gap-1"
                   >
                     <Plus className="h-4 w-4" />
                     Agregar período
@@ -170,7 +168,7 @@ export default function BusinessHoursConfig() {
                 {hasSchedules ? (
                   <div className="space-y-3">
                     {dayPeriods.map((period, periodIndex) => (
-                      <div key={periodIndex} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                      <div key={periodIndex} className="flex items-center gap-4 p-3 flex-wrap  rounded-lg">
                         <div className="flex items-center gap-2">
                           <label className="text-sm font-medium text-gray-700 w-16">
                             Desde:

@@ -49,7 +49,7 @@ const SIDEBAR_ITEMS = [
     icon: Contact
   },
   {
-    title: 'Gestión',
+    title: 'Agenda de Turnos',
     href: '/dashboard/management',
     icon: Calendar
   },

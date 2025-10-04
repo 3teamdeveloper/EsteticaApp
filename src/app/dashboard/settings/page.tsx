@@ -10,8 +10,8 @@ export default function Settings() {
   const { session } = useSession();
 
   return (
-    <div className="space-y-6  py-10">
-      <h1 className="text-2xl font-bold text-gray-900">Configuración</h1>
+    <div className="space-y-6 py-10">
+      <h1 className="text-2xl font-bold pl-2 text-gray-900">Configuración</h1>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Link

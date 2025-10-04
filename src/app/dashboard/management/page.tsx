@@ -662,7 +662,7 @@ export default function CalendarCardsPage() {
       {/* Fila superior: título, botón y filtros */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2 px-2">
         <div className="flex items-center gap-2 flex-wrap">
-          <h1 className="text-xl font-bold whitespace-nowrap">Agenda de Turnos</h1>
+          <h1 className="text-2xl font-bold whitespace-nowrap">Agenda de Turnos</h1>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
           <div>

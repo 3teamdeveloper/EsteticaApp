@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import { useToastContext } from "@/components/ui/toast/ToastProvider";
 import { useSession } from "@/hooks/useSession";
 
@@ -93,9 +95,17 @@ export default function PasswordChange() {
 
   return (
     <div className="max-w-3xl p-6 space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Cambio de contraseña</h1>
-        <p className="text-gray-600">Administrá tu contraseña o generá un enlace para restablecerla.</p>
+      <div className="flex items-center gap-4">
+        <Link
+          href="/dashboard/settings"
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        >
+          <ArrowLeft className="h-5 w-5 text-gray-600" />
+        </Link>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Cambio de contraseña</h1>
+          <p className="text-gray-600">Administrá tu contraseña o generá un enlace para restablecerla.</p>
+        </div>
       </div>
 
       {/* Sección: Cambiar contraseña (autenticado) */}
