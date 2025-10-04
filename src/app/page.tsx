@@ -40,14 +40,14 @@ export default function Home() {
                   Una solución completa para administrar reservas en peluquerías, barberías, centros de estética, depilación, masajes y todo tipo de servicios de cuidado personal.
                 </p>
               </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              <div className="flex items-center gap-4 min-[400px]:flex-row">
                 <Link
                   href="/register"
-                  className="px-8 py-3 text-sm md:text-base text-center font-medium text-white bg-rose-600 rounded-md hover:bg-rose-700 transition-colors"
+                  className="px-4 py-3 text-sm md:text-base text-center font-medium text-white bg-rose-600 rounded-md hover:bg-rose-700 transition-colors"
                 >
                   Comenzar ahora
                 </Link>
-                <button className="px-8 py-3 text-sm md:text-base font-medium text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                <button className="px-4 py-3 text-sm md:text-base font-medium text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
                   Ver demostración
                 </button>
               </div>
@@ -173,16 +173,16 @@ export default function Home() {
                 </li>
               </ul>
 
-              <div className="flex justify-center gap-4">
+              <div className="flex justify-center flex-col gap-4 md:flex-row">
                 <Link
                   href="/register"
-                  className="w-full block text-center px-6 py-3 bg-rose-600 text-white font-medium rounded-md hover:bg-rose-700 transition-colors"
+                  className="block text-center px-6 py-3 bg-rose-600 text-white font-medium rounded-md hover:bg-rose-700 transition-colors"
                 >
                   Comenzar gratis
                 </Link>
                 <Link
                   href="/register"
-                  className="w-full block text-center px-6 py-3 text-rose-600 border-2 border-rose-600 font-semibold rounded-md hover:bg-gray-50 hover:text-rose-700 transition-colors"
+                  className="block text-center px-6 py-3 text-rose-600 border-2 border-rose-600 font-semibold rounded-md hover:bg-gray-50 hover:text-rose-700 transition-colors"
                 >
                   Contratar plan
                 </Link>
@@ -260,7 +260,7 @@ export default function Home() {
                   M
                 </div>
                 <div className="ml-3">
-                  <div className="font-semibold text-gray-900">maria_beauty</div>
+                  <div className="font-semibold text-gray-900">Maria_Alvarez</div>
                   <div className="text-sm text-gray-500">Peluquería María</div>
                 </div>
               </div>
@@ -358,6 +358,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
       {/* Footer */}
       <footer className="border-t border-gray-200 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">

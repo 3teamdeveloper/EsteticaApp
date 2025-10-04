@@ -111,7 +111,7 @@ export default function PersonalData() {
       <div className="flex items-center gap-4">
         <Link
           href="/dashboard/settings"
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors pt-8"
         >
           <ArrowLeft className="h-5 w-5 text-gray-600" />
         </Link>
