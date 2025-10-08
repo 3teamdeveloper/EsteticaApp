@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSession } from '@/hooks/useSession';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -11,14 +10,40 @@ export default function OnboardingPage() {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { session, isLoading: sessionLoading } = useSession();
+  const [checkingStatus, setCheckingStatus] = useState(true);
 
-  // Redirigir si ya está autenticado y completó onboarding
+  // Verificar si el usuario realmente necesita onboarding
   useEffect(() => {
-    if (!sessionLoading && session) {
-      router.push('/dashboard');
-    }
-  }, [session, sessionLoading, router]);
+    const checkOnboardingStatus = async () => {
+      try {
+        const res = await fetch('/api/auth/onboarding/status', {
+          credentials: 'include'
+        });
+        
+        if (!res.ok) {
+          // Si no está autenticado, redirigir a login
+          router.push('/login');
+          return;
+        }
+
+        const data = await res.json();
+        
+        // Si no necesita onboarding, redirigir al dashboard
+        if (!data.needsOnboarding) {
+          router.push('/dashboard');
+          return;
+        }
+
+        // Si necesita onboarding, mostrar el formulario
+        setCheckingStatus(false);
+      } catch (err) {
+        console.error('Error verificando onboarding:', err);
+        router.push('/login');
+      }
+    };
+
+    checkOnboardingStatus();
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,10 +53,13 @@ export default function OnboardingPage() {
       const res = await fetch('/api/auth/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: phone || undefined, businessType, acceptTerms })
+        body: JSON.stringify({ phone: phone || undefined, businessType, acceptTerms }),
+        credentials: 'include'
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error al completar el onboarding');
+      
+      // Redirigir al dashboard después de completar
       router.push('/dashboard');
       router.refresh();
     } catch (err) {
@@ -41,18 +69,13 @@ export default function OnboardingPage() {
     }
   };
 
-  // Mostrar loading mientras se verifica la sesión
-  if (sessionLoading) {
+  // Mostrar loading mientras se verifica el estado
+  if (checkingStatus) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-gray-600">Verificando sesión...</div>
+        <div className="text-gray-600">Verificando estado...</div>
       </div>
     );
-  }
-
-  // Si ya está autenticado, no mostrar nada (se redirigirá)
-  if (session) {
-    return null;
   }
 
   return (

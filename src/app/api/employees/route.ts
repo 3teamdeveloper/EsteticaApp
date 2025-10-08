@@ -123,7 +123,7 @@ export async function POST(request: Request) {
         });
 
         // Enviar email de invitación mediante EmailService
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://citaup.vercel.app';
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://citaup.com';
         const inviteLink = `${baseUrl}/set-password?token=${invitationToken}`;
         try {
           await emailService.sendWelcomeEmail(email, name || email.split('@')[0], inviteLink);

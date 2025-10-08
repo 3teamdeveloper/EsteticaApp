@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TuTurno App",
+  title: "CitaUp - Gestion de turnos",
   description: "Aplicacion web destinada a la gestion de turnos",
   //TODO: Agregar SEO
 };

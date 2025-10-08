@@ -109,7 +109,7 @@ export default async function PublicProfilePage({
   params: Promise<{ urlName: string }>;
 }) {
   const { urlName } = await params;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://citaup.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://citaup.com';
 
   const res = await fetch(`${baseUrl}/api/public-profile/${urlName}`, {
     next: { revalidate: 10 },

@@ -60,7 +60,7 @@ export async function POST(
       }
     });
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://citaup.vercel.app';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://citaup.com';
     const inviteLink = `${baseUrl}/set-password?token=${invitationToken}`;
 
     let emailSendWarning: string | null = null;

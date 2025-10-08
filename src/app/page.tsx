@@ -1,5 +1,4 @@
 "use client"
-
 import Link from "next/link"
 import Image from "next/image"
 import { CheckCircle, Star, MessageCircle, Calendar, Users, BarChart3, Shield, Zap, Mail, Phone } from "lucide-react"
@@ -368,8 +367,8 @@ export default function Home() {
             <p className="text-sm text-gray-600">© {new Date().getFullYear()} CitaUp. Todos los derechos reservados.</p>
               <p className="text-sm text-gray-600">Desarrollado con ❤️ por <span className="font-semibold">3TeamDeveloper</span></p>
             <div className="flex items-center gap-4 text-sm text-gray-600">
-              <a href="https://citaup.vercel.app/privacy" className="hover:text-rose-600">Políticas de privacidad</a>
-              <a href="https://citaup.vercel.app/terms" className="hover:text-rose-600">Términos y condiciones</a>
+              <a href="https://citaup.com/privacy" className="hover:text-rose-600">Políticas de privacidad</a>
+              <a href="https://citaup.com/terms" className="hover:text-rose-600">Términos y condiciones</a>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { generateToken } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { generateUniqueUsername } from '@/lib/username';
+import { initializeTrial } from '@/lib/trial';
 
 export async function GET(request: NextRequest) {
   const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -84,6 +85,9 @@ export async function GET(request: NextRequest) {
         onboardingCompleted: false,
       },
     });
+
+    // Inicializar el trial de 14 días para nuevos usuarios
+    await initializeTrial(user.id);
   }
 
   // Issue our JWT and set cookie

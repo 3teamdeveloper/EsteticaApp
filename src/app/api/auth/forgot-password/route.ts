@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       },
     });
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://citaup.vercel.app";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://citaup.com";
     const resetUrl = `${baseUrl}/set-password?token=${token}`;
     
     // Logs útiles para depuración (emulan el contenido del correo)
