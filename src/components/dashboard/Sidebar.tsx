@@ -14,6 +14,7 @@ import {
   Contact,
   ArrowLeftFromLine,
   ArrowRightFromLine,
+  BookOpen,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -57,6 +58,11 @@ const SIDEBAR_ITEMS = [
     title: 'Configuración',
     href: '/dashboard/settings',
     icon: Settings
+  },
+  {
+    title: 'Instrucciones de uso',
+    href: '/dashboard/usage',
+    icon: BookOpen
   }
 ];
 
