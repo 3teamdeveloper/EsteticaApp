@@ -1,18 +1,20 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import prisma from '@/lib/prisma';
+import { cookies } from 'next/headers';
+import { verifyToken } from '@/lib/auth';
+import { prisma } from '@/lib/db';
 
 export async function GET(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const token = (await cookies()).get('token')?.value;
     
-    if (!session?.user?.id) {
+    if (!token) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
+    const decoded = verifyToken(token) as { id: number; email: string };
+
     const user = await prisma.user.findUnique({
-      where: { id: parseInt(session.user.id) },
+      where: { id: decoded.id },
       select: {
         businessPhone: true,
         businessAddress: true,
@@ -39,11 +41,13 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const token = (await cookies()).get('token')?.value;
     
-    if (!session?.user?.id) {
+    if (!token) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
+
+    const decoded = verifyToken(token) as { id: number; email: string };
 
     const body = await request.json();
     const {
@@ -71,7 +75,7 @@ export async function PATCH(request: Request) {
     }
 
     const updated = await prisma.user.update({
-      where: { id: parseInt(session.user.id) },
+      where: { id: decoded.id },
       data: {
         businessPhone,
         businessAddress,
@@ -90,7 +94,7 @@ export async function PATCH(request: Request) {
       }
     });
 
-    console.log(`[BusinessInfo] ✅ Info actualizada para usuario #${session.user.id}`);
+    console.log(`[BusinessInfo] ✅ Info actualizada para usuario #${decoded.id}`);
 
     return NextResponse.json({
       success: true,
