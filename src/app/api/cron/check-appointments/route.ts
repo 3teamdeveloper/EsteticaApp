@@ -13,19 +13,21 @@ export async function GET(request: Request) {
     }
 
     const now = new Date();
-    const in48Hours = new Date(now.getTime() + 48 * 60 * 60 * 1000);
-    const in46Hours = new Date(now.getTime() + 46 * 60 * 60 * 1000);
+    // Para ejecución diaria: buscar turnos entre 2-3 días en el futuro
+    // Esto garantiza 100% de cobertura con 1 ejecución por día
+    const in72Hours = new Date(now.getTime() + 72 * 60 * 60 * 1000); // 3 días
+    const in48Hours = new Date(now.getTime() + 48 * 60 * 60 * 1000); // 2 días
 
     console.log(`[Cron] 🕐 Ejecutando verificación de turnos - ${now.toISOString()}`);
-    console.log(`[Cron] 📅 Buscando turnos entre ${in46Hours.toISOString()} y ${in48Hours.toISOString()}`);
+    console.log(`[Cron] 📅 Buscando turnos entre ${in48Hours.toISOString()} y ${in72Hours.toISOString()}`);
 
     // Buscar turnos PENDING que necesitan confirmación
     const appointmentsToConfirm = await prisma.appointment.findMany({
       where: {
         status: 'PENDING',
         date: {
-          gte: in46Hours,
-          lte: in48Hours
+          gte: in48Hours, // Desde 2 días en el futuro
+          lte: in72Hours  // Hasta 3 días en el futuro
         },
         confirmationEmailSentAt: null, // No se envió email aún
         client: {
