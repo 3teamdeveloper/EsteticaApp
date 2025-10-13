@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Clock, KeyRound, Settings as SettingsIcon, User, MessageCircle } from "lucide-react";
+import { Clock, KeyRound, Settings as SettingsIcon, User, MessageCircle, Building2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/hooks/useSession";
 
@@ -70,6 +70,28 @@ export default function Settings() {
           </p>
           <div className="mt-4 text-blue-600 text-sm font-medium">
             Editar datos →
+          </div>
+        </Link>
+
+        <Link
+          href={session?.role !== 'EMPLEADO' ? "/dashboard/settings/business-contact" : "#"}
+          className={`block bg-white shadow rounded-lg p-6 transition-shadow border ${
+            session?.role !== "EMPLEADO"
+              ? "hover:shadow-md hover:border-gray-300 border-gray-200"
+              : "opacity-50 border-gray-200"
+          }`}
+        >
+          <div className="flex items-center gap-4 mb-3">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Building2 className="h-6 w-6 text-blue-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900">Información del Negocio</h3>
+          </div>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            Configura el teléfono, dirección y otros datos de contacto de tu negocio. Esta información se mostrará en los emails enviados a tus clientes.
+          </p>
+          <div className="mt-4 text-blue-600 text-sm font-medium">
+            Configurar contacto →
           </div>
         </Link>
 

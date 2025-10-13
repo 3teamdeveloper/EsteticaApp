@@ -12,7 +12,7 @@ export class ResendProvider implements EmailProvider {
   }
 
   async sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
-    const from = process.env.RESEND_FROM_EMAIL || 'notificaciones@estetica.app';
+    const from = process.env.RESEND_FROM_EMAIL || 'no-reply@citaup.com';
 
     const result = await this.client.emails.send({
       from,

@@ -50,6 +50,14 @@ model User {
   isTrialActive            Boolean   @default(true)
   trialExpirationNotified  Boolean   @default(false)
   
+  // INFORMACIÓN DE CONTACTO DEL NEGOCIO
+  businessPhone            String?
+  businessAddress          String?
+  businessCity             String?
+  businessState            String?
+  businessDescription      String?
+  businessWebsite          String?
+  
   // Relación con tickets de soporte
   supportTickets           SupportTicket[]
 }
@@ -81,6 +89,13 @@ model Appointment {
   notes     String?
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
+
+  // Campos para confirmación por email (48h antes)
+  confirmationToken       String?   @unique
+  confirmationTokenExpiry DateTime?
+  confirmationEmailSentAt DateTime?
+  confirmedByClient       Boolean   @default(false)
+  confirmationMethod      String?   // 'manual' | 'email_link' | 'auto'
 
   //relaciones 
   service   Service         @relation(fields: [serviceId], references: [id], map: "AppointmentToService")

@@ -335,7 +335,15 @@ export async function POST(request: Request) {
       include: {
         service: true,
         employee: true,
-        client: true
+        client: true,
+        user: { // Incluir info del prestador para el email
+          select: {
+            name: true,
+            businessPhone: true,
+            businessAddress: true,
+            businessWebsite: true
+          }
+        }
       }
     });
 
@@ -346,8 +354,32 @@ export async function POST(request: Request) {
       date: appointment.date
     });*/
 
-    // TODO: Aquí se enviaría el email de confirmación
-    // Por ahora solo retornamos la reserva creada
+    // Enviar email de confirmación inmediata al cliente
+    if (client.email) {
+      try {
+        const { emailService } = await import('@/lib/email/emailService');
+        
+        await emailService.sendAppointmentCreated(
+          client.email,
+          client.name,
+          {
+            date: appointment.date,
+            serviceName: appointment.service.name,
+            employeeName: appointment.employee?.name || 'Sin asignar',
+            businessName: appointment.user.name,
+            duration: appointment.service.duration,
+            businessPhone: appointment.user.businessPhone || undefined,
+            businessAddress: appointment.user.businessAddress || undefined,
+            businessWebsite: appointment.user.businessWebsite || undefined,
+          }
+        );
+        
+        console.log(`[Appointment] ✅ Email de creación enviado a ${client.email}`);
+      } catch (emailError) {
+        // No bloquear la creación del turno si falla el email
+        console.error(`[Appointment] ❌ Error enviando email:`, emailError);
+      }
+    }
 
     return NextResponse.json({
       success: true,

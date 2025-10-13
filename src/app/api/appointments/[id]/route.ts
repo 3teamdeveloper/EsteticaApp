@@ -14,7 +14,14 @@ export async function PATCH(
 
     const updated = await prisma.appointment.update({
       where: { id },
-      data: { status },
+      data: { 
+        status,
+        // Si se confirma manualmente desde el dashboard, marcar como confirmación manual
+        ...(status === 'CONFIRMED' && {
+          confirmationMethod: 'manual',
+          confirmedByClient: false
+        })
+      },
     });
     return NextResponse.json({ success: true, appointment: updated });
   } catch (error) {
