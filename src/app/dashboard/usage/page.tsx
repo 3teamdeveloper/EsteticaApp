@@ -15,6 +15,7 @@ import {
   Settings,
   Lightbulb,
   HelpCircle,
+  ThumbsUp,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -185,13 +186,13 @@ export default function UsagePage() {
   ];
 
   return (
-    <div className="space-y-8 p-8 max-w-6xl mx-auto">
+    <div className="space-y-8 p-2 md:p-8 max-w-6xl mx-auto">
       {/* Header */}
       <div className="bg-gradient-to-r from-rose-500 to-pink-600 rounded-2xl p-8 text-white">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-            <BookOpen className="w-6 h-6" />
-          </div>
+          {/* <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center"> */}
+          {/* <BookOpen className="w-6 h-6" /> */}
+          {/* </div> */}
           <h1 className="text-3xl font-bold">
             Configuración inicial de tu cuenta
           </h1>
@@ -215,26 +216,48 @@ export default function UsagePage() {
             >
               {/* Step Header */}
               <div
-                className={`bg-gradient-to-r ${step.gradient} p-6 text-white`}
+                className={`bg-gradient-to-r ${step.gradient} p-4 md:p-6 text-white`}
               >
-                <div className="flex w-full items-center justify-between flex-wrap gap-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <h3 className="text-2xl font-bold">{step.title}</h3>
-                    </div>
-                    <div className="flex mx-auto md:mx-0 items-center gap-3 mb-1">
-                      <span className="text-sm font-medium bg-white/20 px-3 py-1 rounded-full">
+                {/* Mobile: Stack vertically */}
+                <div className="flex flex-col gap-3 md:hidden">
+                  <div className="flex flex-col gap-2 items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="text-base font-medium bg-white/20 px-3 py-1 rounded-full">
                         Paso {step.number}
                       </span>
-                      {step.optional && (
-                        <span className="text-xs font-medium bg-white/20 px-2 py-1 rounded-full">
-                          {" "}
-                          Opcional
-                        </span>
-                      )}
                     </div>
+                      <h3 className="text-xl font-semibold flex items-center gap-2"><Icon className="w-6 h-6" /> {step.title}</h3>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    {/* <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0"> */}
+
+                    {/* </div> */}
+                    {step.optional && (
+                      <span className="text-xs font-medium bg-white/20 px-2 py-1 rounded-full">
+                        Opcional
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Desktop: Horizontal layout */}
+                <div className="hidden md:flex w-full items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-2xl font-bold flex items-center gap-2"><Icon className="w-6 h-6" /> {step.title}</h3>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-medium bg-white/20 px-3 py-1 rounded-full">
+                      Paso {step.number}
+                    </span>
+                    {step.optional && (
+                      <span className="text-xs font-medium bg-white/20 px-2 py-1 rounded-full">
+                        Opcional
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -304,43 +327,46 @@ export default function UsagePage() {
         })}
       </div>
 
-      <div className="inline-block bg-gradient-to-r from-rose-500 to-pink-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg">
-        ¡Listo! Tu sistema de reservas online está funcionando. 🎉
+      <div className="flex justify-center mb-12 ">
+        <div className="inline-block bg-gradient-to-r from-rose-500 to-pink-600 text-white px-8 py-4 rounded-lg font-bold text-lg md:text-xl md:p-10 shadow-lg">
+          ¡Listo! Tu sistema de reservas online está funcionando. 🎉
+        </div>
       </div>
 
       {/* What clients will see */}
-      <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-8 border border-purple-200">
+      <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 md:p-8 border border-purple-200">
         <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Eye className="w-7 h-7 text-purple-600" />
+          <ThumbsUp className="w-7 h-7 text-purple-600" />
           ¿Qué verán tus clientes?
         </h2>
-        <div className="space-y-3 text-gray-700">
+        <div className="space-y-3 p-6 text-gray-700">
           <p className="flex items-start gap-2">
-            <span className="text-purple-600 font-bold mt-1">1.</span>
+            <span className="text-purple-600 font-bold mt-1">•</span>
             <span>
               Verán tu perfil con fotos, descripción y servicios disponibles
             </span>
           </p>
           <p className="flex items-start gap-2">
-            <span className="text-purple-600 font-bold mt-1">2.</span>
+            <span className="text-purple-600 font-bold mt-1">•</span>
             <span>Elegirán un servicio de tu catálogo</span>
           </p>
           <p className="flex items-start gap-2">
-            <span className="text-purple-600 font-bold mt-1">3.</span>
+            <span className="text-purple-600 font-bold mt-1">•</span>
             <span>
               Seleccionarán fecha y hora (solo verán horarios disponibles)
             </span>
           </p>
           <p className="flex items-start gap-2">
-            <span className="text-purple-600 font-bold mt-1">4.</span>
+            <span className="text-purple-600 font-bold mt-1">•</span>
             <span>Completarán sus datos (nombre, email, teléfono)</span>
           </p>
           <p className="flex items-start gap-2">
-            <span className="text-purple-600 font-bold mt-1">5.</span>
+            <span className="text-purple-600 font-bold mt-1">•</span>
             <span>Confirmarán la reserva</span>
           </p>
         </div>
-        <div className="mt-6 bg-white rounded-lg p-4 border border-purple-200">
+        
+        <div className="mt-4 bg-white rounded-lg p-4 border border-purple-200">
           <p className="font-semibold text-gray-900 mb-2">Tú recibirás:</p>
           <ul className="space-y-1 text-gray-700 text-sm">
             <li className="flex items-center gap-2">
@@ -353,14 +379,15 @@ export default function UsagePage() {
             </li>
             <li className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-green-500" />
-              La reserva aparecerá en tu Agenda de Turnos de la app
+              La reserva aparecerá en tu Agenda de Turnos
             </li>
           </ul>
         </div>
+
       </div>
 
       {/* Management Tools */}
-      <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-8 border border-blue-200">
+      <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4 md:p-8 border border-blue-200">
         <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
           <Settings className="w-7 h-7 text-blue-600" />
           Herramientas de Gestión
