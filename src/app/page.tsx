@@ -57,7 +57,7 @@ export default function Home() {
             </div>
             <div className="mx-auto lg:mx-0 relative h-[360px] overflow-hidden rounded-xl border border-gray-200 shadow-lg">
               <Image
-                src="/images/dashboard-preview.png"
+                src="/images/dashboard3.jpg"
                 alt="Dashboard de CitaUp"
                 width={1280}
                 height={720}

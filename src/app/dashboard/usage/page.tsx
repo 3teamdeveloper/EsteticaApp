@@ -243,9 +243,6 @@ export default function UsagePage() {
                 {/* Desktop: Horizontal layout */}
                 <div className="hidden md:flex w-full items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-6 h-6" />
-                    </div>
                     <h3 className="text-2xl font-bold flex items-center gap-2"><Icon className="w-6 h-6" /> {step.title}</h3>
                   </div>
                   <div className="flex items-center gap-3">

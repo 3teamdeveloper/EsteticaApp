@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useToastContext } from '@/components/ui/toast/ToastProvider';
 import { X, Calendar, Clock, User, Phone, Mail, ArrowLeft, ArrowRight } from 'lucide-react';
 import Avatar from './ui/avatar';
@@ -104,6 +104,38 @@ export default function BookingModal({ service, isOpen, onClose }: BookingModalP
       setClientData({ name: '', phone: '', email: '' });
     }
   }, [isOpen]);
+
+  // Manejar tecla ESC para cerrar (solo desktop)
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        // Solo en desktop (ancho >= 768px)
+        if (window.innerWidth >= 768) {
+          onClose();
+        }
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      // Prevenir scroll del body cuando el modal está abierto
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
+
+  // Manejar click en backdrop (solo desktop)
+  const handleBackdropClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    // Solo cerrar si el click es directamente en el backdrop (no en el contenido)
+    // Y solo en desktop (ancho >= 768px)
+    if (e.target === e.currentTarget && window.innerWidth >= 768) {
+      onClose();
+    }
+  }, [onClose]);
 
   const loadEmployees = async () => {
     try {
@@ -366,23 +398,26 @@ export default function BookingModal({ service, isOpen, onClose }: BookingModalP
   if (!isOpen) return null;
 
   return (
-    // modal container
-    <div className="fixed inset-0 backdrop-blur-md bg-black/70 flex items-center justify-center z-50 p-0">
+    // modal container - Click en backdrop solo desktop
+    <div 
+      className="fixed inset-0 backdrop-blur-md bg-black/70 flex items-center justify-center z-50 p-0"
+      onClick={handleBackdropClick}
+    >
       {/* modal content */}
-      <div className="bg-white  w-full max-w-4xl max-h-[100vh] overflow-y-auto">
-      {/* <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"> */}
+      <div className="bg-white w-full max-w-4xl max-h-[100vh] overflow-y-auto">
 
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{service.name}</h2>
-            <p className="text-lg font-semibold text-rose-600">${service.price}</p>
+        {/* Header - Sticky para que siempre sea visible */}
+        <div className="sticky top-0 z-10 bg-white flex items-center justify-between p-4 md:p-6 border-b shadow-sm">
+          <div className="flex-1 min-w-0 pr-4">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 truncate">{service.name}</h2>
+            <p className="text-base sm:text-lg font-semibold text-rose-600">${service.price}</p>
           </div>
           <Button
             variant="outline"
             size="sm"
             onClick={onClose}
-            className="rounded-full p-2"
+            className="rounded-full p-2 flex-shrink-0 hover:bg-gray-100 transition-colors"
+            aria-label="Cerrar modal"
           >
             <X className="w-5 h-5" />
           </Button>
@@ -486,7 +521,7 @@ export default function BookingModal({ service, isOpen, onClose }: BookingModalP
               </div>
 
               {/* Sección de Calendario */}
-              <div className="py-12 min-h-dvh" ref={schedulesRef}>
+              <div className="pt-32 pb-12 min-h-dvh" ref={schedulesRef}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-gray-900">Horarios Disponibles</h3>
                   <div className="flex items-center gap-2">
@@ -618,7 +653,7 @@ export default function BookingModal({ service, isOpen, onClose }: BookingModalP
                     </button>
                   </div>
                 ) : (
-                  <div className="border-t pt-6 min-h-dvh" ref={formRef}>
+                  <div className="border-t pt-32 min-h-dvh" ref={formRef}>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">
                       Completa tus datos
                     </h3>

@@ -20,6 +20,15 @@ interface DashboardStats {
   totalAppointments: number;
 }
 
+interface TodayAppointment {
+  id: number;
+  date: string;
+  status: string;
+  clientName: string;
+  serviceName: string;
+  employeeName?: string;
+}
+
 export default function Dashboard() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [stats, setStats] = useState<DashboardStats>({
@@ -28,6 +37,7 @@ export default function Dashboard() {
     totalEmployees: 0,
     totalAppointments: 0
   });
+  const [todayAppointments, setTodayAppointments] = useState<TodayAppointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -66,13 +76,22 @@ export default function Dashboard() {
           });
         } else {
           console.error('Error al cargar estadísticas:', statsResponse.statusText);
-          // Fallback a datos por defecto si falla la carga de estadísticas
           setStats({
             totalServices: 0,
             activeServices: 0,
             totalEmployees: 0,
             totalAppointments: 0
           });
+        }
+
+        // Obtener turnos de hoy
+        const todayResponse = await fetch('/api/dashboard/today-appointments', {
+          credentials: 'include',
+        });
+
+        if (todayResponse.ok) {
+          const todayData = await todayResponse.json();
+          setTodayAppointments(todayData.appointments || []);
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error al cargar los datos');
@@ -125,14 +144,14 @@ export default function Dashboard() {
     color: string;
     gradient: string;
   }) => (
-    <div className={`bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300 ${gradient}`}>
+    <div className={`bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 hover:shadow-md transition-all duration-300 ${gradient}`}>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-          <p className="text-3xl font-bold text-gray-900">{value}</p>
+          <p className="text-xs md:text-sm font-medium text-gray-600 mb-1">{title}</p>
+          <p className="text-2xl md:text-3xl font-bold text-gray-900">{value}</p>
         </div>
-        <div className={`p-3 rounded-lg ${color}`}>
-          {icon}
+        <div className={`p-2 md:p-3 rounded-lg ${color}`}>
+          <div className="w-5 h-5 md:w-6 md:h-6">{icon}</div>
         </div>
       </div>
     </div>
@@ -156,22 +175,42 @@ export default function Dashboard() {
     </Link>
   );
 
+  const getStatusBadge = (status: string) => {
+    const badges = {
+      PENDING: 'bg-yellow-100 text-yellow-800',
+      CONFIRMED: 'bg-green-100 text-green-800',
+      CANCELLED: 'bg-red-100 text-red-800',
+      COMPLETED: 'bg-blue-100 text-blue-800',
+    };
+    return badges[status as keyof typeof badges] || 'bg-gray-100 text-gray-800';
+  };
+
+  const getStatusText = (status: string) => {
+    const texts = {
+      PENDING: 'Pendiente',
+      CONFIRMED: 'Confirmado',
+      CANCELLED: 'Cancelado',
+      COMPLETED: 'Completado',
+    };
+    return texts[status as keyof typeof texts] || status;
+  };
+
   return (
-    <div className="space-y-8 p-8">
-      {/* Header con bienvenida */}
-      <div className="bg-gradient-to-r from-rose-500 to-pink-600 rounded-2xl p-8 text-white">
+    <div className="space-y-6 md:space-y-8 p-4 md:p-8">
+      {/* Header con bienvenida - Más compacto */}
+      <div className="bg-gradient-to-r from-rose-500 to-pink-600 rounded-2xl p-6 md:p-8 text-white">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold mb-1 md:mb-2">
               ¡Hola, {userData?.name || 'Usuario'}! 
             </h1>
-            <p className="text-rose-100 text-lg">
+            <p className="text-rose-100 text-sm md:text-lg">
               Bienvenido a tu panel de control
             </p>
           </div>
           <div className="hidden md:block">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-white/20 rounded-full flex items-center justify-center">
+              <svg className="w-6 h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
               </svg>
             </div>
@@ -182,15 +221,15 @@ export default function Dashboard() {
       {/* Estado del Trial */}
       <TrialStatusCard />
 
-      {/* Tarjetas de estadísticas */}
+      {/* Tarjetas de estadísticas - Grid 2x2 en mobile */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Resumen del negocio</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-6">Resumen del negocio</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           <StatCard
             title="Total Servicios"
             value={stats.totalServices}
             icon={
-              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-full h-full text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             }
@@ -201,7 +240,7 @@ export default function Dashboard() {
             title="Servicios Activos"
             value={stats.activeServices}
             icon={
-              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-full h-full text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
             }
@@ -212,7 +251,7 @@ export default function Dashboard() {
             title="Empleados"
             value={stats.totalEmployees}
             icon={
-              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-full h-full text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
               </svg>
             }
@@ -223,7 +262,7 @@ export default function Dashboard() {
             title="Citas (30 días)"
             value={stats.totalAppointments}
             icon={
-              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-full h-full text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
               </svg>
             }
@@ -233,10 +272,50 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Turnos de Hoy */}
+      {todayAppointments.length > 0 && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg md:text-xl font-semibold text-gray-900 flex items-center gap-2">
+              <svg className="w-5 h-5 text-rose-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+              </svg>
+              Turnos de Hoy
+            </h2>
+            <Link href="/dashboard/management" className="text-sm text-rose-600 hover:text-rose-700 font-medium">
+              Ver todos →
+            </Link>
+          </div>
+          <div className="space-y-3">
+            {todayAppointments.slice(0, 5).map((apt) => (
+              <div key={apt.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-medium text-gray-900 text-sm md:text-base">
+                      {new Date(apt.date).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(apt.status)}`}>
+                      {getStatusText(apt.status)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 truncate">{apt.clientName}</p>
+                  <p className="text-xs text-gray-500 truncate">{apt.serviceName}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          {todayAppointments.length > 5 && (
+            <p className="text-xs text-gray-500 text-center mt-3">
+              +{todayAppointments.length - 5} turnos más
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Acciones rápidas */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Acciones rápidas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-6">Acciones rápidas</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {/* Mostrar solo si NO es EMPLEADO */}
           {userData?.role !== 'EMPLEADO' && (
             <QuickActionCard
@@ -316,40 +395,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Información del usuario */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Información de la cuenta</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-            <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-            </svg>
-            <div>
-              <p className="text-sm text-gray-600">Email</p>
-              <p className="font-medium text-gray-900">{userData?.email}</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-            <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-            </svg>
-            <div>
-              <p className="text-sm text-gray-600">Nombre</p>
-              <p className="font-medium text-gray-900">{userData?.name}</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-            <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
-            </svg>
-            <div>
-              <p className="text-sm text-gray-600">Usuario</p>
-              <p className="font-medium text-gray-900">@{userData?.username}</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

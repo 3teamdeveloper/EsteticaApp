@@ -660,36 +660,53 @@ export default function CalendarCardsPage() {
   return (
     <div className="py-10">
       {/* Fila superior: título, botón y filtros */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2 px-2">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 px-2">
         <div className="flex items-center gap-2 flex-wrap">
-          <h1 className="text-2xl font-bold whitespace-nowrap">Agenda de Turnos</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Agenda de Turnos</h1>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <div>
-            <label className="block text-sm font-medium mb-0.5">Servicio</label>
+        
+        {/* Filtros modernos - lado a lado en mobile */}
+        <div className="flex gap-2 flex-wrap">
+          <div className="flex-1 min-w-[140px]">
+            <label className="block text-xs font-medium text-gray-600 mb-1.5 pl-3">Servicio</label>
             <select
-              className="border rounded px-2 py-1 text-sm"
+              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all hover:border-gray-300 appearance-none cursor-pointer"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                backgroundPosition: 'right 0.5rem center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '1.5em 1.5em',
+                paddingRight: '2.5rem'
+              }}
               value={selectedService}
               onChange={e => {
                 setSelectedService(e.target.value);
                 setSelectedEmployee("");
               }}
             >
-              <option value="">{userRole === 'EMPLEADO' ? 'Todos mis servicios' : 'Todos'}</option>
+              <option value="">{userRole === 'EMPLEADO' ? 'Todos mis servicios' : 'Todos los servicios'}</option>
               {services.map((s: Service) => (
                 <option key={s.id} value={s.id}>{s.name}</option>
               ))}
             </select>
           </div>
+          
           {userRole !== 'EMPLEADO' && (
-            <div>
-              <label className="block text-sm font-medium mb-0.5">Empleado</label>
+            <div className="flex-1 min-w-[140px]">
+              <label className="block text-xs font-medium text-gray-600 mb-1.5 pl-3">Empleado</label>
               <select
-                className="border rounded px-2 py-1 text-sm"
+                className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all hover:border-gray-300 appearance-none cursor-pointer"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                  backgroundPosition: 'right 0.5rem center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: '1.5em 1.5em',
+                  paddingRight: '2.5rem'
+                }}
                 value={selectedEmployee}
                 onChange={e => setSelectedEmployee(e.target.value)}
               >
-                <option value="">Todos</option>
+                <option value="">Todos los empleados</option>
                 {employees.map((e: Employee) => (
                   <option key={e.id} value={e.id}>{e.name}</option>
                 ))}
