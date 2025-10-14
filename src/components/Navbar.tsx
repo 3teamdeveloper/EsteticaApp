@@ -1,7 +1,8 @@
 'use client';
 
 import Link from "next/link";
-import { Calendar, Menu, X, LogOut } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSession } from "@/hooks/useSession";
 import { useRouter } from "next/navigation";
@@ -46,8 +47,14 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <Calendar className="w-6 h-6 text-rose-600" />
+        <Link href="/" className="flex items-center gap-1">
+          <Image 
+            src="/images/logocitaup.jpg" 
+            alt="CitaUp Logo" 
+            width={40} 
+            height={40} 
+            className="rounded-full object-cover"
+          />
           <span className="text-xl font-bold text-gray-800">CitaUp</span>
         </Link>
 

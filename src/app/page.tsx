@@ -90,10 +90,10 @@ export default function Home() {
                 />
                 {/* Bottom */}
                 <div
-                  className="absolute inset-x-0 bottom-[42px] md:bottom-[-16px] h-[9px] md:h-12 rounded-b-2xl"
+                  className="absolute inset-x-0 bottom-[42px] md:bottom-[-16px] h-[12px] md:h-12 rounded-b-2xl"
                   style={{
                     background:
-                      "linear-gradient(to top, white 0%, rgba(255,255,255,0.8) 60%, rgba(255,255,255,0) 100%)",
+                      "linear-gradient(to top, white 0%, rgba(255,255,255,0.8) 80%, rgba(255,255,255,0) 100%)",
                   }}
                 />
                 {/* Left */}
@@ -119,7 +119,7 @@ export default function Home() {
       </section>
 
       {/* Características */}
-      <section id="features" className="py-16 bg-white">
+      <section id="features" className="py-0 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
