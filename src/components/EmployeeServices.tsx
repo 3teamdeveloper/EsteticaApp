@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, Plus, X, Clock, ExternalLink } from 'lucide-react';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface Service {
   id: number;
@@ -15,6 +16,8 @@ interface EmployeeServicesProps {
 }
 
 export default function EmployeeServices({ employeeId, employeeName }: EmployeeServicesProps) {
+  const t = useTranslations('employees.services_modal');
+  const locale = useLocale();
   const [services, setServices] = useState<Service[]>([]);
   const [assignedServiceIds, setAssignedServiceIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,22 +36,22 @@ export default function EmployeeServices({ employeeId, employeeName }: EmployeeS
   const fetchServices = async () => {
     try {
       const response = await fetch('/api/services');
-      if (!response.ok) throw new Error('Error al cargar servicios');
+      if (!response.ok) throw new Error(t('error_load_services'));
       const data = await response.json();
       setServices(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al cargar servicios');
+      setError(err instanceof Error ? err.message : t('error_load_services'));
     }
   };
 
   const fetchEmployeeServices = async () => {
     try {
       const response = await fetch(`/api/employees/${employeeId}/services`);
-      if (!response.ok) throw new Error('Error al cargar servicios del empleado');
+      if (!response.ok) throw new Error(t('error_load_employee_services'));
       const data = await response.json();
       setAssignedServiceIds(data.map((service: Service) => service.id));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al cargar servicios del empleado');
+      setError(err instanceof Error ? err.message : t('error_load_employee_services'));
     } finally {
       setLoading(false);
     }
@@ -93,10 +96,10 @@ export default function EmployeeServices({ employeeId, employeeName }: EmployeeS
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ serviceId }),
       });
-      if (!response.ok) throw new Error('Error al asignar servicio');
+      if (!response.ok) throw new Error(t('error_assign'));
       await fetchEmployeeServices();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al actualizar servicios');
+      setError(err instanceof Error ? err.message : t('error_update'));
     }
   };
 
@@ -116,10 +119,10 @@ export default function EmployeeServices({ employeeId, employeeName }: EmployeeS
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ serviceId: confirmModal.serviceId }),
       });
-      if (!response.ok) throw new Error('Error al eliminar servicio');
+      if (!response.ok) throw new Error(t('error_remove'));
       await fetchEmployeeServices();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al actualizar servicios');
+      setError(err instanceof Error ? err.message : t('error_update'));
     } finally {
       setConfirmModal({ open: false });
     }
@@ -132,7 +135,7 @@ export default function EmployeeServices({ employeeId, employeeName }: EmployeeS
         className="bg-green-100 hover:bg-green-300 text-green-800 px-4 py-2 rounded-md flex items-center gap-2 transition-colors"
       >
         <Plus className="w-4 h-4" />
-        Servicios
+        {t('button')}
       </Button>
 
       {isModalOpen && (
@@ -140,7 +143,7 @@ export default function EmployeeServices({ employeeId, employeeName }: EmployeeS
           <div className="bg-white w-full max-w-2xl mx-4 rounded-lg">
             <div className="flex items-center justify-between p-6 border-b">
               <h2 className="text-xl font-semibold text-gray-900">
-                Servicios de {employeeName}
+                {t('title')} {employeeName}
               </h2>
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -210,18 +213,18 @@ export default function EmployeeServices({ employeeId, employeeName }: EmployeeS
           <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full">
             <div className="flex items-center gap-2 mb-4">
               <X className="w-6 h-6 text-red-600" />
-              <span className="font-bold text-lg">Desasignar servicio</span>
+              <span className="font-bold text-lg">{t('unassign_title')}</span>
             </div>
-            <p className="mb-6">¿Seguro que deseas desasignar el servicio "{confirmModal.serviceName}" de {employeeName}?</p>
+            <p className="mb-6">{t('unassign_message')} "{confirmModal.serviceName}" {t('unassign_from')} {employeeName}?</p>
             <div className="flex gap-2 justify-end">
               <Button variant="outline" onClick={() => setConfirmModal({ open: false })}>
-                Cancelar
+                {t('cancel')}
               </Button>
               <Button 
                 className="bg-red-600 hover:bg-red-700 text-white"
                 onClick={confirmRemoveService}
               >
-                Sí, desasignar
+                {t('confirm_unassign')}
               </Button>
             </div>
           </div>
@@ -236,31 +239,31 @@ export default function EmployeeServices({ employeeId, employeeName }: EmployeeS
               <div className="p-2 bg-amber-100 rounded-full">
                 <Clock className="w-6 h-6 text-amber-600" />
               </div>
-              <span className="font-bold text-lg text-gray-900">Horarios por defecto</span>
+              <span className="font-bold text-lg text-gray-900">{t('default_hours_title')}</span>
             </div>
             
             <div className="mb-6 space-y-3">
               <p className="text-gray-700">
-                No tienes horarios de atención configurados. Se asignarán horarios por defecto:
+                {t('default_hours_message')}
               </p>
               <div className="bg-gray-50 p-3 rounded-lg">
-                <p className="text-sm font-medium text-gray-900">Lunes a Viernes: 09:00 - 17:00</p>
-                <p className="text-sm text-gray-600">Sábados y Domingos: Sin atención</p>
+                <p className="text-sm font-medium text-gray-900">{t('default_hours_schedule')}</p>
+                <p className="text-sm text-gray-600">{t('default_hours_weekend')}</p>
               </div>
               <p className="text-sm text-amber-700">
-                Te recomendamos configurar tus horarios de atención para una mejor gestión.
+                {t('default_hours_recommendation')}
               </p>
             </div>
 
             <div className="space-y-3">
               <a
-                href="/dashboard/settings/business-hours"
+                href={`/${locale}/dashboard/settings/business-hours`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors text-sm font-medium"
               >
                 <Clock className="w-4 h-4" />
-                Configurar horarios
+                {t('configure_hours')}
                 <ExternalLink className="w-4 h-4" />
               </a>
               
@@ -270,13 +273,13 @@ export default function EmployeeServices({ employeeId, employeeName }: EmployeeS
                   onClick={() => setDefaultHoursModal({ open: false })}
                   className="flex-1"
                 >
-                  Cancelar
+                  {t('cancel')}
                 </Button>
                 <Button 
                   onClick={confirmDefaultHours}
                   className="flex-1 bg-amber-600 hover:bg-amber-700 text-white"
                 >
-                  Usar horarios por defecto
+                  {t('use_default_hours')}
                 </Button>
               </div>
             </div>

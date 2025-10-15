@@ -2,15 +2,21 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSession } from "@/hooks/useSession";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { useLocale, useTranslations } from 'next-intl';
+import { routing } from '@/i18n/routing';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
   const { session, logout } = useSession();
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations('navbar');
   
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -35,19 +41,30 @@ export default function Navbar() {
       logout();
       
       // Redirigir al login
-      router.push('/login');
+      router.push(`/${locale}/login`);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
       // Aún así, limpiar la sesión local y redirigir
       logout();
-      router.push('/login');
+      router.push(`/${locale}/login`);
     }
+  };
+
+  const switchLocale = (newLocale: string) => {
+    // Get the path without locale
+    const segments = pathname.split('/').filter(Boolean);
+    // Remove the first segment (current locale)
+    const pathWithoutLocale = segments.slice(1).join('/');
+    // Build new path with new locale
+    const newPath = `/${newLocale}${pathWithoutLocale ? '/' + pathWithoutLocale : ''}`;
+    router.push(newPath);
+    setShowLangMenu(false);
   };
   
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-1">
+        <Link href={`/${locale}`} className="flex items-center gap-1">
           <Image 
             src="/images/logocitaup.jpg" 
             alt="CitaUp Logo" 
@@ -60,48 +77,74 @@ export default function Navbar() {
 
         <nav className="hidden md:flex items-center gap-6">
           <Link href="#features" className="text-sm font-medium text-gray-800 hover:text-rose-600 transition-colors">
-            Características
+            {t('features')}
           </Link>
           <Link href="#pricing" className="text-sm font-medium text-gray-800 hover:text-rose-600 transition-colors">
-            Precios
+            {t('pricing')}
           </Link>
           <Link href="#testimonials" className="text-sm font-medium text-gray-800 hover:text-rose-600 transition-colors">
-            Testimonios
+            {t('testimonials')}
           </Link>
           <Link href="#contact" className="text-sm font-medium text-gray-800 hover:text-rose-600 transition-colors">
-            Contacto
+            {t('contact')}
           </Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
+          {/* Language Switcher */}
+          <div className="relative">
+            <button
+              onClick={() => setShowLangMenu(!showLangMenu)}
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            >
+              <Globe className="w-4 h-4" />
+              {locale.toUpperCase()}
+            </button>
+            {showLangMenu && (
+              <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                {routing.locales.map((loc) => (
+                  <button
+                    key={loc}
+                    onClick={() => switchLocale(loc)}
+                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 ${
+                      loc === locale ? 'bg-rose-50 text-rose-600 font-medium' : 'text-gray-800'
+                    }`}
+                  >
+                    {loc === 'es' ? 'Español' : 'English'}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
           {session ? (
             <>
               <Link 
-                href="/dashboard"
+                href={`/${locale}/dashboard`}
                 className="px-4 py-2 text-sm font-medium text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
               >
-                Dashboard
+                {t('dashboard')}
               </Link>
               <button
                 onClick={handleLogout}
                 className="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-md hover:bg-rose-700 transition-colors"
               >
-                Cerrar sesión
+                {t('logout')}
               </button>
             </>
           ) : (
             <>
               <Link 
-                href="/login"
+                href={`/${locale}/login`}
                 className="px-4 py-2 text-sm font-medium text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
               >
-                Iniciar sesión
+                {t('login')}
               </Link>
               <Link 
-                href="/register"
+                href={`/${locale}/register`}
                 className="px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-md hover:bg-rose-700 transition-colors"
               >
-                Registrarse
+                {t('register')}
               </Link>
             </>
           )}
@@ -131,26 +174,46 @@ export default function Navbar() {
         >
           <nav className="h-full overflow-y-auto px-4 py-4 space-y-1">
             <Link href="#features" onClick={() => setIsMobileMenuOpen(false)} className="block px-2 py-2 rounded-md text-gray-800 hover:bg-gray-50">
-              Características
+              {t('features')}
             </Link>
             <Link href="#pricing" onClick={() => setIsMobileMenuOpen(false)} className="block px-2 py-2 rounded-md text-gray-800 hover:bg-gray-50">
-              Precios
+              {t('pricing')}
             </Link>
             <Link href="#testimonials" onClick={() => setIsMobileMenuOpen(false)} className="block px-2 py-2 rounded-md text-gray-800 hover:bg-gray-50">
-              Testimonios
+              {t('testimonials')}
             </Link>
             <Link href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="block px-2 py-2 rounded-md text-gray-800 hover:bg-gray-50">
-              Contacto
+              {t('contact')}
             </Link>
+            
+            {/* Language Switcher Mobile */}
+            <div className="pt-3 border-t border-gray-200">
+              <p className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase">{t('contact')}</p>
+              {routing.locales.map((loc) => (
+                <button
+                  key={loc}
+                  onClick={() => {
+                    switchLocale(loc);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-2 py-2 rounded-md ${
+                    loc === locale ? 'bg-rose-50 text-rose-600 font-medium' : 'text-gray-800 hover:bg-gray-50'
+                  }`}
+                >
+                  {loc === 'es' ? '🇪🇸 Español' : '🇺🇸 English'}
+                </button>
+              ))}
+            </div>
+
             <div className="pt-3 flex flex-col gap-2">
               {session ? (
                 <>
                   <Link
-                    href="/dashboard"
+                    href={`/${locale}/dashboard`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="w-full text-center px-4 py-2 text-sm font-medium text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50"
                   >
-                    Dashboard
+                    {t('dashboard')}
                   </Link>
                   <button
                     onClick={() => {
@@ -159,24 +222,24 @@ export default function Navbar() {
                     }}
                     className="w-full text-center px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-md hover:bg-rose-700"
                   >
-                    Cerrar sesión
+                    {t('logout')}
                   </button>
                 </>
               ) : (
                 <>
                   <Link
-                    href="/login"
+                    href={`/${locale}/login`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="w-full text-center px-4 py-2 text-sm font-medium text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50"
                   >
-                    Iniciar sesión
+                    {t('login')}
                   </Link>
                   <Link
-                    href="/register"
+                    href={`/${locale}/register`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="w-full text-center px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-md hover:bg-rose-700"
                   >
-                    Registrarse
+                    {t('register')}
                   </Link>
                 </>
               )}

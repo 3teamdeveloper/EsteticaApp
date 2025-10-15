@@ -22,6 +22,7 @@
     "lucide-react": "^0.509.0",
     "mercadopago": "^2.8.0",
     "next": "15.3.2",
+    "next-intl": "^4.3.12",
     "prisma": "^6.7.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

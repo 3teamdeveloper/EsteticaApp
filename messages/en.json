@@ -1,0 +1,1007 @@
+{
+  "navbar": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "testimonials": "Testimonials",
+    "contact": "Contact",
+    "login": "Sign in",
+    "register": "Sign up",
+    "dashboard": "Dashboard",
+    "logout": "Sign out"
+  },
+  "home": {
+    "hero": {
+      "title": "Manage your beauty business with ease",
+      "description": "A complete solution to manage bookings for hair salons, barbershops, beauty centers, waxing, massages, and all types of personal care services.",
+      "cta_start": "Get started",
+      "cta_demo": "View demo",
+      "trial": "14-day free trial"
+    },
+    "features": {
+      "title": "Everything you need for your business",
+      "subtitle": "Complete tools to manage your beauty business professionally",
+      "booking": {
+        "title": "Booking System",
+        "description": "Manage appointments, schedules, and employee availability intuitively"
+      },
+      "employees": {
+        "title": "Employee Management",
+        "description": "Manage your team, assign services, and control individual schedules"
+      },
+      "reports": {
+        "title": "Reports and Statistics",
+        "description": "Analyze your business performance with detailed reports"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Alert system for automatic confirmations and reminders"
+      },
+      "profile": {
+        "title": "Public Profile",
+        "description": "Website to showcase services, photos, social media, and let your clients book online"
+      },
+      "easy": {
+        "title": "Easy to Use",
+        "description": "Manage your business with an intuitive interface designed to optimize your daily tasks"
+      }
+    },
+    "pricing": {
+      "title": "Plans that fit your business",
+      "subtitle": "Start free and scale according to your needs",
+      "recommended": "Recommended",
+      "pro": {
+        "name": "Pro",
+        "price": "$20",
+        "period": "/month",
+        "description": "Perfect for small and medium businesses",
+        "features": {
+          "booking": "Complete booking system",
+          "employees": "Unlimited employee management",
+          "profile": "Customizable public profile",
+          "reports": "Reports and statistics",
+          "notifications": "Automatic notifications",
+          "support": "Email support"
+        },
+        "cta_free": "Start free",
+        "cta_hire": "Get plan"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Custom",
+        "description": "For chains and large companies",
+        "features": {
+          "all_pro": "Everything in Pro plan",
+          "branches": "Multiple locations",
+          "api": "Custom API",
+          "integration": "Integration with existing systems",
+          "support": "24/7 priority support",
+          "training": "Personalized training"
+        },
+        "cta": "Contact sales"
+      },
+      "trial_note": "14-day free trial",
+      "trial_note_detail": "on all plans. No credit card required."
+    },
+    "testimonials": {
+      "title": "What our customers say",
+      "subtitle": "Real stories from professionals who transformed their business",
+      "maria": {
+        "name": "Maria_Alvarez",
+        "business": "María's Hair Salon",
+        "text": "\"Since I started using CitaUp, my schedule is perfectly organized. Clients can book online and I have everything under control. Totally recommended! 💇‍♀️✨\""
+      },
+      "carlos": {
+        "name": "Carlos Rodríguez",
+        "business": "Classic Barbershop",
+        "text": "\"Excellent system. It saves me a lot of time in daily management. The reports help me better understand my business and make informed decisions.\""
+      },
+      "ana": {
+        "name": "Ana Martínez",
+        "business": "Beauty Center",
+        "text": "\"Automatic notifications are great. My clients never forget their appointments anymore. The public profile constantly attracts new clients. Very satisfied! 😊\""
+      }
+    },
+    "contact": {
+      "title": "Have questions?",
+      "subtitle": "We're here to help. Contact us through any of these channels:",
+      "instagram": "Instagram",
+      "email": "Email",
+      "whatsapp": "WhatsApp"
+    },
+    "footer": {
+      "rights": "All rights reserved.",
+      "developed": "Developed with ❤️ by",
+      "privacy": "Privacy Policy",
+      "terms": "Terms and Conditions"
+    }
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "stats": "Statistics",
+    "profile": "Public Profile",
+    "services": "Services",
+    "employees": "Employees",
+    "management": "Appointment Schedule",
+    "settings": "Settings",
+    "usage": "User Guide",
+    "notifications": "Notifications",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "welcome": "Hello",
+    "welcome_message": "Welcome to your control panel",
+    "loading": "Loading dashboard...",
+    "error_title": "Error",
+    "business_summary": "Business Summary",
+    "trial": {
+      "days_left": "trial days remaining",
+      "upgrade": "Upgrade Plan",
+      "expired": "Your trial period has expired"
+    },
+    "stats": {
+      "total_services": "Total Services",
+      "active_services": "Active Services",
+      "employees": "Employees",
+      "appointments_30": "Appointments (30 days)",
+      "total_appointments": "Total Appointments",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "revenue": "Revenue",
+      "this_month": "This month",
+      "total": "Total"
+    },
+    "today_appointments": "Today's Appointments",
+    "no_appointments": "No appointments scheduled for today",
+    "view_all": "View all",
+    "more_appointments": "more appointments",
+    "quick_actions": "Quick Actions",
+    "actions": {
+      "manage_services": "Manage Services",
+      "manage_services_desc": "Add, edit or configure your services",
+      "public_profile": "Public Profile",
+      "public_profile_desc": "Customize your public landing page",
+      "manage_employees": "Manage Employees",
+      "manage_employees_desc": "Manage your team",
+      "view_stats": "View Statistics",
+      "view_stats_desc": "Analyze your business performance",
+      "notifications": "Notifications",
+      "notifications_desc": "Check your messages and alerts",
+      "settings": "Settings",
+      "settings_desc": "Adjust your account preferences"
+    }
+  },
+  "login": {
+    "title": "Sign In",
+    "subtitle": "Access your CitaUp account",
+    "email": "Email",
+    "email_placeholder": "your@email.com",
+    "password": "Password",
+    "password_placeholder": "••••••••",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot your password?",
+    "forgot_password_recover": "Recover password",
+    "forgot_password_generating": "Generating link…",
+    "forgot_password_prompt": "Enter your email to generate the recovery link.",
+    "forgot_password_success": "<b>Check your inbox:</b> you will receive a link to reset your password if the email is valid.",
+    "forgot_password_error": "Could not generate recovery link.",
+    "submit": "Sign In",
+    "submitting": "Signing in...",
+    "or_continue_with": "Or continue with",
+    "continue_with_google": "Continue with Google",
+    "no_account": "Don't have an account?",
+    "register_link": "Register here",
+    "verifying_session": "Verifying session...",
+    "footer": "2025 CitaUp. All rights reserved.",
+    "errors": {
+      "invalid_credentials": "Error signing in",
+      "connection_error": "Connection error",
+      "network_error": "Network or server error."
+    }
+  },
+  "register": {
+    "title": "Create your account",
+    "subtitle": "Start managing your beauty business",
+    "full_name": "Full name",
+    "full_name_placeholder": "Your full name",
+    "username": "Username",
+    "username_placeholder": "my-username",
+    "username_help": "Only lowercase letters, numbers, hyphens and underscores. Minimum 3 characters.",
+    "email": "Email",
+    "email_placeholder": "your@email.com",
+    "phone": "Phone",
+    "phone_optional": "(optional)",
+    "phone_placeholder": "+1234567890",
+    "business_type": "Business type",
+    "business_types": {
+      "salon": "Beauty salon",
+      "barbershop": "Barbershop",
+      "spa": "Spa",
+      "nails": "Nails",
+      "other": "Other"
+    },
+    "password": "Password",
+    "password_placeholder": "••••••••",
+    "password_help": "Password must be at least 8 characters",
+    "confirm_password": "Confirm password",
+    "accept_terms": "I accept the",
+    "terms": "terms and conditions",
+    "and": "and the",
+    "privacy": "privacy policy",
+    "submit": "Create account",
+    "submitting": "Creating account...",
+    "or_register_with": "Or register with",
+    "continue_with_google": "Continue with Google",
+    "benefits_title": "When you register you get:",
+    "benefits": {
+      "trial": "14-day free trial",
+      "features": "Access to all features",
+      "support": "Personalized technical support"
+    },
+    "have_account": "Already have an account?",
+    "login_link": "Sign in",
+    "verifying_session": "Verifying session...",
+    "success": "Account created successfully! You can now sign in.",
+    "footer": "2025 CitaUp. All rights reserved.",
+    "errors": {
+      "passwords_dont_match": "Passwords don't match",
+      "username_invalid": "Username can only contain lowercase letters, numbers, hyphens and underscores",
+      "username_short": "Username must be at least 3 characters",
+      "accept_terms": "You must accept the terms and conditions",
+      "register_error": "Error registering"
+    }
+  },
+  "stats": {
+    "title": "Statistics",
+    "loading_user": "Loading user...",
+    "loading_stats": "Loading statistics...",
+    "error_user": "Could not get authenticated user.",
+    "error_loading": "Error loading statistics",
+    "no_data": "No data to display",
+    "cards": {
+      "total_appointments": "Total Appointments",
+      "confirmed": "Confirmed",
+      "estimated_revenue": "Est. Revenue",
+      "pending": "Pending"
+    },
+    "cancellations": {
+      "title": "Cancellations",
+      "of_total": "of total"
+    },
+    "attendance": {
+      "title": "Attendance Rate",
+      "of_confirmed": "of",
+      "confirmed_label": "confirmed"
+    },
+    "revenue_by_service": "Revenue by Service",
+    "clients": {
+      "title": "New vs Recurring",
+      "new": "New",
+      "recurring": "Recurring"
+    },
+    "hourly": {
+      "title": "Hourly Distribution of Appointments",
+      "less_appointments": "Fewer appointments",
+      "more_appointments": "More appointments",
+      "scroll_hint": "← Swipe to see all hours →",
+      "appointments": "appointments"
+    },
+    "evolution": {
+      "weekly": "Weekly Evolution",
+      "monthly": "Monthly Evolution"
+    },
+    "lead_time": {
+      "title": "Average Lead Time",
+      "days": "days"
+    }
+  },
+  "profile": {
+    "title": "Edit Public Profile",
+    "view_website": "View website",
+    "preview": "Preview",
+    "preview_subtitle": "How your page will look",
+    "trial_expired": "Your trial has expired. Upgrade your plan to edit the public profile.",
+    "tabs": {
+      "basic": "Basic",
+      "images": "Images",
+      "theme": "Customization",
+      "links": "Links"
+    },
+    "basic": {
+      "url_label": "Profile URL",
+      "url_prefix": "citaup.com/",
+      "url_placeholder": "my-salon",
+      "url_help": "This will be your public profile URL. Use only lowercase letters, numbers and hyphens.",
+      "page_title_label": "Page Title",
+      "page_title_placeholder": "My Beauty Salon",
+      "page_title_help": "This will be the title that appears on your page. You can use spaces and special characters.",
+      "slogan_label": "Slogan",
+      "slogan_placeholder": "Beauty that inspires confidence",
+      "bio_label": "Biography",
+      "bio_placeholder": "Tell your clients about your business..."
+    },
+    "images": {
+      "profile_image": "Profile Image",
+      "cover_image": "Cover Image",
+      "remove": "Remove",
+      "remove_title": "Remove image"
+    },
+    "theme": {
+      "google_fonts": "Google Fonts",
+      "no_font": "Not selected",
+      "preview_with": "Preview with",
+      "color_theme": "Color Theme",
+      "themes": {
+        "aurora": "Aurora",
+        "aurora_desc": "Classic Light",
+        "eclipse": "Eclipse",
+        "eclipse_desc": "Elegant Dark",
+        "emerald": "Emerald",
+        "emerald_desc": "Fresh Green",
+        "sakura": "Sakura",
+        "sakura_desc": "Warm Pastel",
+        "terracotta": "Terracotta",
+        "terracotta_desc": "Earthy Brown",
+        "ruby": "Ruby",
+        "ruby_desc": "Energetic Red"
+      }
+    },
+    "links": {
+      "social_networks": "Social Networks",
+      "instagram_placeholder": "Instagram username",
+      "facebook_placeholder": "Facebook username",
+      "whatsapp_placeholder": "WhatsApp number",
+      "remove": "Remove",
+      "other_links": "Other Links",
+      "link_name_placeholder": "Link name",
+      "url_placeholder": "URL",
+      "add_link": "Add Link"
+    },
+    "actions": {
+      "saving": "Saving...",
+      "save": "Save Profile"
+    },
+    "messages": {
+      "save_error": "Error saving profile",
+      "save_success": "Profile saved successfully"
+    },
+    "preview_placeholders": {
+      "your_name": "Your Name",
+      "cover_alt": "Cover",
+      "profile_alt": "Profile"
+    }
+  },
+  "services": {
+    "title": "Services",
+    "new_button": "New",
+    "loading": "Loading...",
+    "trial_expired": "Your trial has expired. Upgrade your plan to add or edit services.",
+    "upgrade_to_add": "Upgrade your plan to add services",
+    "table": {
+      "name": "Name",
+      "duration": "Duration (min)",
+      "price": "Price",
+      "description": "Description",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "mobile": {
+      "duration_label": "Duration:",
+      "price_label": "Price:",
+      "status_label": "Status:",
+      "see_more": "see more",
+      "see_less": "see less"
+    },
+    "actions": {
+      "edit": "Edit service",
+      "toggle_show": "Show service",
+      "toggle_hide": "Hide service",
+      "delete": "Delete service"
+    },
+    "delete_modal": {
+      "title": "Delete service",
+      "message": "Are you sure you want to delete the service",
+      "cancel": "Cancel",
+      "confirm": "Yes, delete"
+    },
+    "errors": {
+      "load": "Error loading services:",
+      "update_status": "Error updating service status:",
+      "delete": "Error deleting service:"
+    },
+    "form": {
+      "title_new": "New Service",
+      "title_edit": "Edit Service",
+      "name_label": "Name",
+      "duration_label": "Duration (minutes)",
+      "price_label": "Price",
+      "description_label": "Description",
+      "image_label": "Service Image",
+      "image_preview_alt": "Preview",
+      "upload_image": "Upload image",
+      "change_image": "Change image",
+      "remove_image": "Remove",
+      "selected_file": "Selected:",
+      "image_help": "JPG or PNG formats, square size recommended.",
+      "button_create": "Create",
+      "button_save": "Save",
+      "button_cancel": "Cancel",
+      "error_save": "Error saving service"
+    }
+  },
+  "employees": {
+    "title": "Employees",
+    "new_button": "New",
+    "search_placeholder": "Search employees...",
+    "no_employees": "No employees found",
+    "trial_expired": "Your trial has expired. Upgrade your plan to add or edit employees.",
+    "upgrade_to_add": "Upgrade your plan to add employees",
+    "upgrade_to_edit": "Upgrade your plan to edit employees",
+    "status": {
+      "active": "Account activated",
+      "invited": "Invitation sent",
+      "no_account": "No account",
+      "sent_at": "Sent:"
+    },
+    "actions": {
+      "manage_schedules": "Manage schedules",
+      "edit": "Edit employee",
+      "invite": "Resend invitation to set password",
+      "account_active": "Account activated",
+      "delete": "Delete employee"
+    },
+    "delete_modal": {
+      "title": "Delete employee",
+      "message": "Are you sure you want to delete the employee",
+      "cancel": "Cancel",
+      "confirm": "Yes, delete"
+    },
+    "messages": {
+      "deleted_success": "Employee deleted successfully",
+      "invite_sent": "Invitation sent successfully"
+    },
+    "errors": {
+      "load": "Error loading employees",
+      "delete": "Error deleting employee",
+      "invite": "Error sending invitation"
+    },
+    "services_modal": {
+      "button": "Services",
+      "title": "Services for",
+      "loading": "Loading...",
+      "unassign_title": "Unassign service",
+      "unassign_message": "Are you sure you want to unassign the service",
+      "unassign_from": "from",
+      "cancel": "Cancel",
+      "confirm_unassign": "Yes, unassign",
+      "default_hours_title": "Default hours",
+      "default_hours_message": "You don't have business hours configured. Default hours will be assigned:",
+      "default_hours_schedule": "Monday to Friday: 09:00 - 17:00",
+      "default_hours_weekend": "Saturdays and Sundays: Closed",
+      "default_hours_recommendation": "We recommend configuring your business hours for better management.",
+      "configure_hours": "Configure hours",
+      "use_default_hours": "Use default hours",
+      "error_load_services": "Error loading services",
+      "error_load_employee_services": "Error loading employee services",
+      "error_assign": "Error assigning service",
+      "error_update": "Error updating services",
+      "error_remove": "Error removing service"
+    },
+    "form": {
+      "title_new": "New Employee",
+      "title_edit": "Edit Employee",
+      "image_label": "Image",
+      "image_alt": "Employee",
+      "remove_image": "Remove",
+      "remove_image_title": "Remove image",
+      "name_label": "Name",
+      "email_label": "Email",
+      "phone_label": "Phone",
+      "button_cancel": "Cancel",
+      "button_create": "Create",
+      "button_update": "Update",
+      "button_saving": "Saving...",
+      "error_load": "Error loading employee",
+      "error_save": "Error saving employee"
+    },
+    "schedules": {
+      "back_button": "Back to Employees",
+      "title": "Schedule for",
+      "subtitle": "Configure specific schedules for this employee. If no specific schedule is configured, the general business hours will be used.",
+      "not_found": "Employee not found",
+      "error_load": "Error loading employee:"
+    }
+  },
+  "management": {
+    "title": "Appointment Schedule",
+    "filters": {
+      "service_label": "Service",
+      "employee_label": "Employee",
+      "all_services": "All services",
+      "my_services": "All my services",
+      "all_employees": "All employees"
+    },
+    "day_view": {
+      "available_hours": "Available and occupied hours",
+      "select_service": "Select a service to view schedules"
+    },
+    "actions": {
+      "confirm": "Confirm",
+      "completed": "Completed",
+      "cancel": "Cancel",
+      "reserve": "Reserve",
+      "blocked": "Blocked"
+    },
+    "booking_form": {
+      "title": "Reserve appointment for",
+      "with": "with",
+      "full_name": "Full name",
+      "full_name_placeholder": "Client's full name",
+      "email": "Email",
+      "email_placeholder": "email@example.com",
+      "phone": "Phone",
+      "phone_placeholder": "+1 234 567-8900",
+      "confirm_button": "Confirm Reservation",
+      "confirming": "Reserving...",
+      "cancel_button": "Cancel"
+    },
+    "cancel_modal": {
+      "title": "Cancel appointment",
+      "message": "Are you sure you want to cancel this appointment?",
+      "no": "No",
+      "yes": "Yes, cancel"
+    },
+    "feedback_modal": {
+      "close": "Close"
+    },
+    "messages": {
+      "confirm_success": "Appointment confirmed successfully",
+      "confirm_error": "Could not confirm appointment:",
+      "complete_success": "Appointment marked as completed",
+      "complete_error": "Could not mark appointment as completed:",
+      "booking_success": "Reservation created successfully",
+      "booking_error": "Error:",
+      "cancel_success": "Appointment cancelled successfully.",
+      "cancel_error": "Could not cancel appointment."
+    },
+    "errors": {
+      "confirm": "Error confirming appointment",
+      "complete": "Error marking appointment as completed",
+      "service_not_found": "Service not found",
+      "create_booking": "Error creating reservation",
+      "cancel": "Error cancelling appointment",
+      "load_business_hours": "Error loading business hours:",
+      "load_schedules": "Error loading schedules:",
+      "load_services": "Error loading services",
+      "load_assigned_services": "Error loading assigned services",
+      "load_employees": "Error loading employees",
+      "load_appointments": "Error loading appointments",
+      "unknown": "Unknown error"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "cards": {
+      "business_hours": {
+        "title": "Business Hours",
+        "description": "Configure your business's general hours. These hours will be automatically applied when you assign services to employees and will determine availability for online bookings.",
+        "action": "Configure hours →"
+      },
+      "password": {
+        "title": "Change Password",
+        "description": "The new password will replace the current one and will be used to access your profile. Make sure to choose a secure password to protect your information and maintain your account security.",
+        "action": "Forgot my password →"
+      },
+      "personal_data": {
+        "title": "Personal Data",
+        "description": "Modify your username and full name. This information will be displayed in your internal profile and will be visible in system communications.",
+        "action": "Edit data →"
+      },
+      "business_contact": {
+        "title": "Business Information",
+        "description": "Configure your business's phone, address and other contact details. This information will be displayed in emails sent to your clients.",
+        "action": "Configure contact →"
+      },
+      "support": {
+        "title": "Technical Support",
+        "description": "Need help? Contact our technical support team. Report issues, request new features or receive personalized assistance.",
+        "action": "Contact support →"
+      },
+      "coming_soon": {
+        "title": "Coming Soon",
+        "description": "More configuration options will be available soon."
+      }
+    },
+    "password_change": {
+      "title": "Password Change",
+      "subtitle": "Manage your password or generate a reset link.",
+      "change_section": {
+        "title": "Change Password",
+        "current_password": "Current password",
+        "new_password": "New password",
+        "confirm_password": "Confirm new password",
+        "button_save": "Save changes",
+        "button_saving": "Saving..."
+      },
+      "forgot_section": {
+        "title": "Forgot my password",
+        "description": "We will generate a reset link for the logged in account:",
+        "button_generate": "Generate link",
+        "button_generating": "Generating..."
+      },
+      "messages": {
+        "complete_fields": "Complete all fields",
+        "min_length": "New password must be at least 8 characters",
+        "no_match": "Confirmation doesn't match",
+        "success": "Password updated successfully",
+        "error": "Could not change password",
+        "network_error": "Network or server error",
+        "no_email": "Session email not found",
+        "link_error": "Could not generate link",
+        "link_success": "Link generated. Check server console."
+      }
+    },
+    "personal_data": {
+      "title": "Personal Data",
+      "subtitle": "Modify your username and full name.",
+      "section_title": "Personal Information",
+      "full_name": "Full name",
+      "full_name_placeholder": "Your full name",
+      "full_name_help": "This name will appear in your profile and client communications.",
+      "username": "Username",
+      "username_placeholder": "your-username",
+      "username_help": "Only lowercase letters, numbers, hyphens and underscores. Minimum 3 characters.",
+      "info_title": "Important information",
+      "info_items": {
+        "unique": "Your username must be unique in the system",
+        "internal": "Used to identify you internally in the system",
+        "communications": "Your full name will appear in client communications"
+      },
+      "button_cancel": "Cancel",
+      "button_save": "Save changes",
+      "button_saving": "Saving...",
+      "messages": {
+        "name_required": "Name is required",
+        "username_required": "Username is required",
+        "username_invalid": "Username can only contain lowercase letters, numbers, hyphens and underscores",
+        "username_short": "Username must be at least 3 characters",
+        "no_changes": "No changes to save",
+        "success": "Data updated successfully",
+        "error": "Could not update data",
+        "network_error": "Network or server error"
+      }
+    },
+    "business_contact": {
+      "back": "Back",
+      "title": "Business Information",
+      "subtitle": "This information will be displayed in emails sent to your clients",
+      "phone": "Contact phone",
+      "phone_placeholder": "+1 234 567-8900",
+      "phone_help": "Number that will appear in client emails",
+      "address": "Address",
+      "address_placeholder": "123 Main St, Floor 5, Suite B",
+      "city": "City",
+      "city_placeholder": "New York",
+      "state": "State / Province",
+      "state_placeholder": "NY",
+      "website": "Website (optional)",
+      "website_placeholder": "https://www.example.com",
+      "description": "Business description (optional)",
+      "description_placeholder": "Brief description of your business...",
+      "description_help": "This description may be used in the future for your public profile",
+      "button_save": "Save Changes",
+      "button_saving": "Saving...",
+      "info_title": "ℹ️ Where is this information used?",
+      "info_items": {
+        "confirmation": "In appointment confirmation emails",
+        "reminder": "In reminder emails 48h before",
+        "profile": "In your public profile (coming soon)"
+      },
+      "messages": {
+        "success": "Information updated successfully",
+        "error": "Error updating",
+        "connection_error": "Connection error",
+        "load_error": "Error loading information:"
+      }
+    },
+    "support": {
+      "title": "Technical Support",
+      "subtitle": "Contact our team for personalized assistance.",
+      "form_title": "Create Support Ticket",
+      "categories": {
+        "technical": "Technical Issue",
+        "feature_request": "Feature Request",
+        "billing": "Billing",
+        "bug_report": "Bug Report",
+        "other": "Other"
+      },
+      "priorities": {
+        "low": "Low",
+        "low_desc": "General inquiry or minor improvement",
+        "medium": "Medium",
+        "medium_desc": "Issue affecting normal use",
+        "high": "High",
+        "high_desc": "Issue preventing proper work",
+        "urgent": "Urgent",
+        "urgent_desc": "System completely inaccessible"
+      },
+      "form": {
+        "category": "Category",
+        "priority": "Priority",
+        "subject": "Subject *",
+        "subject_placeholder": "Briefly describe your inquiry or issue",
+        "description": "Detailed description *",
+        "description_placeholder": "Explain your inquiry or issue in as much detail as possible. Include steps to reproduce the error if applicable.",
+        "description_help": "Minimum 10 characters. The more detailed your description, the better we can help you.",
+        "phone": "Contact phone",
+        "phone_placeholder": "Optional - for urgent contact",
+        "button_cancel": "Cancel",
+        "button_submit": "Send Ticket",
+        "button_submitting": "Sending..."
+      },
+      "sidebar": {
+        "selected_category": "Selected Category",
+        "info_title": "Important Information",
+        "info_items": {
+          "response_time": "We will respond within 24 hours",
+          "urgent": "For urgent issues, include your phone",
+          "save_number": "Save the ticket number that will appear when submitting",
+          "email_updates": "You will receive updates by email"
+        },
+        "tips_title": "Tips for better support",
+        "tips_items": {
+          "steps": "Describe the exact steps you took",
+          "screenshots": "Include screenshots if possible",
+          "browser": "Mention which browser you're using",
+          "recurring": "Indicate if the problem is recurring"
+        }
+      },
+      "tickets": {
+        "title": "My Support Tickets",
+        "loading": "Loading tickets...",
+        "no_tickets": "You don't have any support tickets yet.",
+        "no_tickets_desc": "When you submit your first ticket, it will appear here.",
+        "table": {
+          "ticket": "Ticket",
+          "subject": "Subject",
+          "category": "Category",
+          "status": "Status",
+          "date": "Date"
+        },
+        "status": {
+          "open": "Open",
+          "in_progress": "In Progress",
+          "resolved": "Resolved",
+          "closed": "Closed",
+          "unknown": "Unknown"
+        }
+      },
+      "messages": {
+        "subject_required": "Subject is required",
+        "message_required": "Message is required",
+        "message_min_length": "Message must be at least 10 characters",
+        "success": "Ticket {ticketId} sent successfully. Save this number for tracking. We will contact you soon.",
+        "error": "Could not send support ticket",
+        "network_error": "Network or server error"
+      }
+    },
+    "business_hours": {
+      "title": "Business Hours",
+      "subtitle": "Configure your business's general hours. These hours will be automatically applied when you assign services to employees.",
+      "days": {
+        "sunday": "Sunday",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday"
+      },
+      "add_period": "Add period",
+      "from": "From:",
+      "to": "To:",
+      "no_schedules": "No schedules configured",
+      "button_save": "Save Hours",
+      "button_saving": "Saving...",
+      "messages": {
+        "success": "Hours saved successfully",
+        "error": "Error saving hours",
+        "load_error": "Error loading hours:"
+      }
+    }
+  },
+  "usage": {
+    "header": {
+      "title": "Initial Account Setup",
+      "description": "Follow these steps to get your account ready and start receiving bookings from your clients. From the appointment schedule, you'll be able to manage your appointments simply and quickly, organize your team and optimize your service."
+    },
+    "step_label": "Step",
+    "optional": "Optional",
+    "note_label": "Note:",
+    "tip_label": "Tip:",
+    "important_label": "Important:",
+    "ready_message": "Ready! Your online booking system is up and running. 🎉",
+    "steps": {
+      "profile": {
+        "title": "Complete Your Public Profile",
+        "url_subtitle": "Your profile URL",
+        "url_description": "This will be the address you share with your clients.",
+        "url_example": "Example: citaup.com/bella-beauty",
+        "url_note": "Use only lowercase letters, numbers and hyphens",
+        "title_subtitle": "Your page title",
+        "title_description": "The name your clients will see.",
+        "title_example": "Example: \"Bella Beauty - Beauty Salon\"",
+        "bio_subtitle": "Description or bio",
+        "bio_description": "Tell briefly about your business, featured services, years of experience.",
+        "images_subtitle": "Images",
+        "images_description": "Add an attractive cover photo of your salon or work, and your logo or representative image.",
+        "customization_subtitle": "Visual customization (Optional)",
+        "customization_description": "Choose colors that represent your brand and select the design style you like best.",
+        "tip": "A complete profile generates more trust in your clients."
+      },
+      "services": {
+        "title": "Create Your Services",
+        "name_subtitle": "Service name",
+        "name_example": "Examples: \"Haircut\", \"Complete manicure\", \"Relaxing massage\"",
+        "duration_subtitle": "Duration",
+        "duration_description": "How long does it take you to perform this service?",
+        "duration_example": "Example: 45 minutes",
+        "duration_note": "This is important for the system to calculate available times",
+        "price_subtitle": "Price",
+        "price_description": "The cost you charge for this service.",
+        "description_subtitle": "Description (Optional but recommended)",
+        "description_description": "Explain what the service includes.",
+        "description_example": "Example: \"Personalized cut with wash, dry and styling included\"",
+        "photo_subtitle": "Service photo (Optional)",
+        "photo_description": "An image showing the service result.",
+        "tip": "Create all the services you offer. You can edit them or add more later."
+      },
+      "hours": {
+        "title": "Configure Your Business Hours",
+        "days_subtitle": "Select the days you work",
+        "days_example": "Example: Monday to Saturday",
+        "schedule_subtitle": "Opening and closing hours",
+        "schedule_description": "Define the schedule for each day.",
+        "schedule_example": "Example: Monday to Friday 9:00 AM to 6:00 PM, Saturdays 10:00 AM to 2:00 PM",
+        "split_subtitle": "Split hours",
+        "split_description": "If you close at noon, you can configure two periods.",
+        "split_example": "Example: 9:00-13:00 and 15:00-19:00",
+        "tip": "Only available appointments within these hours will be shown."
+      },
+      "team": {
+        "title": "Add Your Team",
+        "basic_subtitle": "Basic data",
+        "basic_description": "Full name, email, phone and photo (optional).",
+        "assign_subtitle": "Assign services",
+        "assign_description": "Select which services this employee can perform.",
+        "assign_example": "Example: Mary can do \"Cut\" and \"Coloring\", but not \"Manicure\"",
+        "schedule_subtitle": "Configure their schedule",
+        "schedule_description": "Define which days and hours each employee works. They can be different from the general business hours.",
+        "note": "When adding an employee, the system sends you an email with a link so the employee can confirm their account. Once confirmed, they can log in and manage their own appointments, without viewing private information such as your public profile, services, business income, etc.",
+        "important": "If you work alone, you must create yourself as an employee so the system can assign bookings correctly."
+      },
+      "share": {
+        "title": "Share Your Page with Clients",
+        "ready_subtitle": "Your public page is ready",
+        "ready_description": "You'll find your personalized link in the Public Profile section.",
+        "ready_example": "citaup.com/your-custom-url"
+      }
+    },
+    "client_view": {
+      "title": "What will your clients see?",
+      "items": {
+        "profile": "They'll see your profile with photos, description and available services",
+        "choose_service": "They'll choose a service from your catalog",
+        "select_datetime": "They'll select date and time (they'll only see available times)",
+        "complete_data": "They'll complete their data (name, email, phone)",
+        "confirm": "They'll confirm the booking"
+      },
+      "you_receive": "You will receive:",
+      "receive_items": {
+        "notification": "Notification of the new booking",
+        "client_data": "The client's data",
+        "agenda": "The booking will appear in your Appointment Schedule"
+      }
+    },
+    "management": {
+      "title": "Management Tools",
+      "description": "Once you've completed the previous steps, you'll have access to these tools to manage your business:",
+      "dashboard": {
+        "title": "Main Dashboard",
+        "description": "Your control center. Here you'll see a complete summary of your business:",
+        "items": {
+          "services": "Total active services",
+          "employees": "Number of employees on your team",
+          "appointments": "Appointments for the current month",
+          "quick_access": "Quick access to all sections"
+        }
+      },
+      "agenda": {
+        "title": "Appointment Schedule",
+        "description": "Manage all your bookings in one place:",
+        "items": {
+          "calendar": "View all appointments in an interactive calendar",
+          "filter": "Filter by employee, service or booking status",
+          "manage": "Confirm, cancel or modify appointments easily",
+          "details": "See complete details of each client and booking",
+          "manual": "Create bookings manually when needed"
+        }
+      },
+      "stats": {
+        "title": "Statistics",
+        "description": "Analyze your business performance with clear data:",
+        "items": {
+          "revenue": "Total revenue and projections",
+          "popular": "Most requested services",
+          "performance": "Performance of each employee",
+          "peak_hours": "Peak demand hours",
+          "reports": "Charts and reports to make better decisions"
+        }
+      },
+      "tip": "These tools update automatically with each new booking. Review them regularly to optimize your service and grow your business."
+    },
+    "success_tips": {
+      "title": "Tips for Success",
+      "items": {
+        "calendar": {
+          "title": "Keep your calendar updated",
+          "desc": "Check new bookings daily"
+        },
+        "respond": {
+          "title": "Respond quickly",
+          "desc": "Confirm or modify appointments when necessary"
+        },
+        "share": {
+          "title": "Share your link regularly",
+          "desc": "The more you spread it, the more bookings you'll receive"
+        },
+        "profile": {
+          "title": "Keep your profile attractive",
+          "desc": "Update photos and descriptions periodically"
+        }
+      }
+    },
+    "help": {
+      "title": "Need Help?",
+      "description": "If you have questions or problems, go to",
+      "support_link": "Support",
+      "description_end": "in the dashboard menu and send your inquiry. We'll respond shortly."
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "filters": {
+      "today": "Today",
+      "seven_days": "7 days",
+      "all": "All",
+      "today_title": "Today",
+      "seven_days_title": "Last 7 days",
+      "all_title": "All"
+    },
+    "loading": "Loading…",
+    "error_load": "Error loading notifications"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "user": "User"
+  }
+}

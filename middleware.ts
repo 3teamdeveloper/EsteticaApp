@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from '@/lib/auth';
 import { getUserTrialStatus, hasAccessToFeature } from '@/lib/trial';
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './src/i18n/routing';
 
 // Rutas que no requieren autenticación (exactas)
 const PUBLIC_ROUTES = [
@@ -24,9 +26,33 @@ const TRIAL_PROTECTED_ROUTES: { [key: string]: 'services' | 'employees' | 'profi
   '/dashboard/profile': 'profile',
 };
 
+// Create the i18n middleware
+const intlMiddleware = createMiddleware(routing);
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Handle i18n routing first for non-API routes
+  if (!pathname.startsWith('/api') && !pathname.startsWith('/_next') && !pathname.includes('.')) {
+    const response = intlMiddleware(request);
+    
+    // Get the locale from the pathname or default
+    const pathnameLocale = pathname.split('/')[1];
+    const locale = routing.locales.includes(pathnameLocale as any) ? pathnameLocale : routing.defaultLocale;
+    
+    // Remove locale from pathname for route matching
+    const pathnameWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
+    
+    // Continue with auth checks using pathname without locale
+    return authMiddleware(request, pathnameWithoutLocale, response);
+  }
+  
+  // For API routes, use original pathname
+  return authMiddleware(request, pathname);
+
+}
+
+async function authMiddleware(request: NextRequest, pathname: string, i18nResponse?: NextResponse) {
   // Permitir rutas públicas y archivos estáticos
   if (
     PUBLIC_ROUTES.includes(pathname) ||
@@ -36,7 +62,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/api/trial') ||
     pathname.includes('.')
   ) {
-    return NextResponse.next();
+    return i18nResponse || NextResponse.next();
   }
 
   // Obtener el token de las cookies
@@ -93,11 +119,14 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return i18nResponse || NextResponse.next();
 }
+
 // Configurar qué rutas deben ser protegidas
 export const config = {
   matcher: [
+    '/((?!_next|.*\\.).*)',
+    '/(es|en)/:path*',
     '/dashboard/:path*',
     '/api/:path*'
   ]

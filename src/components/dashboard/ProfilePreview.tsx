@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 interface ProfilePreviewProps {
   profileData: {
@@ -19,6 +20,7 @@ interface ProfilePreviewProps {
 }
 
 export function ProfilePreview({ profileData }: ProfilePreviewProps) {
+  const t = useTranslations('profile');
   const themeStyles = {
     backgroundColor: profileData?.backgroundColor || '#ffffff',
     color: profileData?.textColor || '#111827',
@@ -31,9 +33,9 @@ export function ProfilePreview({ profileData }: ProfilePreviewProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">Vista previa</h2>
+        <h2 className="text-lg font-semibold text-gray-900">{t('preview')}</h2>
         <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-          Como se verá tu página
+          {t('preview_subtitle')}
         </div>
       </div>
       
@@ -47,7 +49,7 @@ export function ProfilePreview({ profileData }: ProfilePreviewProps) {
           {profileData?.coverImage ? (
             <Image
               src={profileData.coverImage}
-              alt="Portada"
+              alt={t('preview_placeholders.cover_alt')}
               fill
               className="object-cover"
             />
@@ -68,7 +70,7 @@ export function ProfilePreview({ profileData }: ProfilePreviewProps) {
               {profileData?.profileImage ? (
                 <Image
                   src={profileData.profileImage}
-                  alt="Perfil"
+                  alt={t('preview_placeholders.profile_alt')}
                   fill
                   className="object-cover"
                 />
@@ -82,7 +84,7 @@ export function ProfilePreview({ profileData }: ProfilePreviewProps) {
             </div>
             <div className="flex-1">
               <h3 className="font-semibold text-lg" style={{ color: themeStyles.color }}>
-                {profileData?.urlName || 'Tu Nombre'}
+                {profileData?.urlName || t('preview_placeholders.your_name')}
               </h3>
               {profileData?.slogan && (
                 <p className="text-sm opacity-80" style={{ color: themeStyles.color }}>

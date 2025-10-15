@@ -17,51 +17,52 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 
 import NotificationBell from '@/components/NotificationBell';
 import { setLastSeenTimestamp } from '@/lib/notifications';
 import { useSession } from '@/hooks/useSession';
 
-// Definición de las rutas del sidebar
-const SIDEBAR_ITEMS = [
+// Definición de las rutas del sidebar (sin locale, se agrega dinámicamente)
+const getSidebarItems = (t: any) => [
   {
-    title: 'Dashboard',
-    href: '/dashboard',
+    titleKey: 'dashboard',
+    href: 'dashboard',
     icon: LayoutDashboard
   },
   {
-    title: 'Estadísticas',
-    href: '/dashboard/stats',
+    titleKey: 'stats',
+    href: 'dashboard/stats',
     icon: BarChart2
   },
   {
-    title: 'Perfil Público',
-    href: '/dashboard/profile',
+    titleKey: 'profile',
+    href: 'dashboard/profile',
     icon: User
   },
   {
-    title: 'Servicios',
-    href: '/dashboard/services',
+    titleKey: 'services',
+    href: 'dashboard/services',
     icon: Briefcase
   },
   {
-    title: 'Empleados',
-    href: '/dashboard/employees',
+    titleKey: 'employees',
+    href: 'dashboard/employees',
     icon: Contact
   },
   {
-    title: 'Agenda de Turnos',
-    href: '/dashboard/management',
+    titleKey: 'management',
+    href: 'dashboard/management',
     icon: Calendar
   },
   {
-    title: 'Configuración',
-    href: '/dashboard/settings',
+    titleKey: 'settings',
+    href: 'dashboard/settings',
     icon: Settings
   },
   {
-    title: 'Instrucciones de uso',
-    href: '/dashboard/usage',
+    titleKey: 'usage',
+    href: 'dashboard/usage',
     icon: BookOpen
   }
 ];
@@ -77,6 +78,8 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const { logout } = useSession();
+  const locale = useLocale();
+  const t = useTranslations('sidebar');
 
   const handleLogout = async () => {
     try {
@@ -90,12 +93,12 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
       logout();
       
       // Redirigir al login
-      router.push('/login');
+      router.push(`/${locale}/login`);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
       // Aún así, limpiar la sesión local y redirigir
       logout();
-      router.push('/login');
+      router.push(`/${locale}/login`);
     }
   };
 
@@ -147,24 +150,25 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
 
         {/* Navegación */}
         <nav className="p-4 space-y-1 pb-32">
-          {SIDEBAR_ITEMS.filter(item => {
+          {getSidebarItems(t).filter(item => {
             // Ocultar para EMPLEADO
             if (userRole === 'EMPLEADO' && [
-              '/dashboard/profile',
-              '/dashboard/services',
-              '/dashboard/employees'
+              'dashboard/profile',
+              'dashboard/services',
+              'dashboard/employees'
             ].includes(item.href)) {
               return false;
             }
             return true;
           }).map((item) => {
-            const isActive = currentPath === item.href;
+            const fullHref = `/${locale}/${item.href}`;
+            const isActive = currentPath === fullHref || currentPath === `/${item.href}`;
             const Icon = item.icon;
 
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={fullHref}
                 className={`
                   flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
                   ${isActive 
@@ -175,7 +179,7 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
                 onClick={() => setOpen(false)}
               >
                 <Icon className={`h-5 w-5 ${collapsed ? '' : 'mr-3'}`} />
-                <span className={`${collapsed ? 'opacity-0 pointer-events-none w-0' : 'opacity-100 w-auto'} whitespace-nowrap transition-all duration-200`}>{item.title}</span>
+                <span className={`${collapsed ? 'opacity-0 pointer-events-none w-0' : 'opacity-100 w-auto'} whitespace-nowrap transition-all duration-200`}>{t(item.titleKey)}</span>
               </Link>
             );
           })}
@@ -184,13 +188,13 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
         {/* Campanita de notificaciones - arriba del botón de cerrar sesión */}
         <div className={`absolute bottom-20 ${collapsed ? 'w-20' : 'w-64'} p-4 border-t border-gray-200`}>
           <Link
-            href="/dashboard/notifications"
+            href={`/${locale}/dashboard/notifications`}
             className={`flex items-center rounded-md ${collapsed ? 'justify-center' : 'justify-start'} px-3 py-2 hover:bg-gray-50`}
             onClick={() => { setLastSeenTimestamp(); setOpen(false); }}
           >
             <NotificationBell />
             {!collapsed && (
-              <span className="ml-2 text-sm text-gray-600 font-medium">Notificaciones</span>
+              <span className="ml-2 text-sm text-gray-600 font-medium">{t('notifications')}</span>
             )}
           </Link>
         </div>
@@ -202,7 +206,7 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
             className="flex items-center w-full px-3 py-2 text-sm font-medium text-gray-800 rounded-md hover:bg-gray-50 hover:text-gray-900"
           >
             <LogOut className={`h-5 w-5 ${collapsed ? '' : 'mr-3'}`} />
-            <span className={`${collapsed ? 'opacity-0 pointer-events-none w-0' : 'opacity-100 w-auto'} whitespace-nowrap transition-all duration-200`}>Cerrar Sesión</span>
+            <span className={`${collapsed ? 'opacity-0 pointer-events-none w-0' : 'opacity-100 w-auto'} whitespace-nowrap transition-all duration-200`}>{t('logout')}</span>
           </button>
         </div>
         {/* Botón para cerrar el drawer en mobile */}

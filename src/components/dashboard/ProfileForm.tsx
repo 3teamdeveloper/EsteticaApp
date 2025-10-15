@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Camera } from 'lucide-react';
 import { useToastContext } from '@/components/ui/toast/ToastProvider';
 import { useTrial } from '@/hooks/useTrial';
+import { useTranslations } from 'next-intl';
 
 interface ProfileFormProps {
   initialData: {
@@ -49,6 +50,7 @@ export function ProfileForm(props: ProfileFormProps) {
   const { initialData, onProfileChange, setProfileImagePreview, setCoverImagePreview, profileImagePreview, coverImagePreview } = props;
   const { trialStatus } = useTrial();
   const router = useRouter();
+  const t = useTranslations('profile');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const toast = useToastContext();
@@ -291,9 +293,9 @@ export function ProfileForm(props: ProfileFormProps) {
       });
 
       if (!response.ok) {
-        throw new Error('Error al guardar el perfil');
+        throw new Error(t('messages.save_error'));
       }
-      toast.push('success', 'Perfil guardado exitosamente');
+      toast.push('success', t('messages.save_success'));
 
       // Forzar la revalidación de la página pública
       await fetch(`/api/revalidate?path=/${formData.urlName}`);
@@ -301,7 +303,7 @@ export function ProfileForm(props: ProfileFormProps) {
       // Actualizar la página actual (permanecer en dashboard/profile)
       router.refresh();
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Error al guardar el perfil';
+      const msg = err instanceof Error ? err.message : t('messages.save_error');
       setError(msg);
       toast.push('error', msg);
     } finally {
@@ -310,17 +312,17 @@ export function ProfileForm(props: ProfileFormProps) {
   };
 
   const tabs = [
-    { id: 'basic', label: 'Básico' },
-    { id: 'images', label: 'Imágenes' },
-    { id: 'theme', label: 'Personalización' },
-    { id: 'links', label: 'Enlaces' }
+    { id: 'basic', label: t('tabs.basic') },
+    { id: 'images', label: t('tabs.images') },
+    { id: 'theme', label: t('tabs.theme') },
+    { id: 'links', label: t('tabs.links') }
   ];
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {trialStatus && !trialStatus?.isActive && (
         <div className="bg-orange-100 text-orange-800 p-2 rounded mb-4 text-sm">
-          Tu trial ha expirado. Actualiza tu plan para editar el perfil público.
+          {t('trial_expired')}
         </div>
       )}
       {error && (
@@ -354,11 +356,11 @@ export function ProfileForm(props: ProfileFormProps) {
           {/* URL Name */}
           <div>
             <label htmlFor="urlName" className="block text-sm font-medium text-gray-700">
-              URL del Perfil
+              {t('basic.url_label')}
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
               <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                citaup.com/
+                {t('basic.url_prefix')}
               </span>
               <input
                 type="text"
@@ -367,19 +369,19 @@ export function ProfileForm(props: ProfileFormProps) {
                 value={formData.urlName}
                 onChange={handleChange}
                 className="flex-1 min-w-0 block w-full text-gray-600 px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-                placeholder="mi-salon"
+                placeholder={t('basic.url_placeholder')}
                 required
               />
             </div>
             <p className="mt-2 text-sm text-gray-500">
-              Esta será la URL pública de tu perfil. Usa solo letras minúsculas, números y guiones.
+              {t('basic.url_help')}
             </p>
           </div>
 
           {/* Page Title */}
           <div>
             <label htmlFor="pageTitle" className="block text-sm font-medium text-gray-700">
-              Título de la Página
+              {t('basic.page_title_label')}
             </label>
             <input
               type="text"
@@ -388,29 +390,29 @@ export function ProfileForm(props: ProfileFormProps) {
               value={formData.pageTitle}
               onChange={handleChange}
               className="mt-1 block w-full text-gray-600 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-              placeholder="Mi Salón de Belleza"
+              placeholder={t('basic.page_title_placeholder')}
             />
             <p className="mt-2 text-sm text-gray-500">
-              Este será el título que aparece en tu página. Puedes usar espacios y caracteres especiales.
+              {t('basic.page_title_help')}
             </p>
           </div>
 
           {/* Slogan */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Slogan</label>
+            <label className="block text-sm font-medium text-gray-700">{t('basic.slogan_label')}</label>
             <input
               type="text"
               name="slogan"
               value={formData.slogan}
               onChange={handleChange}
-              placeholder="Belleza que inspira confianza"
+              placeholder={t('basic.slogan_placeholder')}
               className="mt-1 block w-full border text-gray-600 border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
             />
           </div>
           {/* Bio */}
           <div>
             <label htmlFor="bio" className="block text-sm font-medium text-gray-700">
-              Biografía
+              {t('basic.bio_label')}
             </label>
             <textarea
               id="bio"
@@ -419,7 +421,7 @@ export function ProfileForm(props: ProfileFormProps) {
               value={formData.bio}
               onChange={handleChange}
               className="mt-1 block text-gray-600 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-              placeholder="Cuéntale a tus clientes sobre tu negocio..."
+              placeholder={t('basic.bio_placeholder')}
             />
           </div>
 
@@ -431,7 +433,7 @@ export function ProfileForm(props: ProfileFormProps) {
           {/* Imágenes */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Imagen de Perfil</label>
+              <label className="block text-sm font-medium text-gray-700">{t('images.profile_image')}</label>
               <div className="mt-1 flex items-center gap-2">
                 <button
                   type="button"
@@ -463,15 +465,15 @@ export function ProfileForm(props: ProfileFormProps) {
                     type="button"
                     onClick={handleRemoveProfileImage}
                     className="ml-2 flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-gray-300 text-gray-500 text-xs font-medium shadow-sm hover:bg-red-100 hover:text-red-600 transition focus:outline-none focus:ring-2 focus:ring-red-200"
-                    title="Quitar imagen"
+                    title={t('images.remove_title')}
                   >
-                    <Camera className="w-4 h-4 mr-1" /> Quitar
+                    <Camera className="w-4 h-4 mr-1" /> {t('images.remove')}
                   </button>
                 )}
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Imagen de Portada</label>
+              <label className="block text-sm font-medium text-gray-700">{t('images.cover_image')}</label>
               <div className="mt-1 flex items-center gap-2">
                 <button
                   type="button"
@@ -503,9 +505,9 @@ export function ProfileForm(props: ProfileFormProps) {
                     type="button"
                     onClick={handleRemoveCoverImage}
                     className="ml-2 flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-gray-300 text-gray-500 text-xs font-medium shadow-sm hover:bg-red-100 hover:text-red-600 transition focus:outline-none focus:ring-2 focus:ring-red-200"
-                    title="Quitar imagen"
+                    title={t('images.remove_title')}
                   >
-                    <Camera className="w-4 h-4 mr-1" /> Quitar
+                    <Camera className="w-4 h-4 mr-1" /> {t('images.remove')}
                   </button>
                 )}
               </div>
@@ -518,7 +520,7 @@ export function ProfileForm(props: ProfileFormProps) {
         <div className="space-y-6">
           {/* Google Fonts selector */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Google Fonts</label>
+            <label className="block text-sm font-medium text-gray-700">{t('theme.google_fonts')}</label>
             <select
               value={selectedGoogleFont}
               onChange={(e) => {
@@ -529,21 +531,21 @@ export function ProfileForm(props: ProfileFormProps) {
               }}
               className="mt-1 block w-full border text-gray-600 border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
             >
-              <option value="">Sin seleccionar</option>
+              <option value="">{t('theme.no_font')}</option>
               {googleFonts.map(f => (
                 <option key={f} value={f}>{f}</option>
               ))}
             </select>
             {selectedGoogleFont && (
               <div className="mt-2 text-sm text-gray-700" style={{ fontFamily: selectedGoogleFont }}>
-                Vista previa con {selectedGoogleFont}
+                {t('theme.preview_with')} {selectedGoogleFont}
               </div>
             )}
           </div>
 
           {/* Temas Predefinidos */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">Tema de Colores</label>
+            <label className="block text-sm font-medium text-gray-700 mb-3">{t('theme.color_theme')}</label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {/* Tema Aurora (Light clásico) */}
               <div
@@ -567,8 +569,8 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-gray-100"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">✨ Aurora</p>
-                <p className="text-xs text-gray-500">Light clásico</p>
+                <p className="text-xs font-medium text-gray-700">✨ {t('theme.themes.aurora')}</p>
+                <p className="text-xs text-gray-500">{t('theme.themes.aurora_desc')}</p>
               </div>
 
               {/* Tema Eclipse (Dark elegante) */}
@@ -593,8 +595,8 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-gray-800"></div>
                   <div className="w-4 h-4 rounded-full bg-gray-700 border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">🌑 Eclipse</p>
-                <p className="text-xs text-gray-500">Dark elegante</p>
+                <p className="text-xs font-medium text-gray-700">🌑 {t('theme.themes.eclipse')}</p>
+                <p className="text-xs text-gray-500">{t('theme.themes.eclipse_desc')}</p>
               </div>
 
               {/* Tema Esmeralda (Verde fresco) */}
@@ -619,8 +621,8 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-emerald-50"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">🌿 Esmeralda</p>
-                <p className="text-xs text-gray-500">Verde fresco</p>
+                <p className="text-xs font-medium text-gray-700">🌿 {t('theme.themes.emerald')}</p>
+                <p className="text-xs text-gray-500">{t('theme.themes.emerald_desc')}</p>
               </div>
 
               {/* Tema Sakura (Pastel cálido) */}
@@ -645,8 +647,8 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-pink-50"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">🌸 Sakura</p>
-                <p className="text-xs text-gray-500">Pastel cálido</p>
+                <p className="text-xs font-medium text-gray-700">🌸 {t('theme.themes.sakura')}</p>
+                <p className="text-xs text-gray-500">{t('theme.themes.sakura_desc')}</p>
               </div>
 
               {/* Tema Terracota (Marrón terroso) */}
@@ -671,8 +673,8 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-orange-100"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">🏺 Terracota</p>
-                <p className="text-xs text-gray-500">Marrón terroso</p>
+                <p className="text-xs font-medium text-gray-700">🏺 {t('theme.themes.terracotta')}</p>
+                <p className="text-xs text-gray-500">{t('theme.themes.terracotta_desc')}</p>
               </div>
 
               {/* Tema Rubí (Rojo enérgico) */}
@@ -697,8 +699,8 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-red-50"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">💎 Rubí</p>
-                <p className="text-xs text-gray-500">Rojo enérgico</p>
+                <p className="text-xs font-medium text-gray-700">💎 {t('theme.themes.ruby')}</p>
+                <p className="text-xs text-gray-500">{t('theme.themes.ruby_desc')}</p>
               </div>
             </div>
           </div>
@@ -710,7 +712,7 @@ export function ProfileForm(props: ProfileFormProps) {
           {/* Redes Sociales */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-4">
-              Redes Sociales
+              {t('links.social_networks')}
             </label>
             <div className="space-y-4">
               {/* Instagram */}
@@ -726,7 +728,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   value={formData.socialLinks.instagram}
                   onChange={handleChange}
                   className="flex-1 block w-full border text-gray-600 border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-                  placeholder="Nombre de usuario de Instagram"
+                  placeholder={t('links.instagram_placeholder')}
                 />
                 <button
                   type="button"
@@ -736,7 +738,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   }))}
                   className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
                 >
-                  Eliminar
+                  {t('links.remove')}
                 </button>
               </div>
 
@@ -753,7 +755,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   value={formData.socialLinks.facebook}
                   onChange={handleChange}
                   className="flex-1 block w-full border text-gray-600 border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-                  placeholder="Nombre de usuario de Facebook"
+                  placeholder={t('links.facebook_placeholder')}
                 />
                 <button
                   type="button"
@@ -763,7 +765,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   }))}
                   className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
                 >
-                  Eliminar
+                  {t('links.remove')}
                 </button>
               </div>
 
@@ -780,7 +782,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   value={formData.socialLinks.whatsapp}
                   onChange={handleChange}
                   className="flex-1 block w-full border text-gray-600 border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-                  placeholder="Número de WhatsApp"
+                  placeholder={t('links.whatsapp_placeholder')}
                 />
                 <button
                   type="button"
@@ -790,7 +792,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   }))}
                   className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
                 >
-                  Eliminar
+                  {t('links.remove')}
                 </button>
               </div>
             </div>
@@ -799,7 +801,7 @@ export function ProfileForm(props: ProfileFormProps) {
           {/* Otros Enlaces */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Otros Enlaces
+              {t('links.other_links')}
             </label>
             <div className="space-y-4">
               {formData.publicLinks
@@ -815,21 +817,21 @@ export function ProfileForm(props: ProfileFormProps) {
                       value={link.name}
                       onChange={(e) => handleLinkChange(index, 'name', e.target.value)}
                       className="flex-1 block w-full border text-gray-600 border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-                      placeholder="Nombre del enlace"
+                      placeholder={t('links.link_name_placeholder')}
                     />
                     <input
                       type="url"
                       value={link.url}
                       onChange={(e) => handleLinkChange(index, 'url', e.target.value)}
                       className="flex-1 block w-full border text-gray-600 border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-                      placeholder="URL"
+                      placeholder={t('links.url_placeholder')}
                     />
                     <button
                       type="button"
                       onClick={() => removeLink(index)}
                       className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
                     >
-                      Eliminar
+                      {t('links.remove')}
                     </button>
                   </div>
                 ))}
@@ -839,7 +841,7 @@ export function ProfileForm(props: ProfileFormProps) {
                 onClick={addLink}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
               >
-                Agregar Enlace
+                {t('links.add_link')}
               </button>
             </div>
           </div>
@@ -853,7 +855,7 @@ export function ProfileForm(props: ProfileFormProps) {
           disabled={loading || (trialStatus?.isActive === false)}
           className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Guardando...' : 'Guardar Perfil'}
+          {loading ? t('actions.saving') : t('actions.save')}
         </button>
       </div>
     </form>
