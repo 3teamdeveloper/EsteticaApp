@@ -19,7 +19,7 @@ const api = {
           items: [
             {
               id: "idpro",
-              unit_price: 5,
+              unit_price: 100,
               quantity: 1,
               title: "test suscripcion PRO",
             },
