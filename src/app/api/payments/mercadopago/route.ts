@@ -1,6 +1,7 @@
 import { Payment } from "mercadopago";
 import { revalidatePath } from "next/cache";
 import { mercadopago } from "@/lib/apimp";
+import { prisma } from "@/lib/db";
 
 export async function POST(request: Request) {
   try {
@@ -29,14 +30,72 @@ export async function POST(request: Request) {
       console.log("✅ Pago aprobado - ID:", paymentId);
       console.log("📦 Metadata del pago:", payment.metadata);
       
-      // TODO: Aquí deberías actualizar la base de datos
-      // Ejemplo: Actualizar el usuario a plan PRO
-      // await prisma.user.update({
-      //   where: { id: payment.metadata.userId },
-      //   data: { plan: 'PRO', subscriptionActive: true }
-      // });
+      // Obtener userId del metadata
+      const userId = payment.metadata?.userId ? parseInt(payment.metadata.userId as string) : null;
       
-      // revalidatePath("/dashboard");
+      if (userId) {
+        // Buscar usuario actual
+        const user = await prisma.user.findUnique({
+          where: { id: userId },
+          select: {
+            trialEndDate: true,
+            isTrialActive: true,
+            subscriptionType: true,
+          }
+        });
+
+        if (user) {
+          const now = new Date();
+          let newEndDate: Date;
+
+          // Calcular nueva fecha de expiración
+          if (user.trialEndDate && user.trialEndDate > now) {
+            // Tiene días restantes → Sumar 30 días desde trialEndDate
+            newEndDate = new Date(user.trialEndDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+            console.log(`✅ Extendiendo desde ${user.trialEndDate.toISOString()} hasta ${newEndDate.toISOString()}`);
+          } else {
+            // Ya expiró → Sumar 30 días desde ahora
+            newEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+            console.log(`✅ Activando desde ahora hasta ${newEndDate.toISOString()}`);
+          }
+
+          // Actualizar usuario
+          await prisma.user.update({
+            where: { id: userId },
+            data: {
+              trialEndDate: newEndDate,
+              isTrialActive: true,
+              subscriptionType: 'paid',
+              trialExpirationNotified: false,
+            }
+          });
+
+          // Guardar registro del pago
+          await prisma.payment.create({
+            data: {
+              userId,
+              mpPaymentId: payment.id?.toString() || paymentId.toString(),
+              mpPreferenceId: payment.metadata?.preferenceId as string | undefined,
+              status: 'approved',
+              statusDetail: payment.status_detail || undefined,
+              amount: payment.transaction_amount || 0,
+              currency: payment.currency_id || 'ARS',
+              paymentType: user.subscriptionType === 'trial' ? 'initial' : 'renewal',
+              paymentMethod: payment.payment_method_id || undefined,
+              approvedAt: payment.date_approved ? new Date(payment.date_approved) : now,
+            }
+          });
+
+          console.log(`✅ Suscripción activada para usuario ${userId} hasta: ${newEndDate.toISOString()}`);
+          
+          // Revalidar dashboard
+          revalidatePath("/dashboard");
+        } else {
+          console.error(`❌ Usuario ${userId} no encontrado`);
+        }
+      } else {
+        console.warn("⚠️ No se encontró userId en metadata del pago");
+      }
     } else {
       console.log("⚠️ Pago no aprobado - Status:", payment?.status);
     }

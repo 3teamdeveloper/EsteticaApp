@@ -5,6 +5,7 @@ import { TrialStatus } from '@/lib/trial';
 
 export function useTrial() {
   const [trialStatus, setTrialStatus] = useState<TrialStatus | null>(null);
+  const [subscriptionType, setSubscriptionType] = useState<'trial' | 'paid'>('trial');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,6 +20,7 @@ export function useTrial() {
       
       const data = await response.json();
       setTrialStatus(data);
+      setSubscriptionType(data.subscriptionType || 'trial');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
     } finally {
@@ -63,6 +65,7 @@ export function useTrial() {
 
   return {
     trialStatus,
+    subscriptionType,
     loading,
     error,
     hasAccess,

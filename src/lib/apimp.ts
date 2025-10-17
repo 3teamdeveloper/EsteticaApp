@@ -21,7 +21,7 @@ const api = {
               id: "idpro",
               unit_price: 100,
               quantity: 1,
-              title: "test suscripcion PRO",
+              title: "Suscripcion PRO",
             },
           ],
           metadata: {

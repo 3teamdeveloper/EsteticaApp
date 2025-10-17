@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth';
 import { getUserTrialStatus } from '@/lib/trial';
+import { prisma } from '@/lib/db';
 
 export async function GET() {
   try {
@@ -26,10 +27,29 @@ export async function GET() {
       );
     }
 
+    // Obtener usuario con subscriptionType
+    const user = await prisma.user.findUnique({
+      where: { id: decodedToken.id },
+      select: {
+        trialStartDate: true,
+        trialEndDate: true,
+        isTrialActive: true,
+        trialExpirationNotified: true,
+        subscriptionType: true,
+      }
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
+    }
+
     // Obtener el estado del trial
     const trialStatus = await getUserTrialStatus(decodedToken.id);
 
-    return NextResponse.json(trialStatus);
+    return NextResponse.json({
+      ...trialStatus,
+      subscriptionType: user.subscriptionType || 'trial',
+    });
   } catch (error) {
     console.error('Error al obtener estado del trial:', error);
     return NextResponse.json(
