@@ -5,62 +5,46 @@ import { mercadopago } from "@/lib/apimp";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    //console.log('*****************************')
-    //console.log('*****************************')
-    //console.log("Webhook recibido:", body);
+    console.log('===========================================');
+    console.log('🔔 Webhook recibido de Mercado Pago');
+    console.log('Body:', JSON.stringify(body, null, 2));
 
     // Verificamos que venga el id
     const paymentId = body?.data?.id;
     if (!paymentId) {
-      console.error("No se encontró paymentId en el webhook");
+      console.error("❌ No se encontró paymentId en el webhook");
       return new Response("Bad Request", { status: 400 });
     }
-    return new Response(null, { status: 201 });
 
     // Obtenemos el pago
     const payment = await new Payment(mercadopago).get({ id: paymentId });
-    //console.log("Pago encontrado:", payment);
+    console.log("💳 Pago encontrado:", {
+      id: payment.id,
+      status: payment.status,
+      amount: payment.transaction_amount,
+      metadata: payment.metadata
+    });
 
     if (payment?.status === "approved") {
-      //console.log("Suscripción ok");
-      // TODO: actualizar base de datos, avisar usuario, etc.
-      // revalidatePath("/");
+      console.log("✅ Pago aprobado - ID:", paymentId);
+      console.log("📦 Metadata del pago:", payment.metadata);
+      
+      // TODO: Aquí deberías actualizar la base de datos
+      // Ejemplo: Actualizar el usuario a plan PRO
+      // await prisma.user.update({
+      //   where: { id: payment.metadata.userId },
+      //   data: { plan: 'PRO', subscriptionActive: true }
+      // });
+      
+      // revalidatePath("/dashboard");
     } else {
-      //console.log("Suscripción falló");
+      console.log("⚠️ Pago no aprobado - Status:", payment?.status);
     }
 
+    // IMPORTANTE: Siempre retornar 200 para confirmar recepción
     return new Response(null, { status: 200 });
   } catch (err) {
-    console.error("Error procesando webhook:", err);
-    return new Response("Internal Server Error", { status: 501 });
+    console.error("❌ Error procesando webhook:", err);
+    return new Response("Internal Server Error", { status: 500 });
   }
 }
-// import {Payment} from "mercadopago";
-// import {revalidatePath} from "next/cache";
-
-// import api, {mercadopago} from "@/lib/apimp";
-
-// export async function POST(request: Request) {
-//   // Obtenemos el cuerpo de la petición que incluye información sobre la notificación
-//   const body: {data: {id: string}} = await request.json();
-//   //console.log(body)
-//   console.log('🚀')
-
-//   // Obtenemos el pago
-//   const payment = await new Payment(mercadopago).get({id: body.data.id});
-
-//   // TODO: Si se aprueba, avisamos al usuario y otras cosas
-//   if (payment.status === "approved") {
-//     // Obtenemos los datos
-//     //console.log('Suscripcion ok');
-    
-//     // Revalidamos la página para mostrar los datos actualizados
-//     // revalidatePath("/");
-// }else{
-    
-//     //console.log('Suscripcion falló');
-//   }
-
-//   // Respondemos con un estado 200 para indicarle que la notificación fue recibida
-//   return new Response(null, {status: 200});
-// }

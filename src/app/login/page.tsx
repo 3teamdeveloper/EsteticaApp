@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
+import { Eye, EyeOff } from 'lucide-react';
 import { useSession } from '@/hooks/useSession';
 
 export default function Login() {
@@ -122,7 +123,13 @@ export default function Login() {
       <header className="w-full border-b bg-white shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 md:px-6">
           <a href="/" className="flex items-center gap-2">
-            <Calendar className="w-6 h-6 text-rose-600" />
+            <Image 
+              src="/images/logocitaup.jpg" 
+              alt="CitaUp Logo" 
+              width={40} 
+              height={40} 
+              className="rounded-full object-cover"
+            />
             <span className="text-xl text-gray-800 font-bold">CitaUp</span>
           </a>
         </div>

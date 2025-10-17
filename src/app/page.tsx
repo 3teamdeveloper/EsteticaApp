@@ -265,7 +265,7 @@ export default function Home() {
                   Comenzar gratis
                 </Link>
                 <Link
-                  href="/register"
+                  href="/upgrade"
                   className="block text-center px-6 py-3 text-rose-600 border-2 border-rose-600 font-semibold rounded-md hover:bg-gray-50 hover:text-rose-700 transition-colors"
                 >
                   Contratar plan

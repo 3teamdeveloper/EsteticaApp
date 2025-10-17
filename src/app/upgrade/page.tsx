@@ -10,12 +10,36 @@ export default function UpgradePage() {
 
   const handleUpgrade = async () => {
     setIsLoading(true);
-    // Aquí iría la integración con el sistema de pagos
-    // Por ahora simulamos el proceso
-    setTimeout(() => {
+    
+    try {
+      console.log('🛒 Iniciando proceso de pago...');
+      
+      // Llamar a la API para crear la preferencia de pago
+      const response = await fetch('/api/payments/create-preference', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          planName: 'Plan PRO - Suscripción Mensual'
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.initPoint) {
+        console.log('✅ Preferencia creada, redirigiendo a Mercado Pago...');
+        // Redirigir al usuario a Mercado Pago
+        window.location.href = data.initPoint;
+      } else {
+        throw new Error(data.error || 'No se pudo crear la preferencia de pago');
+      }
+    } catch (error: any) {
+      console.error('❌ Error al procesar el pago:', error);
+      const errorMsg = error?.message || 'Error desconocido';
+      alert(`Hubo un error al procesar el pago: ${errorMsg}\n\nRevisa la consola del navegador (F12) para más detalles.`);
       setIsLoading(false);
-      alert('Funcionalidad de pago en desarrollo. Por favor contacta al soporte.');
-    }, 2000);
+    }
   };
 
   const features = [
