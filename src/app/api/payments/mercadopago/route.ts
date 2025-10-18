@@ -48,7 +48,28 @@ export async function POST(request: Request) {
     
     console.log("✅ Payment ID encontrado:", paymentId);
 
-    // Obtenemos el pago
+    // ====================================
+    // 🛡️ VERIFICACIÓN DE IDEMPOTENCIA
+    // ====================================
+    // ANTES de obtener detalles de MP (ahorra llamadas API), verificar si ya procesamos este pago
+    const existingPayment = await prisma.payment.findUnique({
+      where: { mpPaymentId: paymentId.toString() },
+      select: { id: true, createdAt: true, userId: true }
+    });
+
+    if (existingPayment) {
+      console.log("⚠️⚠️⚠️ WEBHOOK DUPLICADO DETECTADO ⚠️⚠️⚠️");
+      console.log("Payment ID:", paymentId, "ya fue procesado");
+      console.log("Fecha de procesamiento original:", existingPayment.createdAt);
+      console.log("Usuario:", existingPayment.userId);
+      console.log("✅ IGNORANDO webhook duplicado - retornando 200");
+      console.log('===========================================');
+      return new Response(null, { status: 200 });
+    }
+
+    console.log("✅ Payment ID es nuevo - continuando con procesamiento");
+
+    // Obtenemos el pago desde Mercado Pago
     const payment = await new Payment(mercadopago).get({ id: paymentId });
     console.log("💳 Pago encontrado:", {
       id: payment.id,
@@ -90,49 +111,67 @@ export async function POST(request: Request) {
           const planDurationDays = getPlanDuration(planType as any, billingType as any);
 
           // Calcular nueva fecha de expiración
+          // IMPORTANTE: Usar setDate() para evitar problemas con días del mes
           if (user.trialEndDate && user.trialEndDate > now) {
             // Tiene días restantes → Sumar duración del plan desde trialEndDate
-            newEndDate = new Date(user.trialEndDate.getTime() + planDurationDays * 24 * 60 * 60 * 1000);
+            newEndDate = new Date(user.trialEndDate);
+            newEndDate.setDate(newEndDate.getDate() + planDurationDays);
             paymentType = user.subscriptionStatus === 'trial' ? 'initial' : 'renewal';
             console.log(`✅ Extendiendo desde ${user.trialEndDate.toISOString()} hasta ${newEndDate.toISOString()}`);
+            console.log(`   (+${planDurationDays} días agregados)`);
           } else {
             // Ya expiró → Sumar duración del plan desde ahora
-            newEndDate = new Date(now.getTime() + planDurationDays * 24 * 60 * 60 * 1000);
+            newEndDate = new Date();
+            newEndDate.setDate(newEndDate.getDate() + planDurationDays);
             paymentType = user.subscriptionPlan ? 'renewal' : 'initial';
             console.log(`✅ Activando desde ahora hasta ${newEndDate.toISOString()}`);
+            console.log(`   (+${planDurationDays} días desde hoy)`);
           }
 
-          // Actualizar usuario con NUEVOS campos
-          await prisma.user.update({
-            where: { id: userId },
-            data: {
-              trialEndDate: newEndDate,
-              isTrialActive: true,
-              subscriptionStatus: 'active',
-              subscriptionPlan: planType,
-              subscriptionBilling: billingType,
-              trialExpirationNotified: false,
-            }
+          // ====================================
+          // 🔒 TRANSACCIÓN ATÓMICA
+          // ====================================
+          // Usar transacción para garantizar atomicidad (ambas operaciones o ninguna)
+          console.log('🔄 Iniciando transacción de DB...');
+          
+          await prisma.$transaction(async (tx) => {
+            // 1. Actualizar usuario
+            const updatedUser = await tx.user.update({
+              where: { id: userId },
+              data: {
+                trialEndDate: newEndDate,
+                isTrialActive: true,
+                subscriptionStatus: 'active',
+                subscriptionPlan: planType,
+                subscriptionBilling: billingType,
+                trialExpirationNotified: false,
+              }
+            });
+            console.log('✅ Usuario actualizado en transacción');
+
+            // 2. Crear registro del pago
+            const createdPayment = await tx.payment.create({
+              data: {
+                userId,
+                mpPaymentId: payment.id?.toString() || paymentId.toString(),
+                mpPreferenceId: payment.metadata?.preferenceId as string | undefined,
+                status: 'approved',
+                statusDetail: payment.status_detail || undefined,
+                amount: payment.transaction_amount || 0,
+                currency: payment.currency_id || 'ARS',
+                paymentType,
+                planType,
+                billingType,
+                paymentMethod: payment.payment_method_id || undefined,
+                approvedAt: payment.date_approved ? new Date(payment.date_approved) : now,
+              }
+            });
+            console.log('✅ Payment creado en transacción');
+            
+            return { updatedUser, createdPayment };
           });
 
-          // Guardar registro del pago con información del plan
-          await prisma.payment.create({
-            data: {
-              userId,
-              mpPaymentId: payment.id?.toString() || paymentId.toString(),
-              mpPreferenceId: payment.metadata?.preferenceId as string | undefined,
-              status: 'approved',
-              statusDetail: payment.status_detail || undefined,
-              amount: payment.transaction_amount || 0,
-              currency: payment.currency_id || 'ARS',
-              paymentType,
-              planType,        // Nuevo: registrar qué plan se pagó
-              billingType,     // Nuevo: registrar tipo de facturación
-              paymentMethod: payment.payment_method_id || undefined,
-              approvedAt: payment.date_approved ? new Date(payment.date_approved) : now,
-            }
-          });
-
+          console.log('✅ Transacción completada exitosamente');
           console.log(`✅ Suscripción ${planType} (${billingType}) activada para usuario ${userId} hasta: ${newEndDate.toISOString()}`);
           
           // Revalidar dashboard
@@ -148,9 +187,46 @@ export async function POST(request: Request) {
     }
 
     // IMPORTANTE: Siempre retornar 200 para confirmar recepción
+    console.log('✅ Webhook procesado exitosamente');
+    console.log('===========================================');
     return new Response(null, { status: 200 });
-  } catch (err) {
-    console.error("❌ Error procesando webhook:", err);
+  } catch (err: any) {
+    console.error("❌❌❌ ERROR PROCESANDO WEBHOOK ❌❌❌");
+    console.error("Error completo:", err);
+    console.error("Mensaje:", err?.message);
+    console.error("Stack:", err?.stack);
+    
+    // ====================================
+    // 🛡️ MANEJO ESPECÍFICO DE ERRORES
+    // ====================================
+    
+    // P2002: Unique constraint failed (race condition - otro webhook ya procesó este pago)
+    if (err?.code === 'P2002' && err?.meta?.target?.includes('mpPaymentId')) {
+      console.log("⚠️ Race condition detectada: Otro webhook ya procesó este pago");
+      console.log("✅ Retornando 200 para evitar reintentos");
+      console.log('===========================================');
+      return new Response(null, { status: 200 });
+    }
+    
+    // Otros errores P2002 (constraints diferentes)
+    if (err?.code === 'P2002') {
+      console.error("❌ Constraint violation en:", err?.meta?.target);
+      console.log("✅ Retornando 200 para evitar reintentos");
+      console.log('===========================================');
+      return new Response(null, { status: 200 });
+    }
+    
+    // Errores de Mercado Pago API (payment no encontrado, etc)
+    if (err?.message?.includes('not found') || err?.status === 404) {
+      console.error("❌ Payment no encontrado en Mercado Pago");
+      console.log("✅ Retornando 200 para evitar reintentos de un payment inexistente");
+      console.log('===========================================');
+      return new Response(null, { status: 200 });
+    }
+    
+    // Otros errores: retornar 500 para que MP reintente más tarde
+    console.error("❌ Error no manejado - Mercado Pago reintentará");
+    console.log('===========================================');
     return new Response("Internal Server Error", { status: 500 });
   }
 }
