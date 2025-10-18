@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, CheckCircle } from 'lucide-react';
 import { useSession } from '@/hooks/useSession';
 import { useToastContext } from '@/components/ui/toast/ToastProvider';
 
-export default function Register() {
+// Componente que usa useSearchParams (debe estar en Suspense)
+function RegisterForm() {
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -463,9 +464,25 @@ export default function Register() {
       {/* Footer */}
       <footer className="py-4 border-t">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <p className="text-center text-xs text-gray-500"> 2025 CitaUp. Todos los derechos reservados.</p>
+          <p className="text-center text-xs text-gray-500">© 2025 CitaUp. Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>
+  );
+}
+
+// Componente principal con Suspense boundary
+export default function Register() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-rose-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando...</p>
+        </div>
+      </div>
+    }>
+      <RegisterForm />
+    </Suspense>
   );
 }
