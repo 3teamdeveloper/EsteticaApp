@@ -62,9 +62,12 @@ export async function POST(request: Request) {
       console.log("📦 Metadata del pago:", payment.metadata);
       
       // Obtener userId y planType del metadata
-      const userId = payment.metadata?.userId ? parseInt(payment.metadata.userId as string) : null;
-      const planType = (payment.metadata?.planType as string) || 'pro'; // Default a 'pro'
-      const billingType = (payment.metadata?.billingType as string) || 'monthly';
+      // IMPORTANTE: Mercado Pago convierte camelCase a snake_case automáticamente
+      // userId → user_id, planType → plan_type, billingType → billing_type
+      const userIdStr = (payment.metadata?.user_id || payment.metadata?.userId) as string;
+      const userId = userIdStr ? parseInt(userIdStr) : null;
+      const planType = (payment.metadata?.plan_type || payment.metadata?.planType || 'pro') as string;
+      const billingType = (payment.metadata?.billing_type || payment.metadata?.billingType || 'monthly') as string;
       
       if (userId) {
         // Buscar usuario actual
