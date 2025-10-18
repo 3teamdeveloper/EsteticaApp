@@ -12,20 +12,21 @@ export const mercadopago = new MercadoPagoConfig({accessToken: process.env.MP_AC
 const api = {
   message: {
     
-    async submit(details: Suscription["details"]) {
+    async submit(details: Suscription["details"], userId?: string) {
       // Creamos la preferencia incluyendo el precio, titulo y metadata. La información de `items` es standard de Mercado Pago. La información que nosotros necesitamos para nuestra DB debería vivir en `metadata`.
       const preference = await new Preference(mercadopago).create({
         body: {
           items: [
             {
               id: "idpro",
-              unit_price: 28000,
+              unit_price: 15,
               quantity: 1,
               title: "Suscripcion PRO",
             },
           ],
           metadata: {
             details,
+            userId, // ← IMPORTANTE: Incluir userId para el webhook
           },
         },
       });

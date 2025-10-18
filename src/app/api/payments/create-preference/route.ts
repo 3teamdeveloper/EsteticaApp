@@ -29,8 +29,8 @@ export async function POST(request: Request) {
       email: userEmail 
     });
 
-    // Crear la preferencia de pago
-    const initPoint = await api.message.submit(planName || "Plan PRO");
+    // Crear la preferencia de pago (pasar userId para el webhook)
+    const initPoint = await api.message.submit(planName || "Plan PRO", userId);
 
     console.log('✅ Preferencia creada, init_point:', initPoint);
 
