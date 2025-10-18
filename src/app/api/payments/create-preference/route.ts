@@ -6,7 +6,7 @@ import api from "@/lib/apimp";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { planName } = body;
+    const { planName, planType = 'pro', billingType = 'monthly' } = body;
 
     // REQUERIR sesión válida (NO permitir guest)
     const token = (await cookies()).get('token')?.value;
@@ -41,12 +41,19 @@ export async function POST(request: Request) {
 
     console.log('🚀 Creando preferencia de pago para:', { 
       planName, 
+      planType,
+      billingType,
       userId,
       email: userEmail 
     });
 
-    // Crear la preferencia de pago (pasar userId para el webhook)
-    const initPoint = await api.message.submit(planName || "Plan PRO", userId);
+    // Crear la preferencia de pago (pasar userId, planType y billingType para el webhook)
+    const initPoint = await api.message.submit(
+      planName || "Plan PRO", 
+      userId,
+      planType,
+      billingType
+    );
 
     console.log('✅ Preferencia creada, init_point:', initPoint);
 

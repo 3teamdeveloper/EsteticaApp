@@ -8,15 +8,19 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     console.log('===========================================');
-    console.log('🔔 Webhook recibido de Mercado Pago');
-    console.log('Body:', JSON.stringify(body, null, 2));
+    console.log('🔔 WEBHOOK RECIBIDO DE MERCADO PAGO');
+    console.log('Timestamp:', new Date().toISOString());
+    console.log('Body completo:', JSON.stringify(body, null, 2));
 
     // Verificamos que venga el id
     const paymentId = body?.data?.id;
     if (!paymentId) {
-      console.error("❌ No se encontró paymentId en el webhook");
+      console.error("❌ ERROR: No se encontró paymentId en el webhook");
+      console.error("Body recibido:", body);
       return new Response("Bad Request", { status: 400 });
     }
+    
+    console.log("✅ Payment ID encontrado:", paymentId);
 
     // Obtenemos el pago
     const payment = await new Payment(mercadopago).get({ id: paymentId });
