@@ -36,6 +36,7 @@ model User {
   schedules    Schedule[]    // Mantenemos esta relación para gestión del negocio
   publicProfile PublicProfile?
   employees    Employee[]    // empleados que administra (prestador)
+
   // NUEVO: Relación inversa para la cuenta de empleado
   employeeAccount Employee?  @relation("EmployeeAccount")
   businessHours BusinessHours[] // Horarios de empresa del prestador
@@ -50,8 +51,6 @@ model User {
   isTrialActive            Boolean   @default(true)
   trialExpirationNotified  Boolean   @default(false)
   
-  // DEPRECADO: Mantener por compatibilidad, eliminar después de migrar datos manualmente
-  subscriptionType         String?   @default("trial") // 'trial' | 'paid'
   
   // NUEVOS CAMPOS: Separación de estado y tipo de plan
   subscriptionStatus       String?   @default("trial")   // 'trial' | 'active' | 'expired' | 'cancelled'
