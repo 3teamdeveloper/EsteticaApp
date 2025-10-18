@@ -2,6 +2,7 @@ import { Payment } from "mercadopago";
 import { revalidatePath } from "next/cache";
 import { mercadopago } from "@/lib/apimp";
 import { prisma } from "@/lib/db";
+import { getPlanDuration } from "@/lib/plans";
 
 export async function POST(request: Request) {
   try {
@@ -30,8 +31,10 @@ export async function POST(request: Request) {
       console.log("✅ Pago aprobado - ID:", paymentId);
       console.log("📦 Metadata del pago:", payment.metadata);
       
-      // Obtener userId del metadata
+      // Obtener userId y planType del metadata
       const userId = payment.metadata?.userId ? parseInt(payment.metadata.userId as string) : null;
+      const planType = (payment.metadata?.planType as string) || 'pro'; // Default a 'pro'
+      const billingType = (payment.metadata?.billingType as string) || 'monthly';
       
       if (userId) {
         // Buscar usuario actual
@@ -40,37 +43,49 @@ export async function POST(request: Request) {
           select: {
             trialEndDate: true,
             isTrialActive: true,
-            subscriptionType: true,
+            subscriptionStatus: true,
+            subscriptionPlan: true,
           }
         });
 
         if (user) {
           const now = new Date();
           let newEndDate: Date;
+          let paymentType: string;
+
+          // Obtener duración del plan desde constantes
+          const planDurationDays = getPlanDuration(planType as any, billingType as any);
 
           // Calcular nueva fecha de expiración
           if (user.trialEndDate && user.trialEndDate > now) {
-            // Tiene días restantes → Sumar 30 días desde trialEndDate
-            newEndDate = new Date(user.trialEndDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+            // Tiene días restantes → Sumar duración del plan desde trialEndDate
+            newEndDate = new Date(user.trialEndDate.getTime() + planDurationDays * 24 * 60 * 60 * 1000);
+            paymentType = user.subscriptionStatus === 'trial' ? 'initial' : 'renewal';
             console.log(`✅ Extendiendo desde ${user.trialEndDate.toISOString()} hasta ${newEndDate.toISOString()}`);
           } else {
-            // Ya expiró → Sumar 30 días desde ahora
-            newEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+            // Ya expiró → Sumar duración del plan desde ahora
+            newEndDate = new Date(now.getTime() + planDurationDays * 24 * 60 * 60 * 1000);
+            paymentType = user.subscriptionPlan ? 'renewal' : 'initial';
             console.log(`✅ Activando desde ahora hasta ${newEndDate.toISOString()}`);
           }
 
-          // Actualizar usuario
+          // Actualizar usuario con NUEVOS campos
           await prisma.user.update({
             where: { id: userId },
             data: {
               trialEndDate: newEndDate,
               isTrialActive: true,
+              // Usar nuevos campos
+              subscriptionStatus: 'active',
+              subscriptionPlan: planType,
+              subscriptionBilling: billingType,
+              // Mantener compatibilidad con campo viejo
               subscriptionType: 'paid',
               trialExpirationNotified: false,
             }
           });
 
-          // Guardar registro del pago
+          // Guardar registro del pago con información del plan
           await prisma.payment.create({
             data: {
               userId,
@@ -80,13 +95,15 @@ export async function POST(request: Request) {
               statusDetail: payment.status_detail || undefined,
               amount: payment.transaction_amount || 0,
               currency: payment.currency_id || 'ARS',
-              paymentType: user.subscriptionType === 'trial' ? 'initial' : 'renewal',
+              paymentType,
+              planType,        // Nuevo: registrar qué plan se pagó
+              billingType,     // Nuevo: registrar tipo de facturación
               paymentMethod: payment.payment_method_id || undefined,
               approvedAt: payment.date_approved ? new Date(payment.date_approved) : now,
             }
           });
 
-          console.log(`✅ Suscripción activada para usuario ${userId} hasta: ${newEndDate.toISOString()}`);
+          console.log(`✅ Suscripción ${planType} (${billingType}) activada para usuario ${userId} hasta: ${newEndDate.toISOString()}`);
           
           // Revalidar dashboard
           revalidatePath("/dashboard");

@@ -27,7 +27,7 @@ export async function GET() {
       );
     }
 
-    // Obtener usuario con subscriptionType
+    // Obtener usuario con campos de suscripción
     const user = await prisma.user.findUnique({
       where: { id: decodedToken.id },
       select: {
@@ -35,6 +35,11 @@ export async function GET() {
         trialEndDate: true,
         isTrialActive: true,
         trialExpirationNotified: true,
+        // Nuevos campos
+        subscriptionStatus: true,
+        subscriptionPlan: true,
+        subscriptionBilling: true,
+        // Campo viejo (mantener por compatibilidad)
         subscriptionType: true,
       }
     });
@@ -48,6 +53,11 @@ export async function GET() {
 
     return NextResponse.json({
       ...trialStatus,
+      // Devolver nuevos campos
+      subscriptionStatus: user.subscriptionStatus || 'trial',
+      subscriptionPlan: user.subscriptionPlan || 'free',
+      subscriptionBilling: user.subscriptionBilling || 'monthly',
+      // Mantener campo viejo por compatibilidad
       subscriptionType: user.subscriptionType || 'trial',
     });
   } catch (error) {

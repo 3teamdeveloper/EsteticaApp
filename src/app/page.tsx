@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import {
   CheckCircle,
   Star,
@@ -33,6 +34,27 @@ const IconInstagram = (props: React.SVGProps<SVGSVGElement>) => (
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
+  const [isCheckingSession, setIsCheckingSession] = useState(false);
+
+  // Función para manejar "Contratar plan"
+  const handleContratarPlan = async () => {
+    setIsCheckingSession(true);
+    try {
+      const res = await fetch('/api/auth/verify-session');
+      
+      if (res.ok) {
+        // Usuario logueado → Ir a /upgrade
+        window.location.href = '/upgrade';
+      } else {
+        // Usuario NO logueado → Ir a registro con returnUrl
+        window.location.href = '/register?returnUrl=/upgrade';
+      }
+    } catch (error) {
+      // Error → Asumir no logueado
+      window.location.href = '/register?returnUrl=/upgrade';
+    }
+  };
+
   return (
     <main className="min-h-screen">
       <Navbar />
@@ -264,12 +286,13 @@ export default function Home() {
                 >
                   Comenzar gratis
                 </Link>
-                <Link
-                  href="/upgrade"
-                  className="block text-center px-6 py-3 text-rose-600 border-2 border-rose-600 font-semibold rounded-md hover:bg-gray-50 hover:text-rose-700 transition-colors"
+                <button
+                  onClick={handleContratarPlan}
+                  disabled={isCheckingSession}
+                  className="block text-center px-6 py-3 text-rose-600 border-2 border-rose-600 font-semibold rounded-md hover:bg-gray-50 hover:text-rose-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Contratar plan
-                </Link>
+                  {isCheckingSession ? 'Verificando...' : 'Contratar plan'}
+                </button>
               </div>
             </div>
 

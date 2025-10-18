@@ -5,6 +5,11 @@ import { TrialStatus } from '@/lib/trial';
 
 export function useTrial() {
   const [trialStatus, setTrialStatus] = useState<TrialStatus | null>(null);
+  // Nuevos estados
+  const [subscriptionStatus, setSubscriptionStatus] = useState<string>('trial');
+  const [subscriptionPlan, setSubscriptionPlan] = useState<string>('free');
+  const [subscriptionBilling, setSubscriptionBilling] = useState<string>('monthly');
+  // Mantener por compatibilidad
   const [subscriptionType, setSubscriptionType] = useState<'trial' | 'paid'>('trial');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,6 +25,11 @@ export function useTrial() {
       
       const data = await response.json();
       setTrialStatus(data);
+      // Guardar nuevos campos
+      setSubscriptionStatus(data.subscriptionStatus || 'trial');
+      setSubscriptionPlan(data.subscriptionPlan || 'free');
+      setSubscriptionBilling(data.subscriptionBilling || 'monthly');
+      // Mantener campo viejo por compatibilidad
       setSubscriptionType(data.subscriptionType || 'trial');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
@@ -65,6 +75,11 @@ export function useTrial() {
 
   return {
     trialStatus,
+    // Nuevos campos
+    subscriptionStatus,
+    subscriptionPlan,
+    subscriptionBilling,
+    // Campo viejo (mantener por compatibilidad)
     subscriptionType,
     loading,
     error,

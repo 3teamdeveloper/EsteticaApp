@@ -8,20 +8,36 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { planName } = body;
 
-    // Intentar obtener el usuario autenticado (opcional para pruebas)
-    let userId = 'guest';
-    let userEmail = 'test@test.com';
-    
+    // REQUERIR sesión válida (NO permitir guest)
     const token = (await cookies()).get('token')?.value;
-    if (token) {
-      try {
-        const decoded = verifyToken(token) as { id: number; email: string };
-        userId = decoded.id.toString();
-        userEmail = decoded.email;
-      } catch (error) {
-        console.log('⚠️ Token inválido, continuando como invitado');
-      }
+    
+    if (!token) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Debes iniciar sesión para contratar un plan',
+          requiresAuth: true 
+        },
+        { status: 401 }
+      );
     }
+
+    let decoded;
+    try {
+      decoded = verifyToken(token) as { id: number; email: string };
+    } catch (error) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Sesión inválida. Por favor inicia sesión nuevamente.',
+          requiresAuth: true 
+        },
+        { status: 401 }
+      );
+    }
+
+    const userId = decoded.id.toString();
+    const userEmail = decoded.email;
 
     console.log('🚀 Creando preferencia de pago para:', { 
       planName, 

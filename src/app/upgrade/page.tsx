@@ -1,12 +1,35 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CheckCircle, CreditCard, Star, Zap, Shield, Users } from 'lucide-react';
 import { useTrial } from '@/hooks/useTrial';
 
 export default function UpgradePage() {
   const { trialStatus } = useTrial();
   const [isLoading, setIsLoading] = useState(false);
+  const [isVerifyingSession, setIsVerifyingSession] = useState(true);
+
+  // Verificar sesión al cargar la página
+  useEffect(() => {
+    const verifySession = async () => {
+      try {
+        const res = await fetch('/api/auth/verify-session');
+        
+        if (!res.ok) {
+          // No hay sesión → Redirigir a registro
+          window.location.href = '/register?returnUrl=/upgrade';
+          return;
+        }
+        
+        setIsVerifyingSession(false);
+      } catch (error) {
+        // Error → Redirigir a registro
+        window.location.href = '/register?returnUrl=/upgrade';
+      }
+    };
+
+    verifySession();
+  }, []);
 
   const handleUpgrade = async () => {
     setIsLoading(true);
@@ -64,6 +87,18 @@ export default function UpgradePage() {
       description: "Crea todas las reservas que necesites"
     }
   ];
+
+  // Mostrar loading mientras verifica sesión
+  if (isVerifyingSession) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-rose-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Verificando sesión...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">

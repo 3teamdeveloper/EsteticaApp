@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, CheckCircle } from 'lucide-react';
 import { useSession } from '@/hooks/useSession';
 import { useToastContext } from '@/components/ui/toast/ToastProvider';
@@ -24,15 +24,19 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { session, isLoading: sessionLoading } = useSession();
   const toast = useToastContext();
+
+  // Obtener returnUrl de query params
+  const returnUrl = searchParams.get('returnUrl') || '/dashboard';
 
   // Redirigir si ya está autenticado
   useEffect(() => {
     if (!sessionLoading && session) {
-      router.push('/dashboard');
+      router.push(returnUrl);
     }
-  }, [session, sessionLoading, router]);
+  }, [session, sessionLoading, router, returnUrl]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -104,8 +108,35 @@ export default function Register() {
         throw new Error(data.error || 'Error al registrarse');
       }
 
-      toast.push('success', '¡Cuenta creada exitosamente! Ya puedes iniciar sesión.');
-      router.push('/login');
+      // Registro exitoso → Hacer login automático
+      toast.push('success', '¡Cuenta creada exitosamente! Iniciando sesión...');
+
+      try {
+        const loginResponse = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
+
+        if (loginResponse.ok) {
+          // Login exitoso → Redirigir a returnUrl
+          toast.push('success', '¡Bienvenido a CitaUp!');
+          router.push(returnUrl);
+        } else {
+          // Login falló → Ir a página de login
+          toast.push('info', 'Por favor inicia sesión con tu cuenta.');
+          router.push('/login');
+        }
+      } catch (loginError) {
+        // Error en login → Ir a página de login
+        toast.push('info', 'Por favor inicia sesión con tu cuenta.');
+        router.push('/login');
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al registrarse';
       setError(errorMessage);
@@ -155,6 +186,13 @@ export default function Register() {
               <h1 className="text-2xl text-gray-800 font-bold">Crea tu cuenta</h1>
               <p className="text-gray-500 mt-2">Comienza a gestionar tu negocio de belleza</p>
             </div>
+
+            {returnUrl === '/upgrade' && (
+              <div className="mb-6 bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-md text-sm">
+                <p className="font-medium">🎉 Estás a un paso de contratar el Plan PRO</p>
+                <p className="mt-1 text-blue-700">Completa tu registro y te redirigiremos al pago automáticamente.</p>
+              </div>
+            )}
 
             {error && (
               <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md text-sm">

@@ -49,7 +49,14 @@ model User {
   trialEndDate             DateTime?
   isTrialActive            Boolean   @default(true)
   trialExpirationNotified  Boolean   @default(false)
+  
+  // DEPRECADO: Mantener por compatibilidad, eliminar después de migrar datos manualmente
   subscriptionType         String?   @default("trial") // 'trial' | 'paid'
+  
+  // NUEVOS CAMPOS: Separación de estado y tipo de plan
+  subscriptionStatus       String?   @default("trial")   // 'trial' | 'active' | 'expired' | 'cancelled'
+  subscriptionPlan         String?   @default("free")    // 'free' | 'pro' | 'enterprise'
+  subscriptionBilling      String?   @default("monthly") // 'monthly' | 'yearly'
   
   // INFORMACIÓN DE CONTACTO DEL NEGOCIO
   businessPhone            String?
@@ -297,8 +304,10 @@ model Payment {
   amount              Float
   currency            String   @default("ARS")
   
-  // Tipo de pago
-  paymentType         String?  // 'initial', 'renewal', 'upgrade'
+  // Tipo de pago y plan
+  paymentType         String?  // 'initial', 'renewal', 'upgrade', 'downgrade'
+  planType            String?  // 'pro', 'enterprise' - Qué plan se pagó
+  billingType         String?  // 'monthly', 'yearly' - Tipo de facturación
   
   // Metadata
   paymentMethod       String?
