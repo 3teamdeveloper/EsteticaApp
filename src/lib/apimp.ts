@@ -36,19 +36,19 @@ const api = {
             billingType,   // Facturación: 'monthly', 'yearly'
           },
           // Configurar webhook para notificaciones de pago
-          notification_url: process.env.NEXT_PUBLIC_URL 
-            ? `${process.env.NEXT_PUBLIC_URL}/api/payments/mercadopago`
+          notification_url: process.env.NEXT_PUBLIC_BASE_URL 
+            ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/payments/mercadopago`
             : undefined,
           // URLs de retorno
           back_urls: {
-            success: process.env.NEXT_PUBLIC_URL 
-              ? `${process.env.NEXT_PUBLIC_URL}/dashboard?payment=success`
+            success: process.env.NEXT_PUBLIC_BASE_URL 
+              ? `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?payment=success`
               : undefined,
-            failure: process.env.NEXT_PUBLIC_URL 
-              ? `${process.env.NEXT_PUBLIC_URL}/upgrade?payment=failure`
+            failure: process.env.NEXT_PUBLIC_BASE_URL 
+              ? `${process.env.NEXT_PUBLIC_BASE_URL}/upgrade?payment=failure`
               : undefined,
-            pending: process.env.NEXT_PUBLIC_URL 
-              ? `${process.env.NEXT_PUBLIC_URL}/dashboard?payment=pending`
+            pending: process.env.NEXT_PUBLIC_BASE_URL 
+              ? `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?payment=pending`
               : undefined,
           },
           auto_return: 'approved' as any,
