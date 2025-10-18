@@ -75,12 +75,9 @@ export async function POST(request: Request) {
             data: {
               trialEndDate: newEndDate,
               isTrialActive: true,
-              // Usar nuevos campos
               subscriptionStatus: 'active',
               subscriptionPlan: planType,
               subscriptionBilling: billingType,
-              // Mantener compatibilidad con campo viejo
-              subscriptionType: 'paid',
               trialExpirationNotified: false,
             }
           });

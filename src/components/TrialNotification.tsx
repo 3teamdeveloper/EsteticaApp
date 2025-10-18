@@ -9,7 +9,7 @@ interface TrialNotificationProps {
 }
 
 export default function TrialNotification({ onClose }: TrialNotificationProps) {
-  const { trialStatus, subscriptionType, markNotificationSent } = useTrial();
+  const { trialStatus, subscriptionStatus, markNotificationSent } = useTrial();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function TrialNotification({ onClose }: TrialNotificationProps) {
     return null;
   }
 
-  const isTrial = subscriptionType === 'trial';
+  const isTrial = subscriptionStatus === 'trial';
   const title = isTrial ? 'Tu trial expira pronto' : 'Tu suscripción expira pronto';
   const message = isTrial 
     ? `Tu prueba gratuita de 14 días expira en ${trialStatus.daysRemaining} día${trialStatus.daysRemaining !== 1 ? 's' : ''}.`
@@ -84,13 +84,13 @@ export default function TrialNotification({ onClose }: TrialNotificationProps) {
 
 // Componente para mostrar cuando el trial ha expirado
 export function TrialExpiredBanner() {
-  const { trialStatus, subscriptionType } = useTrial();
+  const { trialStatus, subscriptionStatus } = useTrial();
 
   if (!trialStatus?.isExpired) {
     return null;
   }
 
-  const isTrial = subscriptionType === 'trial';
+  const isTrial = subscriptionStatus === 'trial';
   const message = isTrial
     ? '¡Tu trial expiró! Contrata el plan que necesites para seguir gestionando tu negocio sin límites.'
     : '¡Tu suscripción expiró! Renueva para seguir gestionando tu negocio sin límites.';
