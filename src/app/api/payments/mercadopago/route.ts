@@ -12,10 +12,36 @@ export async function POST(request: Request) {
     console.log('Timestamp:', new Date().toISOString());
     console.log('Body completo:', JSON.stringify(body, null, 2));
 
-    // Verificamos que venga el id
-    const paymentId = body?.data?.id;
+    // Mercado Pago envía webhooks con dos formatos:
+    // 1. { topic: "payment", resource: "PAYMENT_ID" }
+    // 2. { topic: "merchant_order", resource: "ORDER_ID" }
+    
+    const topic = body?.topic || body?.type;
+    const resource = body?.resource || body?.data?.id;
+    
+    console.log('📌 Topic:', topic);
+    console.log('📌 Resource:', resource);
+    
+    // Solo procesar webhooks de tipo "payment"
+    if (topic !== 'payment') {
+      console.log('ℹ️ Ignorando webhook de tipo:', topic);
+      console.log('Solo procesamos webhooks de tipo "payment"');
+      return new Response(null, { status: 200 });
+    }
+    
+    // Extraer payment ID del resource
+    // El resource puede ser: "123456" o "https://api.../payments/123456"
+    let paymentId: string;
+    if (typeof resource === 'string' && resource.includes('/')) {
+      // Extraer ID de la URL
+      const parts = resource.split('/');
+      paymentId = parts[parts.length - 1];
+    } else {
+      paymentId = resource;
+    }
+    
     if (!paymentId) {
-      console.error("❌ ERROR: No se encontró paymentId en el webhook");
+      console.error("❌ ERROR: No se pudo extraer paymentId");
       console.error("Body recibido:", body);
       return new Response("Bad Request", { status: 400 });
     }
