@@ -2,9 +2,12 @@
 
 import { Clock, AlertTriangle, CheckCircle, CreditCard } from 'lucide-react';
 import { useTrial } from '@/hooks/useTrial';
+import Link from 'next/link';
 
 export default function TrialStatusCard() {
-  const { trialStatus, loading } = useTrial();
+  const { trialStatus, subscriptionStatus, subscriptionPlan, loading } = useTrial();
+  
+  const isPaidSubscriber = subscriptionStatus === 'active' && subscriptionPlan !== 'free';
 
   if (loading || !trialStatus) {
     return null;
@@ -44,11 +47,15 @@ export default function TrialStatusCard() {
 
   const getStatusDescription = () => {
     if (trialStatus.isExpired) {
-      return 'Tu prueba gratuita ha terminado. Actualiza tu plan para continuar usando todas las funcionalidades.';
+      return 'Tu período de acceso ha terminado. Actualiza tu plan para continuar usando todas las funcionalidades.';
     } else if (trialStatus.daysRemaining <= 3) {
-      return 'Tu trial está por expirar. Considera actualizar tu plan para mantener el acceso completo.';
+      return isPaidSubscriber 
+        ? 'Tu suscripción está por vencer. Renueva para mantener el acceso completo.'
+        : 'Tu trial está por expirar. Considera actualizar tu plan para mantener el acceso completo.';
     } else {
-      return 'Estás disfrutando de tu prueba gratuita de 14 días.';
+      return isPaidSubscriber
+        ? `Tienes acceso completo al plan ${subscriptionPlan.toUpperCase()}.`
+        : 'Estás disfrutando de tu prueba gratuita de 14 días.';
     }
   };
 
@@ -59,28 +66,43 @@ export default function TrialStatusCard() {
           {getStatusIcon()}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-gray-900">
-              {getStatusText()}
-            </h3>
-            {!trialStatus.isExpired && (
-              <span className="text-xs text-gray-500">
-                {trialStatus.daysRemaining} días
-              </span>
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-gray-900">
+                  {getStatusText()}
+                </h3>
+                {!trialStatus.isExpired && (
+                  <span className="text-xs text-gray-500">
+                    {trialStatus.daysRemaining} días
+                  </span>
+                )}
+              </div>
+              <p className="text-sm text-gray-600 mt-1">
+                {getStatusDescription()}
+              </p>
+            </div>
+            {/* Botón Actualizar siempre visible a la derecha */}
+            {trialStatus.isActive && (
+              <Link
+                href="/upgrade"
+                className="flex-shrink-0 inline-flex items-center gap-1 px-4 py-2 bg-rose-600 text-white text-sm font-medium rounded-md hover:bg-rose-700 transition-colors"
+              >
+                <CreditCard className="w-4 h-4" />
+                Actualizar
+              </Link>
             )}
           </div>
-          <p className="text-sm text-gray-600 mt-1">
-            {getStatusDescription()}
-          </p>
+          {/* Botón de actualizar cuando está expirado - SOLO UNO */}
           {!trialStatus.isActive && (
             <div className="mt-3">
-              <a
+              <Link
                 href="/upgrade"
                 className="inline-flex items-center gap-1 px-3 py-1.5 bg-rose-600 text-white text-xs font-medium rounded-md hover:bg-rose-700 transition-colors"
               >
                 <CreditCard className="w-3 h-3" />
                 Actualizar Plan
-              </a>
+              </Link>
             </div>
           )}
         </div>

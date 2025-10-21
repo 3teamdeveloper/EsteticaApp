@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   CheckCircle,
   Star,
@@ -35,6 +35,20 @@ import Navbar from "@/components/Navbar";
 
 export default function Home() {
   const [isCheckingSession, setIsCheckingSession] = useState(false);
+  const [showDeletedMessage, setShowDeletedMessage] = useState(false);
+  
+  // Verificar si viene de eliminar cuenta
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('deleted') === 'true') {
+      setShowDeletedMessage(true);
+      // Limpiar el parámetro de la URL después de 5 segundos
+      setTimeout(() => {
+        setShowDeletedMessage(false);
+        window.history.replaceState({}, '', '/');
+      }, 5000);
+    }
+  }, []);
 
   // Función para manejar "Contratar plan"
   const handleContratarPlan = async () => {
@@ -58,6 +72,29 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Navbar />
+      
+      {/* Mensaje de cuenta eliminada */}
+      {showDeletedMessage && (
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in">
+          <div className="bg-green-50 border border-green-200 rounded-lg px-6 py-4 shadow-lg">
+            <div className="flex items-center gap-3">
+              <div className="flex-shrink-0">
+                <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-green-800">
+                  Tu cuenta ha sido eliminada exitosamente
+                </p>
+                <p className="text-xs text-green-600 mt-1">
+                  Todos tus datos han sido eliminados de forma permanente
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section className="py-8 md:py-24 lg:py-32 bg-white md:bg-gradient-to-b md:from-white md:to-gray-50">

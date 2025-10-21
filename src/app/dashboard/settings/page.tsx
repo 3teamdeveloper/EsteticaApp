@@ -1,13 +1,52 @@
 "use client";
 
 import Link from "next/link";
-import { Clock, KeyRound, Settings as SettingsIcon, User, MessageCircle, Building2 } from "lucide-react";
+import { Clock, KeyRound, Settings as SettingsIcon, User, MessageCircle, Building2, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/hooks/useSession";
+import { useState } from "react";
+import DeleteAccountModal from "@/components/DeleteAccountModal";
 
 export default function Settings() {
   const router = useRouter();
   const { session } = useSession();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  const handleDeleteAccount = async () => {
+    try {
+      setIsDeleting(true);
+      setDeleteError(null);
+      
+      const response = await fetch('/api/user/delete-account', {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Error al eliminar la cuenta');
+      }
+
+      // Limpiar completamente la sesión del cliente
+      // 1. Limpiar localStorage
+      localStorage.removeItem('userSession');
+      localStorage.clear(); // Por seguridad, limpiamos todo
+      
+      // 2. Limpiar cookies del cliente
+      document.cookie = 'userSession=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      
+      // 3. Redirigir a la página principal usando window.location para forzar recarga completa
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || window.location.origin;
+      window.location.href = `${baseUrl}?deleted=true`;
+    } catch (error) {
+      console.error('Error al eliminar cuenta:', error);
+      setDeleteError(error instanceof Error ? error.message : 'Error desconocido');
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <div className="space-y-6 py-10">
@@ -113,19 +152,38 @@ export default function Settings() {
           </div>
         </Link>
 
-        {/* Placeholder for future settings */}
-        <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-6">
+        {/* Eliminar Cuenta - Zona de peligro */}
+        <div className="bg-white shadow rounded-lg p-6 border-2 border-red-200 hover:border-red-300 transition-shadow">
           <div className="flex items-center gap-4 mb-3">
-            <div className="p-2 bg-gray-200 rounded-lg">
-              <SettingsIcon className="h-6 w-6 text-gray-400" />
+            <div className="p-2 bg-red-100 rounded-lg">
+              <Trash2 className="h-6 w-6 text-red-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-500">Próximamente</h3>
+            <h3 className="text-lg font-semibold text-red-600">Eliminar Cuenta</h3>
           </div>
-          <p className="text-gray-500 text-sm">
-            Más opciones de configuración estarán disponibles próximamente.
+          <p className="text-gray-600 text-sm leading-relaxed mb-4">
+            Elimina permanentemente tu cuenta y todos tus datos. Esta acción no se puede deshacer. Los registros de pagos se conservarán por obligaciones legales (Ley 25.326).
           </p>
+          {deleteError && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+              <p className="text-sm text-red-600">{deleteError}</p>
+            </div>
+          )}
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            className="w-full px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors"
+          >
+            Eliminar mi cuenta
+          </button>
         </div>
       </div>
+
+      {/* Modal de confirmación */}
+      <DeleteAccountModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteAccount}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }

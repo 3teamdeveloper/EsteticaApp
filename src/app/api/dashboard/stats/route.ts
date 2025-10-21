@@ -150,8 +150,21 @@ export async function GET() {
       monthlyAppointments
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching dashboard stats:', error);
+    
+    // Si es un error de conexión a la base de datos (P1001), devolver valores por defecto
+    // Esto evita que el registro falle cuando hay problemas temporales con la DB
+    if (error?.code === 'P1001') {
+      console.warn('⚠️ Timeout de conexión a DB - devolviendo estadísticas por defecto');
+      return NextResponse.json({
+        totalServices: 0,
+        activeServices: 0,
+        totalEmployees: 0,
+        monthlyAppointments: 0
+      });
+    }
+    
     return new NextResponse('Error interno del servidor', { status: 500 });
   }
 }
