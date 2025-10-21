@@ -129,27 +129,25 @@ export async function POST(request: Request) {
           }
 
           // ====================================
-          // 🔒 TRANSACCIÓN ATÓMICA
+          // 🔒 TRANSACCIÓN ATÓMICA CON DOBLE VERIFICACIÓN
           // ====================================
           // Usar transacción para garantizar atomicidad (ambas operaciones o ninguna)
           console.log('🔄 Iniciando transacción de DB...');
           
           await prisma.$transaction(async (tx) => {
-            // 1. Actualizar usuario
-            const updatedUser = await tx.user.update({
-              where: { id: userId },
-              data: {
-                trialEndDate: newEndDate,
-                isTrialActive: true,
-                subscriptionStatus: 'active',
-                subscriptionPlan: planType,
-                subscriptionBilling: billingType,
-                trialExpirationNotified: false,
-              }
+            // DOBLE VERIFICACIÓN DENTRO DE LA TRANSACCIÓN
+            // Esto protege contra race conditions (2 webhooks simultáneos)
+            const paymentExists = await tx.payment.findUnique({
+              where: { mpPaymentId: payment.id?.toString() || paymentId.toString() },
+              select: { id: true }
             });
-            console.log('✅ Usuario actualizado en transacción');
-
-            // 2. Crear registro del pago
+            
+            if (paymentExists) {
+              console.log('⚠️ Race condition: Payment ya existe dentro de transacción');
+              throw new Error('PAYMENT_ALREADY_EXISTS'); // Lanzar error para rollback
+            }
+            
+            // 1. Crear registro del pago PRIMERO (para que falle rápido si hay duplicado)
             const createdPayment = await tx.payment.create({
               data: {
                 userId,
@@ -167,6 +165,20 @@ export async function POST(request: Request) {
               }
             });
             console.log('✅ Payment creado en transacción');
+            
+            // 2. Actualizar usuario DESPUÉS (solo si el payment se creó exitosamente)
+            const updatedUser = await tx.user.update({
+              where: { id: userId },
+              data: {
+                trialEndDate: newEndDate,
+                isTrialActive: true,
+                subscriptionStatus: 'active',
+                subscriptionPlan: planType,
+                subscriptionBilling: billingType,
+                trialExpirationNotified: false,
+              }
+            });
+            console.log('✅ Usuario actualizado en transacción');
             
             return { updatedUser, createdPayment };
           });
@@ -199,6 +211,14 @@ export async function POST(request: Request) {
     // ====================================
     // 🛡️ MANEJO ESPECÍFICO DE ERRORES
     // ====================================
+    
+    // Error custom de verificación dentro de transacción
+    if (err?.message === 'PAYMENT_ALREADY_EXISTS') {
+      console.log("⚠️ Race condition detectada en transacción: Payment ya existe");
+      console.log("✅ Transacción abortada - retornando 200");
+      console.log('===========================================');
+      return new Response(null, { status: 200 });
+    }
     
     // P2002: Unique constraint failed (race condition - otro webhook ya procesó este pago)
     if (err?.code === 'P2002' && err?.meta?.target?.includes('mpPaymentId')) {
