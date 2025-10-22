@@ -98,25 +98,25 @@ export default function PasswordChange() {
       <div className="flex items-center gap-4">
         <Link
           href="/dashboard/settings"
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
         >
-          <ArrowLeft className="h-5 w-5 text-gray-600" />
+          <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Cambio de contraseña</h1>
-          <p className="text-gray-600">Administrá tu contraseña o generá un enlace para restablecerla.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Cambio de contraseña</h1>
+          <p className="text-gray-600 dark:text-gray-400">Administrá tu contraseña o generá un enlace para restablecerla.</p>
         </div>
       </div>
 
       {/* Sección: Cambiar contraseña (autenticado) */}
-      <section className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Cambiar contraseña</h2>
+      <section className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Cambiar contraseña</h2>
         <form onSubmit={handleChangePassword} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña actual</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contraseña actual</label>
             <input
               type="password"
-              className="w-full border rounded px-3 py-2"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               required
@@ -124,10 +124,10 @@ export default function PasswordChange() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nueva contraseña</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nueva contraseña</label>
               <input
                 type="password"
-                className="w-full border rounded px-3 py-2"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 minLength={8}
@@ -135,10 +135,10 @@ export default function PasswordChange() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Confirmar nueva contraseña</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirmar nueva contraseña</label>
               <input
                 type="password"
-                className="w-full border rounded px-3 py-2"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 minLength={8}
@@ -159,10 +159,10 @@ export default function PasswordChange() {
       </section>
 
       {/* Sección: Olvidé mi contraseña (solo consola) */}
-      <section className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Olvidé mi contraseña</h2>
+      <section className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Olvidé mi contraseña</h2>
         <form onSubmit={handleForgotPassword} className="space-y-4">
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-gray-700 dark:text-gray-300">
             Generaremos un enlace de restablecimiento para la cuenta iniciada: <b>{session?.email || 'N/D'}</b>
           </div>
           <div className="flex justify-end">

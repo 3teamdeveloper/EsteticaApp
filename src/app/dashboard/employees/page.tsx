@@ -117,12 +117,12 @@ export default function EmployeesPage() {
       {/* Modal de confirmación de eliminación */}
       {deleteModal.open && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-          <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg max-w-sm w-full">
             <div className="flex items-center gap-2 mb-4">
               <Trash2 className="w-6 h-6 text-red-600" />
-              <span className="font-bold text-lg">Eliminar empleado</span>
+              <span className="font-bold text-lg dark:text-white">Eliminar empleado</span>
             </div>
-            <p className="mb-6">¿Seguro que deseas eliminar el empleado "{deleteModal.employee?.name}"?</p>
+            <p className="mb-6 dark:text-gray-300">¿Seguro que deseas eliminar el empleado "{deleteModal.employee?.name}"?</p>
             <div className="flex gap-2 justify-end">
               <Button variant="outline" onClick={() => setDeleteModal({ open: false })}>
                 Cancelar
@@ -144,7 +144,7 @@ export default function EmployeesPage() {
   return (
     <div className="p-1 md:p-6 mt-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Empleados</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Empleados</h1>
         <Button
           onClick={() => router.push('/dashboard/employees/new')}
           disabled={isTrialInactive}
@@ -180,15 +180,15 @@ export default function EmployeesPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="min-w-full divide-y divide-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           {filteredEmployees.length === 0 ? (
-            <div className="p-4 text-center text-gray-500">
+            <div className="p-4 text-center text-gray-500 dark:text-gray-400">
               No se encontraron empleados
             </div>
           ) : (
             filteredEmployees.map((employee) => (
-              <div key={employee.id} className="p-4 hover:bg-gray-50">
+              <div key={employee.id} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div className="flex items-center space-x-4">
                     {employee.employeeImage ? (
@@ -283,12 +283,12 @@ export default function EmployeesPage() {
       {/* Modal de confirmación de eliminación */}
       {deleteModal.open && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-          <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg max-w-sm w-full">
             <div className="flex items-center gap-2 mb-4">
               <Trash2 className="w-6 h-6 text-red-600" />
-              <span className="font-bold text-lg">Eliminar empleado</span>
+              <span className="font-bold text-lg dark:text-white">Eliminar empleado</span>
             </div>
-            <p className="mb-6">¿Seguro que deseas eliminar el empleado "{deleteModal.employee?.name}"?</p>
+            <p className="mb-6 dark:text-gray-300">¿Seguro que deseas eliminar el empleado "{deleteModal.employee?.name}"?</p>
             <div className="flex gap-2 justify-end">
               <Button variant="outline" onClick={() => setDeleteModal({ open: false })}>
                 Cancelar

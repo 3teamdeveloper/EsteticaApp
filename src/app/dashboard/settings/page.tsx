@@ -50,24 +50,24 @@ export default function Settings() {
 
   return (
     <div className="space-y-6 py-10">
-      <h1 className="text-2xl font-bold pl-2 text-gray-900">Configuración</h1>
+      <h1 className="text-2xl font-bold pl-2 text-gray-900 dark:text-white">Configuración</h1>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Link
             href={session?.role !== 'EMPLEADO' ? "/dashboard/settings/business-hours" : "#"}
-            className={`block bg-white shadow rounded-lg p-6 transition-shadow border ${
+            className={`block bg-white dark:bg-gray-800 shadow rounded-lg p-6 transition-shadow border ${
               session?.role !== "EMPLEADO"
-                ? "hover:shadow-md hover:border-gray-300 border-gray-200" //enabled
-                : "opacity-50 border-gray-200"  //disabled
+                ? "hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 border-gray-200 dark:border-gray-700" //enabled
+                : "opacity-50 border-gray-200 dark:border-gray-700"  //disabled
             }`}
           >
             <div className="flex items-center gap-4 mb-3">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <Clock className="h-6 w-6 text-blue-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">Horarios de Atención</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Horarios de Atención</h3>
             </div>
-            <p className="text-gray-600 text-sm leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
               Configura los horarios generales de tu negocio. Estos horarios se aplicarán automáticamente cuando asignes servicios a empleados y determinarán la disponibilidad para reservas online.
             </p>
             <div className="mt-4 text-blue-600 text-sm font-medium">
@@ -78,13 +78,13 @@ export default function Settings() {
 
         <Link
           href="/dashboard/settings/password-change"
-          className="block bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow border border-gray-200 hover:border-gray-300"
+          className="block bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
         >
           <div className="flex items-center gap-4 mb-3">
             <div className="p-2 bg-blue-100 rounded-lg">
               <KeyRound className="h-6 w-6 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900">Cambiar contraseña</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Cambiar contraseña</h3>
           </div>
           <p className="text-gray-600 text-sm leading-relaxed">
           La nueva contraseña reemplazará a la actual y se utilizará para acceder a tu perfil. Asegúrate de elegir una clave segura para proteger tu información y mantener la seguridad de tu cuenta.
@@ -96,13 +96,13 @@ export default function Settings() {
 
         <Link
           href="/dashboard/settings/personal-data"
-          className="block bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow border border-gray-200 hover:border-gray-300"
+          className="block bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
         >
           <div className="flex items-center gap-4 mb-3">
             <div className="p-2 bg-blue-100 rounded-lg">
               <User className="h-6 w-6 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900">Datos Personales</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Datos Personales</h3>
           </div>
           <p className="text-gray-600 text-sm leading-relaxed">
             Modifica tu nombre de usuario y nombre completo. Esta información se mostrará en tu perfil interno y será visible en las comunicaciones del sistema.
@@ -114,17 +114,17 @@ export default function Settings() {
 
         <Link
           href={session?.role !== 'EMPLEADO' ? "/dashboard/settings/business-contact" : "#"}
-          className={`block bg-white shadow rounded-lg p-6 transition-shadow border ${
+          className={`block bg-white dark:bg-gray-800 shadow rounded-lg p-6 transition-shadow border ${
             session?.role !== "EMPLEADO"
-              ? "hover:shadow-md hover:border-gray-300 border-gray-200"
-              : "opacity-50 border-gray-200"
+              ? "hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 border-gray-200 dark:border-gray-700"
+              : "opacity-50 border-gray-200 dark:border-gray-700"
           }`}
         >
           <div className="flex items-center gap-4 mb-3">
             <div className="p-2 bg-blue-100 rounded-lg">
               <Building2 className="h-6 w-6 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900">Información del Negocio</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Información del Negocio</h3>
           </div>
           <p className="text-gray-600 text-sm leading-relaxed">
             Configura el teléfono, dirección y otros datos de contacto de tu negocio. Esta información se mostrará en los emails enviados a tus clientes.
@@ -136,13 +136,13 @@ export default function Settings() {
 
         <Link
           href="/dashboard/settings/support"
-          className="block bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow border border-gray-200 hover:border-gray-300"
+          className="block bg-white dark:bg-gray-800 shadow rounded-lg p-6 hover:shadow-md transition-shadow border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
         >
           <div className="flex items-center gap-4 mb-3">
             <div className="p-2 bg-blue-100 rounded-lg">
               <MessageCircle className="h-6 w-6 text-blue-600" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900">Soporte Técnico</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Soporte Técnico</h3>
           </div>
           <p className="text-gray-600 text-sm leading-relaxed">
             ¿Necesitas ayuda? Contacta con nuestro equipo de soporte técnico. Reporta problemas, solicita nuevas funcionalidades o recibe asistencia personalizada.
@@ -153,24 +153,24 @@ export default function Settings() {
         </Link>
 
         {/* Eliminar Cuenta - Zona de peligro */}
-        <div className="bg-white shadow rounded-lg p-6 border-2 border-red-200 hover:border-red-300 transition-shadow">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 border-2 border-red-200 dark:border-red-900/50 hover:border-red-300 dark:hover:border-red-800/70 transition-shadow">
           <div className="flex items-center gap-4 mb-3">
-            <div className="p-2 bg-red-100 rounded-lg">
-              <Trash2 className="h-6 w-6 text-red-600" />
+            <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
+              <Trash2 className="h-6 w-6 text-red-600 dark:text-red-400" />
             </div>
-            <h3 className="text-lg font-semibold text-red-600">Eliminar Cuenta</h3>
+            <h3 className="text-lg font-semibold text-red-600 dark:text-red-400">Eliminar Cuenta</h3>
           </div>
-          <p className="text-gray-600 text-sm leading-relaxed mb-4">
+          <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
             Elimina permanentemente tu cuenta y todos tus datos. Esta acción no se puede deshacer. Los registros de pagos se conservarán por obligaciones legales (Ley 25.326).
           </p>
           {deleteError && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
-              <p className="text-sm text-red-600">{deleteError}</p>
+            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-md">
+              <p className="text-sm text-red-600 dark:text-red-400">{deleteError}</p>
             </div>
           )}
           <button
             onClick={() => setShowDeleteModal(true)}
-            className="w-full px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors"
+            className="w-full px-4 py-2 bg-red-600 dark:bg-red-700 text-white text-sm font-medium rounded-md hover:bg-red-700 dark:hover:bg-red-600 transition-colors"
           >
             Eliminar mi cuenta
           </button>

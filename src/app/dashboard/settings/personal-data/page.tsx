@@ -107,48 +107,48 @@ export default function PersonalData() {
   const hasChanges = name !== initialData.name || username !== initialData.username;
 
   return (
-    <div className="max-w-3xl p-6 space-y-8">
+    <div className="max-w-3xl mx-auto p-6 dark:text-white space-y-8">
       <div className="flex items-center gap-4">
         <Link
           href="/dashboard/settings"
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors pt-8"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors pt-8"
         >
-          <ArrowLeft className="h-5 w-5 text-gray-600" />
+          <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Datos Personales</h1>
-          <p className="text-gray-600">Modifica tu nombre de usuario y nombre completo.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Datos Personales</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Modifica tu nombre de usuario y nombre completo.</p>
         </div>
       </div>
 
-      <section className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Información Personal</h2>
+      <section className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Información Personal</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">
                 Nombre completo
               </label>
               <input
                 type="text"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Tu nombre completo"
                 required
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Este nombre aparecerá en tu perfil y comunicaciones con clientes.
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Nombre de usuario
               </label>
               <input
                 type="text"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 value={username}
                 onChange={(e) => setUsername(e.target.value.toLowerCase())}
                 placeholder="tu-usuario"
@@ -156,7 +156,7 @@ export default function PersonalData() {
                 minLength={3}
                 pattern="[a-z0-9_-]+"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Solo letras minúsculas, números, guiones y guiones bajos. Mínimo 3 caracteres.
               </p>
             </div>

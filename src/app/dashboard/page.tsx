@@ -106,10 +106,10 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500"></div>
-          <p className="text-gray-600 text-lg">Cargando dashboard...</p>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">Cargando dashboard...</p>
         </div>
       </div>
     );
@@ -117,10 +117,10 @@ export default function Dashboard() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-          <div className="text-red-600 text-lg mb-2">⚠️ Error</div>
-          <div className="text-red-700">{error}</div>
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center">
+          <div className="text-red-600 dark:text-red-400 text-lg mb-2">⚠️ Error</div>
+          <div className="text-red-700 dark:text-red-300">{error}</div>
         </div>
       </div>
     );
@@ -133,11 +133,11 @@ export default function Dashboard() {
     color: string;
     gradient: string;
   }) => (
-    <div className={`bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6 hover:shadow-md transition-all duration-300 ${gradient}`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 md:p-6 hover:shadow-md transition-all duration-300 ${gradient} dark:hover:bg-gray-700`}>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs md:text-sm font-medium text-gray-600 mb-1">{title}</p>
-          <p className="text-2xl md:text-3xl font-bold text-gray-900">{value}</p>
+          <p className="text-xs md:text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">{title}</p>
+          <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{value}</p>
         </div>
         <div className={`p-2 md:p-3 rounded-lg ${color}`}>
           <div className="w-5 h-5 md:w-6 md:h-6">{icon}</div>
@@ -154,24 +154,24 @@ export default function Dashboard() {
     color: string;
   }) => (
     <Link href={href} className="block">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300 hover:scale-105">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 hover:shadow-md transition-all duration-300 hover:scale-105">
         <div className={`w-12 h-12 rounded-lg ${color} flex items-center justify-center mb-4`}>
           {icon}
         </div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
-        <p className="text-gray-600 text-sm">{description}</p>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{title}</h3>
+        <p className="text-gray-600 dark:text-gray-400 text-sm">{description}</p>
       </div>
     </Link>
   );
 
   const getStatusBadge = (status: string) => {
     const badges = {
-      PENDING: 'bg-yellow-100 text-yellow-800',
-      CONFIRMED: 'bg-green-100 text-green-800',
-      CANCELLED: 'bg-red-100 text-red-800',
-      COMPLETED: 'bg-blue-100 text-blue-800',
+      PENDING: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
+      CONFIRMED: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      CANCELLED: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
+      COMPLETED: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
     };
-    return badges[status as keyof typeof badges] || 'bg-gray-100 text-gray-800';
+    return badges[status as keyof typeof badges] || 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300';
   };
 
   const getStatusText = (status: string) => {
@@ -212,7 +212,7 @@ export default function Dashboard() {
 
       {/* Tarjetas de estadísticas - Grid 2x2 en mobile */}
       <div>
-        <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-6">Resumen del negocio</h2>
+        <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-4 md:mb-6">Resumen del negocio</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           <StatCard
             title="Total Servicios"
@@ -223,7 +223,7 @@ export default function Dashboard() {
               </svg>
             }
             color="bg-blue-500"
-            gradient="hover:bg-gradient-to-br hover:from-blue-50 hover:to-blue-100"
+            gradient="hover:bg-gradient-to-br hover:from-blue-50 hover:to-blue-100 dark:hover:bg-gradient-to-br dark:hover:from-blue-300 dark:hover:to-blue-900"
           />
           <StatCard
             title="Servicios Activos"
@@ -234,7 +234,7 @@ export default function Dashboard() {
               </svg>
             }
             color="bg-green-500"
-            gradient="hover:bg-gradient-to-br hover:from-green-50 hover:to-green-100"
+            gradient="hover:bg-gradient-to-br hover:from-green-50 hover:to-green-100 dark:hover:bg-gradient-to-br dark:hover:from-green-300 dark:hover:to-green-900"
           />
           <StatCard
             title="Empleados"
@@ -245,7 +245,7 @@ export default function Dashboard() {
               </svg>
             }
             color="bg-purple-500"
-            gradient="hover:bg-gradient-to-br hover:from-purple-50 hover:to-purple-100"
+            gradient="hover:bg-gradient-to-br hover:from-purple-50 hover:to-purple-100 dark:hover:bg-gradient-to-br dark:hover:from-purple-300 dark:hover:to-purple-900"
           />
           <StatCard
             title="Citas (30 días)"
@@ -256,16 +256,16 @@ export default function Dashboard() {
               </svg>
             }
             color="bg-orange-500"
-            gradient="hover:bg-gradient-to-br hover:from-orange-50 hover:to-orange-100"
+            gradient="hover:bg-gradient-to-br hover:from-orange-50 hover:to-orange-100 dark:hover:bg-gradient-to-br dark:hover:from-orange-300 dark:hover:to-orange-900"
           />
         </div>
       </div>
 
       {/* Turnos de Hoy */}
       {todayAppointments.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 md:p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg md:text-xl font-semibold text-gray-900 flex items-center gap-2">
+            <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
               <svg className="w-5 h-5 text-rose-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
               </svg>
@@ -277,24 +277,24 @@ export default function Dashboard() {
           </div>
           <div className="space-y-3">
             {todayAppointments.slice(0, 5).map((apt) => (
-              <div key={apt.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div key={apt.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-gray-900 text-sm md:text-base">
+                    <span className="font-medium text-gray-900 dark:text-white text-sm md:text-base">
                       {new Date(apt.date).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
                     </span>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(apt.status)}`}>
                       {getStatusText(apt.status)}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600 truncate">{apt.clientName}</p>
-                  <p className="text-xs text-gray-500 truncate">{apt.serviceName}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 truncate">{apt.clientName}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{apt.serviceName}</p>
                 </div>
               </div>
             ))}
           </div>
           {todayAppointments.length > 5 && (
-            <p className="text-xs text-gray-500 text-center mt-3">
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-3">
               +{todayAppointments.length - 5} turnos más
             </p>
           )}
@@ -303,7 +303,7 @@ export default function Dashboard() {
 
       {/* Acciones rápidas */}
       <div>
-        <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-4 md:mb-6">Acciones rápidas</h2>
+        <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-4 md:mb-6">Acciones rápidas</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {/* Mostrar solo si NO es EMPLEADO */}
           {userData?.role !== 'EMPLEADO' && (

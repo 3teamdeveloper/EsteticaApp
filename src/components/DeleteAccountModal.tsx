@@ -25,46 +25,46 @@ export default function DeleteAccountModal({
 
   return (
     <div className="fixed inset-0 backdrop-blur-md bg-black/70 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-md w-full p-6 relative">
+      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6 relative">
         <button
           onClick={onClose}
           disabled={isDeleting}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+          className="absolute top-4 right-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 disabled:opacity-50"
         >
           <X className="w-5 h-5" />
         </button>
 
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-red-100 rounded-lg">
-            <AlertTriangle className="w-6 h-6 text-red-600" />
+          <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
+            <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
           </div>
-          <h2 className="text-xl font-bold text-gray-900">Eliminar Cuenta</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Eliminar Cuenta</h2>
         </div>
 
         <div className="space-y-4">
-          <p className="text-gray-700">
-            Esta acción es <strong className="text-red-600">permanente e irreversible</strong>.
+          <p className="text-gray-700 dark:text-gray-300">
+            Esta acción es <strong className="text-red-600 dark:text-red-400">permanente e irreversible</strong>.
           </p>
 
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-sm text-red-800 font-semibold mb-2">
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-lg p-4">
+            <p className="text-sm text-red-800 dark:text-red-300 font-semibold mb-2">
               Se eliminarán todos tus datos:
             </p>
-            <ul className="text-sm text-red-700 space-y-1 list-disc list-inside">
+            <ul className="text-sm text-red-700 dark:text-red-400 space-y-1 list-disc list-inside">
               <li>Datos personales y de negocio</li>
               <li>Servicios creados</li>
               <li>Empleados registrados</li>
               <li>Reservas y citas</li>
               <li>Perfil público y configuraciones</li>
             </ul>
-            <p className="text-xs text-red-600 mt-3">
+            <p className="text-xs text-red-600 dark:text-red-400 mt-3">
               ⚠️ Los registros de pagos se conservarán por obligación legal (Ley 25.326)
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Para confirmar, escribe <strong className="text-red-600">ELIMINAR</strong>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Para confirmar, escribe <strong className="text-red-600 dark:text-red-400">ELIMINAR</strong>
             </label>
             <input
               type="text"
@@ -72,7 +72,7 @@ export default function DeleteAccountModal({
               onChange={(e) => setConfirmText(e.target.value.toUpperCase())}
               disabled={isDeleting}
               placeholder="Escribe ELIMINAR"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
             />
           </div>
 
@@ -80,14 +80,14 @@ export default function DeleteAccountModal({
             <button
               onClick={onClose}
               disabled={isDeleting}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
             >
               Cancelar
             </button>
             <button
               onClick={onConfirm}
               disabled={!canConfirm}
-              className="flex-1 px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2 bg-red-600 dark:bg-red-700 text-white font-medium rounded-md hover:bg-red-700 dark:hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isDeleting ? 'Eliminando...' : 'Eliminar Cuenta'}
             </button>

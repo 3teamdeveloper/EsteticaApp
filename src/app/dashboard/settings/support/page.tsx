@@ -188,29 +188,29 @@ export default function Support() {
           <ArrowLeft className="h-5 w-5 text-gray-600" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Soporte Técnico</h1>
-          <p className="text-gray-600">Contacta con nuestro equipo para recibir ayuda personalizada.</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Soporte Técnico</h1>
+          <p className="text-gray-600 dark:text-gray-400">Contacta con nuestro equipo para recibir ayuda personalizada.</p>
         </div>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Formulario principal */}
         <div className="lg:col-span-2">
-          <section className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-6">Crear Ticket de Soporte</h2>
+          <section className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Crear Ticket de Soporte</h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Categoría y Prioridad */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Categoría
                   </label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   >
                     {CATEGORIES.map(cat => (
@@ -220,14 +220,14 @@ export default function Support() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Prioridad
                   </label>
                   <select
                     name="priority"
                     value={formData.priority}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   >
                     {PRIORITIES.map(priority => (
@@ -241,7 +241,7 @@ export default function Support() {
 
               {/* Asunto */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Asunto *
                 </label>
                 <input
@@ -249,7 +249,7 @@ export default function Support() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Describe brevemente tu consulta o problema"
                   required
                 />
@@ -257,7 +257,7 @@ export default function Support() {
 
               {/* Mensaje */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Descripción detallada *
                 </label>
                 <textarea
@@ -265,19 +265,19 @@ export default function Support() {
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={6}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Explica tu consulta o problema con el mayor detalle posible. Incluye pasos para reproducir el error si aplica."
                   required
                   minLength={10}
                 />
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                   Mínimo 10 caracteres. Cuanto más detallada sea tu descripción, mejor podremos ayudarte.
                 </p>
               </div>
 
               {/* Información adicional */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Teléfono de contacto
                 </label>
                 <input
@@ -285,11 +285,10 @@ export default function Support() {
                   name="userPhone"
                   value={formData.userPhone}
                   onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Opcional - para contacto urgente"
                 />
               </div>
-
 
               {/* Botones */}
               <div className="flex justify-end gap-3">
@@ -314,8 +313,8 @@ export default function Support() {
         {/* Panel lateral con información */}
         <div className="space-y-6">
           {/* Categoría seleccionada */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Categoría Seleccionada</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categoría Seleccionada</h3>
             <div className="flex items-center gap-3">
               {selectedCategory && (
                 <>
@@ -352,69 +351,69 @@ export default function Support() {
 
       {/* Tickets Previos */}
       <div className="mt-8">
-        <section className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">Mis Tickets de Soporte</h2>
+        <section className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Mis Tickets de Soporte</h2>
           
           {loadingTickets ? (
             <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="text-gray-500 mt-2">Cargando tickets...</p>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-400 mx-auto"></div>
+              <p className="text-gray-500 dark:text-gray-300 mt-2">Cargando tickets...</p>
             </div>
           ) : tickets.length === 0 ? (
             <div className="text-center py-8">
               <HelpCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500">No tienes tickets de soporte aún.</p>
-              <p className="text-sm text-gray-400">Cuando envíes tu primer ticket, aparecerá aquí.</p>
+              <p className="text-gray-500 dark:text-gray-300">No tienes tickets de soporte aún.</p>
+              <p className="text-sm text-gray-400 dark:text-gray-400">Cuando envíes tu primer ticket, aparecerá aquí.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Ticket
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Asunto
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Categoría
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Estado
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Fecha
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {tickets.map((ticket: Ticket) => (
-                    <tr key={ticket.id} className="hover:bg-gray-50">
+                    <tr key={ticket.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {ticket.ticketNumber}
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm text-gray-900 max-w-xs truncate">
+                        <div className="text-sm text-gray-900 dark:text-white max-w-xs truncate">
                           {ticket.subject}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
                           {getCategoryLabel(ticket.category)}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-2">
                           {getStatusIcon(ticket.status)}
-                          <span className="text-sm text-gray-900">
+                          <span className="text-sm text-gray-900 dark:text-white">
                             {getStatusLabel(ticket.status)}
                           </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         {new Date(ticket.createdAt).toLocaleDateString('es-AR', {
                           day: '2-digit',
                           month: '2-digit',

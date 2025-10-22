@@ -39,12 +39,12 @@ export default function NotificationList({ initialNotifications }: { initialNoti
   }, []);
 
   return (
-    <div className="w-full md:w-2/3 bg-white text-gray-900 shadow-sm p-3 sm:p-4 overflow-y-auto border-r border-gray-200">
+    <div className="w-full md:w-2/3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm p-3 sm:p-4 overflow-y-auto border-r border-gray-200 dark:border-gray-700">
       <div className="flex items-center pt-8 justify-between mb-2 sm:mb-3">
-        <h2 className="text-2xl sm:text-lg font-semibold">Notificaciones</h2>
+        <h2 className="text-2xl sm:text-lg font-semibold dark:text-white">Notificaciones</h2>
         <div className="flex items-center gap-1.5">
           <button
-            className={`p-1.5 rounded-md border text-xs inline-flex items-center gap-1 ${filter === 'today' ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-700 border-gray-300'}`}
+            className={`p-1.5 rounded-md border text-xs inline-flex items-center gap-1 ${filter === 'today' ? 'bg-gray-900 dark:bg-gray-700 text-white border-gray-900 dark:border-gray-600' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600'}`}
             onClick={() => { setFilter('today'); try { localStorage.setItem('notifications_filter','today'); } catch {}; fetchRange('today'); }}
             title="Hoy"
             aria-label="Filtrar hoy"
@@ -53,7 +53,7 @@ export default function NotificationList({ initialNotifications }: { initialNoti
             <span className="hidden sm:inline">Hoy</span>
           </button>
           <button
-            className={`p-1.5 rounded-md border text-xs inline-flex items-center gap-1 ${filter === '7d' ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-700 border-gray-300'}`}
+            className={`p-1.5 rounded-md border text-xs inline-flex items-center gap-1 ${filter === '7d' ? 'bg-gray-900 dark:bg-gray-700 text-white border-gray-900 dark:border-gray-600' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600'}`}
             onClick={() => { setFilter('7d'); try { localStorage.setItem('notifications_filter','7d'); } catch {}; fetchRange('7d'); }}
             title="Últimos 7 días"
             aria-label="Filtrar últimos 7 días"
@@ -62,7 +62,7 @@ export default function NotificationList({ initialNotifications }: { initialNoti
             <span className="hidden sm:inline">7 días</span>
           </button>
           <button
-            className={`p-1.5 rounded-md border text-xs inline-flex items-center gap-1 ${filter === 'all' ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-700 border-gray-300'}`}
+            className={`p-1.5 rounded-md border text-xs inline-flex items-center gap-1 ${filter === 'all' ? 'bg-gray-900 dark:bg-gray-700 text-white border-gray-900 dark:border-gray-600' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600'}`}
             onClick={() => { setFilter('all'); try { localStorage.setItem('notifications_filter','all'); } catch {}; fetchRange('all'); }}
             title="Todos"
             aria-label="Filtrar todos"

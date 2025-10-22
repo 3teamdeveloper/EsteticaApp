@@ -31,15 +31,15 @@ export function ProfilePreview({ profileData }: ProfilePreviewProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">Vista previa</h2>
-        <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Vista previa</h2>
+        <div className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
           Como se verá tu página
         </div>
       </div>
       
       {/* Preview container with theme colors */}
       <div 
-        className="border-2 border-gray-200 rounded-xl overflow-hidden shadow-sm"
+        className="border-2 border-gray-200 dark:border-gray-600 rounded-xl overflow-hidden shadow-sm"
         style={themeStyles}
       >
         {/* Cover image section */}

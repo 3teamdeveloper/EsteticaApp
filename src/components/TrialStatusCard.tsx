@@ -23,15 +23,15 @@ export default function TrialStatusCard() {
     }
   };
 
-  const getStatusColor = () => {
-    if (trialStatus.isExpired) {
-      return 'border-red-200 bg-red-50';
-    } else if (trialStatus.daysRemaining <= 3) {
-      return 'border-orange-200 bg-orange-50';
-    } else {
-      return 'border-green-200 bg-green-50';
-    }
-  };
+const getStatusColor = () => {
+  if (trialStatus.isExpired) {
+    return 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-300/90';
+  } else if (trialStatus.daysRemaining <= 3) {
+    return 'border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-300/90';
+  } else {
+    return 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-300/90';
+  }
+};
 
   const getStatusText = () => {
     if (trialStatus.isExpired) {

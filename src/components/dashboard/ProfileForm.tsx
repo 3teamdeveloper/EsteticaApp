@@ -330,7 +330,7 @@ export function ProfileForm(props: ProfileFormProps) {
       )}
 
       {/* Tab Navigation */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 dark:border-gray-700">
         <nav className="-mb-px flex flex-wrap" aria-label="Tabs">
           {tabs.map((tab) => (
             <button
@@ -338,8 +338,8 @@ export function ProfileForm(props: ProfileFormProps) {
               type="button"
               onClick={() => setActiveTab(tab.id)}
               className={`py-2 px-4 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === tab.id
-                ? 'border-rose-500 text-rose-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-rose-500 text-rose-600 dark:text-rose-400'
+                : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
             >
               {tab.label}
@@ -353,11 +353,11 @@ export function ProfileForm(props: ProfileFormProps) {
         <div className="space-y-6">
           {/* URL Name */}
           <div>
-            <label htmlFor="urlName" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="urlName" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
               URL del Perfil
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
-              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-300 text-sm">
                 citaup.com/
               </span>
               <input
@@ -366,19 +366,19 @@ export function ProfileForm(props: ProfileFormProps) {
                 id="urlName"
                 value={formData.urlName}
                 onChange={handleChange}
-                className="flex-1 min-w-0 block w-full text-gray-600 px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
+                className="flex-1 min-w-0 block w-full text-gray-900 dark:text-white bg-white dark:bg-gray-700 px-3 py-2 rounded-none rounded-r-md border border-gray-300 dark:border-gray-600 focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
                 placeholder="mi-salon"
                 required
               />
             </div>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               Esta será la URL pública de tu perfil. Usa solo letras minúsculas, números y guiones.
             </p>
           </div>
 
           {/* Page Title */}
           <div>
-            <label htmlFor="pageTitle" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="pageTitle" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
               Título de la Página
             </label>
             <input
@@ -387,17 +387,17 @@ export function ProfileForm(props: ProfileFormProps) {
               id="pageTitle"
               value={formData.pageTitle}
               onChange={handleChange}
-              className="mt-1 block w-full text-gray-600 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
+              className="mt-1 block w-full text-gray-900 dark:text-white bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
               placeholder="Mi Salón de Belleza"
             />
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               Este será el título que aparece en tu página. Puedes usar espacios y caracteres especiales.
             </p>
           </div>
 
           {/* Slogan */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Slogan</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Slogan</label>
             <input
               type="text"
               name="slogan"
@@ -409,7 +409,7 @@ export function ProfileForm(props: ProfileFormProps) {
           </div>
           {/* Bio */}
           <div>
-            <label htmlFor="bio" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="bio" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
               Biografía
             </label>
             <textarea
@@ -418,7 +418,7 @@ export function ProfileForm(props: ProfileFormProps) {
               rows={4}
               value={formData.bio}
               onChange={handleChange}
-              className="mt-1 block text-gray-600 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
+              className="mt-1 block text-gray-900 dark:text-white bg-white dark:bg-gray-700 w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
               placeholder="Cuéntale a tus clientes sobre tu negocio..."
             />
           </div>
@@ -431,7 +431,7 @@ export function ProfileForm(props: ProfileFormProps) {
           {/* Imágenes */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Imagen de Perfil</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Imagen de Perfil</label>
               <div className="mt-1 flex items-center gap-2">
                 <button
                   type="button"
@@ -471,7 +471,7 @@ export function ProfileForm(props: ProfileFormProps) {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Imagen de Portada</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Imagen de Portada</label>
               <div className="mt-1 flex items-center gap-2">
                 <button
                   type="button"
@@ -518,7 +518,7 @@ export function ProfileForm(props: ProfileFormProps) {
         <div className="space-y-6">
           {/* Google Fonts selector */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Google Fonts</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Google Fonts</label>
             <select
               value={selectedGoogleFont}
               onChange={(e) => {
@@ -543,7 +543,7 @@ export function ProfileForm(props: ProfileFormProps) {
 
           {/* Temas Predefinidos */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">Tema de Colores</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">Tema de Colores</label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {/* Tema Aurora (Light clásico) */}
               <div
@@ -567,7 +567,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-gray-100"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">✨ Aurora</p>
+                <p className="text-xs font-medium text-gray-700 dark:text-gray-200">✨ Aurora</p>
                 <p className="text-xs text-gray-500">Light clásico</p>
               </div>
 
@@ -593,7 +593,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-gray-800"></div>
                   <div className="w-4 h-4 rounded-full bg-gray-700 border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">🌑 Eclipse</p>
+                <p className="text-xs font-medium text-gray-700 dark:text-gray-200">🌑 Eclipse</p>
                 <p className="text-xs text-gray-500">Dark elegante</p>
               </div>
 
@@ -619,7 +619,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-emerald-50"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">🌿 Esmeralda</p>
+                <p className="text-xs font-medium text-gray-700 dark:text-gray-200">🌿 Esmeralda</p>
                 <p className="text-xs text-gray-500">Verde fresco</p>
               </div>
 
@@ -645,7 +645,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-pink-50"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">🌸 Sakura</p>
+                <p className="text-xs font-medium text-gray-700 dark:text-gray-200">🌸 Sakura</p>
                 <p className="text-xs text-gray-500">Pastel cálido</p>
               </div>
 
@@ -671,7 +671,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-orange-100"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">🏺 Terracota</p>
+                <p className="text-xs font-medium text-gray-700 dark:text-gray-200">🏺 Terracota</p>
                 <p className="text-xs text-gray-500">Marrón terroso</p>
               </div>
 
@@ -697,7 +697,7 @@ export function ProfileForm(props: ProfileFormProps) {
                   <div className="w-4 h-4 rounded-full bg-red-50"></div>
                   <div className="w-4 h-4 rounded-full bg-white border"></div>
                 </div>
-                <p className="text-xs font-medium text-gray-700">💎 Rubí</p>
+                <p className="text-xs font-medium text-gray-700 dark:text-gray-200">💎 Rubí</p>
                 <p className="text-xs text-gray-500">Rojo enérgico</p>
               </div>
             </div>
@@ -709,7 +709,7 @@ export function ProfileForm(props: ProfileFormProps) {
         <div className="space-y-6">
           {/* Redes Sociales */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-4">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-4">
               Redes Sociales
             </label>
             <div className="space-y-4">
@@ -798,7 +798,7 @@ export function ProfileForm(props: ProfileFormProps) {
 
           {/* Otros Enlaces */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               Otros Enlaces
             </label>
             <div className="space-y-4">

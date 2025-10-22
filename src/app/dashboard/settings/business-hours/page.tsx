@@ -132,13 +132,13 @@ export default function BusinessHoursConfig() {
       <div className="mb-6 flex items-center gap-4">
         <Link
           href="/dashboard/settings"
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
         >
-          <ArrowLeft className="h-5 w-5 text-gray-600" />
+          <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-400" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Horarios de Atención</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Horarios de Atención</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
             Configura los horarios generales de tu negocio. Estos horarios se aplicarán automáticamente cuando asignes servicios a empleados.
           </p>
         </div>
@@ -151,9 +151,9 @@ export default function BusinessHoursConfig() {
             const hasSchedules = dayPeriods.length > 0;
 
             return (
-              <div key={day.key} className="border border-gray-400 rounded-lg p-4 bg-gray-50">
+              <div key={day.key} className="border border-gray-400 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-medium text-gray-900">{day.name}</h3>
+                  <h3 className="font-medium text-gray-900 dark:text-white">{day.name}</h3>
                   <Button
                     variant="outline"
                     size="sm"
@@ -170,26 +170,26 @@ export default function BusinessHoursConfig() {
                     {dayPeriods.map((period, periodIndex) => (
                       <div key={periodIndex} className="flex items-center gap-4 p-3 flex-wrap  rounded-lg">
                         <div className="flex items-center gap-2">
-                          <label className="text-sm font-medium text-gray-700 w-16">
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 w-16">
                             Desde:
                           </label>
                           <input
                             type="time"
                             value={period.startTime}
                             onChange={(e) => updatePeriod(day.key, periodIndex, 'startTime', e.target.value)}
-                            className="border rounded-md px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+                            className="border dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500"
                           />
                         </div>
                         
                         <div className="flex items-center gap-2">
-                          <label className="text-sm font-medium text-gray-700 w-16">
+                          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 w-16">
                             Hasta:
                           </label>
                           <input
                             type="time"
                             value={period.endTime}
                             onChange={(e) => updatePeriod(day.key, periodIndex, 'endTime', e.target.value)}
-                            className="border rounded-md px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+                            className="border dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500"
                           />
                         </div>
 
@@ -205,7 +205,7 @@ export default function BusinessHoursConfig() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500 text-sm italic">Sin horarios configurados</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm italic">Sin horarios configurados</p>
                 )}
               </div>
             );

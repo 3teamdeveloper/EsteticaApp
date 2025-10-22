@@ -8,6 +8,7 @@ import { useNotificationToast } from '@/hooks/useNotificationToast';
 import NotificationManager from '@/components/NotificationManager';
 import { sessionManager } from '@/lib/session';
 import TrialNotification, { TrialExpiredBanner } from '@/components/TrialNotification';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 export default function DashboardLayout({
   children,
@@ -55,39 +56,41 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Notification Manager para manejar eventos */}
-      <NotificationManager />
-      
-      {/* Sidebar y contenido principal en un contenedor flex */}
-      <div className="flex h-screen">
-        {/* Sidebar - Ancho fijo de 64 (16rem) */}
-        <Sidebar
-          currentPath={pathname}
-          userRole={userRole}
-          collapsed={isSidebarCollapsed}
-          onToggleCollapse={() => setIsSidebarCollapsed((v) => !v)}
-        />
+    <ThemeProvider>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        {/* Notification Manager para manejar eventos */}
+        <NotificationManager />
         
-        {/* Contenido principal - Toma el espacio restante */}
-        <main className="flex-1 overflow-y-auto">
-          <div className="container mx-auto px-1 md:px-6 py-8">
-            <TrialExpiredBanner />
-            {children}
-          </div>
-        </main>
+        {/* Sidebar y contenido principal en un contenedor flex */}
+        <div className="flex h-screen">
+          {/* Sidebar - Ancho fijo de 64 (16rem) */}
+          <Sidebar
+            currentPath={pathname}
+            userRole={userRole}
+            collapsed={isSidebarCollapsed}
+            onToggleCollapse={() => setIsSidebarCollapsed((v) => !v)}
+          />
+          
+          {/* Contenido principal - Toma el espacio restante */}
+          <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+            <div className="container mx-auto px-1 md:px-6 py-8">
+              <TrialExpiredBanner />
+              {children}
+            </div>
+          </main>
+        </div>
+        
+        {/* Toast de notificación */}
+        {isVisible && (
+          <NotificationToast
+            message={message}
+            onClose={hideNotification}
+          />
+        )}
+        
+        {/* Notificación del trial */}
+        <TrialNotification />
       </div>
-      
-      {/* Toast de notificación */}
-      {isVisible && (
-        <NotificationToast
-          message={message}
-          onClose={hideNotification}
-        />
-      )}
-      
-      {/* Notificación del trial */}
-      <TrialNotification />
-    </div>
+    </ThemeProvider>
   );
 } 

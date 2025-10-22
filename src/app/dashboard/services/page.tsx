@@ -113,9 +113,9 @@ export default function ServicesPage() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-10 dark:bg-gray-900">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Servicios</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Servicios</h1>
         <Button
           onClick={handleCreateService}
           disabled={!trialStatus?.isActive}
@@ -127,40 +127,40 @@ export default function ServicesPage() {
         </Button>
       </div>
       {trialStatus && !trialStatus.isActive && (
-        <div className="bg-orange-100 text-orange-800 p-2 rounded mb-4 text-sm">
+        <div className="bg-orange-100 text-orange-800 p-2 rounded mb-4 text-sm dark:bg-orange-200 dark:text-orange-900">
           Tu trial ha expirado. Actualiza tu plan para agregar o editar servicios.
         </div>
       )}
 
-      <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-        <div className="w-full max-w-full overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-700">
               <tr>
-                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Nombre
                 </th>
-                <th className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Duración (min)
                 </th>
-                <th className="hidden sm:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="hidden sm:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Precio
                 </th>
-                <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Descripción
                 </th>
-                <th className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Estado
                 </th>
-                <th className="hidden sm:table-cell px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="hidden sm:table-cell px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Acciones
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               {services.map((service) => (
                 <tr key={service.id}>
-                  <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 break-words">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 break-words">
                     {service.name}
                     {/* Detalle móvil apilado */}
                     <div className="sm:hidden mt-2 space-y-2 text-xs text-gray-600">
@@ -183,7 +183,7 @@ export default function ServicesPage() {
                         </span>
                       </div>
                       {service.description && (
-                        <div className="text-gray-500 break-words">
+                        <div className="text-gray-500 dark:text-gray-400 break-words">
                           {expandedRows[service.id] ? (
                             <>
                               <span>{service.description}</span>{' '}

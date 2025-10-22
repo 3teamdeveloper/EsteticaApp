@@ -161,38 +161,38 @@ export default function Stats() {
       {/* Métricas avanzadas */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {/* Cancelaciones */}
-        <div className="bg-white rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
           <div className="flex items-center gap-2 mb-2">
             <PieChart className="w-6 h-6 text-rose-500" />
-            <span className="font-semibold text-lg">Cancelaciones</span>
+            <span className="font-semibold text-lg dark:text-white">Cancelaciones</span>
           </div>
           <div className="flex items-end gap-4">
             <span className="text-4xl font-bold text-rose-600">{cancellations.cancelled}</span>
-            <span className="text-gray-600">({cancellations.porcentaje}% del total)</span>
+            <span className="text-gray-600 dark:text-gray-400">({cancellations.porcentaje}% del total)</span>
           </div>
         </div>
         {/* Tasa de asistencia */}
-        <div className="bg-white rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
           <div className="flex items-center gap-2 mb-2">
             <UserCheck className="w-6 h-6 text-green-600" />
-            <span className="font-semibold text-lg">Tasa de asistencia</span>
+            <span className="font-semibold text-lg dark:text-white">Tasa de asistencia</span>
           </div>
           <div className="flex items-end gap-4">
             <span className="text-4xl font-bold text-green-600">{attendance.tasa}%</span>
-            <span className="text-gray-600">({attendance.completados} de {attendance.totalConfirmados} confirmados)</span>
+            <span className="text-gray-600 dark:text-gray-400">({attendance.completados} de {attendance.totalConfirmados} confirmados)</span>
           </div>
         </div>
         {/* Ingresos por servicio (barras horizontales) */}
-        <div className="bg-white rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="w-6 h-6 text-yellow-500" />
-            <span className="font-semibold text-lg">Ingresos por servicio</span>
+            <span className="font-semibold text-lg dark:text-white">Ingresos por servicio</span>
           </div>
           {revenueData.length > 0 ? (
             <div className="space-y-2 mt-2">
               {revenueData.map((d, idx) => (
                 <div key={d.name} className="flex items-center gap-2">
-                  <span className="w-32 truncate text-sm text-gray-700">{d.name}</span>
+                  <span className="w-32 truncate text-sm text-gray-700 dark:text-gray-300">{d.name}</span>
                   <div className="flex-1 h-5 rounded bg-gradient-to-r from-indigo-400 to-indigo-600 relative">
                     <div className={`absolute left-0 top-0 h-5 rounded ${getColor(idx)}`} style={{ width: `${(d.value / maxRevenue) * 100}%`, minWidth: 8 }}></div>
                   </div>
@@ -200,13 +200,13 @@ export default function Stats() {
                 </div>
               ))}
             </div>
-          ) : <div className="text-gray-400 text-center py-8">Sin datos para mostrar</div>}
+          ) : <div className="text-gray-400 dark:text-gray-500 text-center py-8">Sin datos para mostrar</div>}
         </div>
         {/* Clientes nuevos vs recurrentes (torta simple) */}
-        <div className="bg-white rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
           <div className="flex items-center gap-2 mb-2">
             <UserPlus className="w-6 h-6 text-blue-500" />
-            <span className="font-semibold text-lg">Nuevos vs Recurrentes</span>
+            <span className="font-semibold text-lg dark:text-white">Nuevos vs Recurrentes</span>
           </div>
           {totalClientes > 0 ? (
             <div className="flex items-center gap-6 justify-center mt-2">
@@ -245,13 +245,13 @@ export default function Stats() {
                 </div>
               </div>
             </div>
-          ) : <div className="text-gray-400 text-center py-8">Sin datos para mostrar</div>}
+          ) : <div className="text-gray-400 dark:text-gray-500 text-center py-8">Sin datos para mostrar</div>}
         </div>
         {/* Distribución horaria (barras verticales con gradiente de intensidad) */}
-        <div className="bg-white rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2 col-span-1 md:col-span-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2 col-span-1 md:col-span-2">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="w-6 h-6 text-indigo-500" />
-            <span className="font-semibold text-lg">Distribución horaria de turnos</span>
+            <span className="font-semibold text-lg dark:text-white">Distribución horaria de turnos</span>
           </div>
           
           {hourlyData.length > 0 ? (
@@ -332,10 +332,10 @@ export default function Stats() {
           )}
         </div>
         {/* Evolución semanal (línea simple) */}
-        <div className="bg-white rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-6 h-6 text-pink-500" />
-            <span className="font-semibold text-lg">Evolución semanal</span>
+            <span className="font-semibold text-lg dark:text-white">Evolución semanal</span>
           </div>
           {evolutionSem.length > 1 ? (
             <svg viewBox="0 0 200 80" className="w-full h-24">
@@ -355,13 +355,13 @@ export default function Stats() {
                 />
               ))}
             </svg>
-          ) : <div className="text-gray-400 text-center py-8">Sin datos para mostrar</div>}
+          ) : <div className="text-gray-400 dark:text-gray-500 text-center py-8">Sin datos para mostrar</div>}
         </div>
         {/* Evolución mensual (línea simple) */}
-        <div className="bg-white rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-6 h-6 text-blue-500" />
-            <span className="font-semibold text-lg">Evolución mensual</span>
+            <span className="font-semibold text-lg dark:text-white">Evolución mensual</span>
           </div>
           {evolutionMes.length > 1 ? (
             <svg viewBox="0 0 200 80" className="w-full h-24">
@@ -381,13 +381,13 @@ export default function Stats() {
                 />
               ))}
             </svg>
-          ) : <div className="text-gray-400 text-center py-8">Sin datos para mostrar</div>}
+          ) : <div className="text-gray-400 dark:text-gray-500 text-center py-8">Sin datos para mostrar</div>}
         </div>
         {/* Anticipación promedio */}
-        <div className="bg-white rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 sm:p-6 flex flex-col gap-2">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="w-6 h-6 text-orange-500" />
-            <span className="font-semibold text-lg">Anticipación promedio</span>
+            <span className="font-semibold text-lg dark:text-white">Anticipación promedio</span>
           </div>
           <div className="flex items-center gap-6">
             <span className="text-3xl font-bold text-orange-600">{leadTime.promedioDias} días</span>
