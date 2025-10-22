@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { CheckCircle, CreditCard, Star, Zap, Shield, Users } from 'lucide-react';
+import { CheckCircle, CreditCard, Star, Zap, Shield, Users, ArrowLeft } from 'lucide-react';
 import { useTrial } from '@/hooks/useTrial';
+import Link from 'next/link';
 
 export default function UpgradePage() {
   const { trialStatus } = useTrial();
@@ -103,6 +104,17 @@ export default function UpgradePage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Botón volver */}
+        <div className="mb-6">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <ArrowLeft className="h-5 w-5 text-gray-600" />
+            <span className="text-sm text-gray-600">Volver al dashboard</span>
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -130,7 +142,7 @@ export default function UpgradePage() {
             {/* Header del plan */}
             <div className="bg-gradient-to-r from-rose-500 to-pink-600 px-8 py-6 text-white text-center">
               <h2 className="text-2xl font-bold mb-2">Plan Pro</h2>
-              <div className="text-4xl font-bold mb-2">$20</div>
+              <div className="text-4xl font-bold mb-2">$28000</div>
               <div className="text-rose-100">por mes</div>
             </div>
 

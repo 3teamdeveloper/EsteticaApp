@@ -282,7 +282,7 @@ export default function Home() {
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Pro</h3>
                 <div className="text-4xl font-bold text-rose-600 mb-2">
-                  $20<span className="text-lg text-gray-600">/mes</span>
+                  $28000<span className="text-lg text-gray-600">/mes</span>
                 </div>
                 <p className="text-gray-600">
                   Perfecto para negocios pequeños y medianos

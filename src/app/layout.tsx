@@ -16,8 +16,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "CitaUp - Sistema de Gestión de Turnos Online",
-  description: "Gestiona tu negocio de belleza con facilidad. Agenda turnos, administra empleados y automatiza notificaciones. Aumenta ventas y optimiza tiempo. Prueba 14 días gratis.",
- keywords: [
+  description: "Gestiona tu negocio de belleza con facilidad. Agenda turnos, administra empleados y automatiza notificaciones. Aumenta ventas y optimiza tiempo. Prueba 14 días gratis.",
+  icons: {
+    icon: [
+      { url: '/images/favicon.png', type: 'image/png' },
+    ],
+    shortcut: '/images/favicon.png',
+    apple: '/images/favicon.png',
+  },
+  keywords: [
   // High-intent (compra inmediata)
   "sistema de turnos online gratis",
   "agenda de turnos para peluquería",

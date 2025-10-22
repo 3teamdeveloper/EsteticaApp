@@ -75,9 +75,38 @@ export default function Stats() {
     fetchAll();
   }, [userId]);
 
-  if (userLoading) return <div className="flex justify-center p-8">Cargando usuario...</div>;
-  if (!userId) return <div className="text-center text-red-500 p-8">No se pudo obtener el usuario autenticado.</div>;
-  if (loading) return <div className="flex justify-center p-8">Cargando estadísticas...</div>;
+  if (userLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500"></div>
+          <p className="text-gray-600 text-lg">Verificando usuario...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  if (!userId) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+          <div className="text-red-600 text-lg mb-2">⚠️ Error</div>
+          <div className="text-red-700">No se pudo obtener el usuario autenticado.</div>
+        </div>
+      </div>
+    );
+  }
+  
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500"></div>
+          <p className="text-gray-600 text-lg">Cargando estadísticas...</p>
+        </div>
+      </div>
+    );
+  }
   if (!overview) return <div>Error al cargar estadísticas</div>;
 
   // Preparar datos para gráficos

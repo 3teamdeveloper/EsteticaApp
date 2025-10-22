@@ -70,13 +70,9 @@ export default function TrialStatusCard() {
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-semibold text-gray-900">
-                  {getStatusText()}
+                  {getStatusText()} 
                 </h3>
-                {!trialStatus.isExpired && (
-                  <span className="text-xs text-gray-500">
-                    {trialStatus.daysRemaining} días
-                  </span>
-                )}
+
               </div>
               <p className="text-sm text-gray-600 mt-1">
                 {getStatusDescription()}

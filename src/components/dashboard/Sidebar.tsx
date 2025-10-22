@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { 
   LayoutDashboard, 
@@ -127,7 +128,16 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
       >
         {/* Logo y nombre de la app */}
         <div className={`h-16 relative flex items-center border-b border-gray-200 px-4`}>
-          <h1 className={`text-xl font-bold text-gray-800 transition-opacity duration-200 ${collapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>CitaUp</h1>
+            <Link href={process.env.NEXT_PUBLIC_BASE_URL || 'https://citaup.com'} className="flex items-center gap-2">
+            <Image 
+              src="/images/logocitaup.jpg" 
+              alt="CitaUp Logo" 
+              width={40} 
+              height={40} 
+              className="rounded-full object-cover"
+            />
+            <span className="text-xl text-gray-800 font-bold">CitaUp</span>
+          </Link>
           
           {/* Botón colapsar solo en md+ */}
           <button

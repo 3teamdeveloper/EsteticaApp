@@ -166,7 +166,7 @@ function RegisterForm() {
       {/* Header */}
       <header className="w-full border-b bg-white shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href={process.env.NEXT_PUBLIC_BASE_URL || 'https://citaup.com'} className="flex items-center gap-2">
             <Image 
               src="/images/logocitaup.jpg" 
               alt="CitaUp Logo" 

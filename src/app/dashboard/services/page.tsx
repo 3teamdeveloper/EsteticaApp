@@ -104,7 +104,10 @@ export default function ServicesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-gray-600">Cargando...</div>
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500"></div>
+          <p className="text-gray-600 text-lg">Cargando servicios...</p>
+        </div>
       </div>
     )
   }
