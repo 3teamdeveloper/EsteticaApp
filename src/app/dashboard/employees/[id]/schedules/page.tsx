@@ -45,8 +45,8 @@ export default function EmployeeSchedulesPage({ params }: { params: Promise<{ id
     return (
       <div className="p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
+          <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+          <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </div>
       </div>
     );
@@ -55,7 +55,7 @@ export default function EmployeeSchedulesPage({ params }: { params: Promise<{ id
   if (!employee) {
     return (
       <div className="p-6">
-        <div className="text-center text-gray-500">
+        <div className="text-center text-gray-500 dark:text-gray-400">
           Empleado no encontrado
         </div>
       </div>
@@ -68,16 +68,16 @@ export default function EmployeeSchedulesPage({ params }: { params: Promise<{ id
         <Button
           variant="outline"
           onClick={() => router.push('/dashboard/employees')}
-          className="mb-4 text-gray-800"
+          className="mb-4 text-gray-800 dark:text-gray-500"
         >
-          <ArrowLeft className="w-4 h-4 mr-2 text-gray-800" />
+          <ArrowLeft className="w-4 h-4 mr-2 text-gray-800 dark:text-gray-500" />
           Volver a Empleados
         </Button>
         
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Horarios de {employee.name}
         </h1>
-        <p className="text-gray-800 mt-2">
+        <p className="text-gray-600 dark:text-gray-400 mt-2">
           Configura los horarios específicos de este empleado. Si no se configura un horario específico, se usará el horario general del negocio.
         </p>
       </div>

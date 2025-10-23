@@ -106,14 +106,14 @@ export default function EditServicePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-gray-600">Cargando...</div>
+        <div className="text-gray-600 dark:text-gray-400">Cargando...</div>
       </div>
     )
   }
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
         {params.id === "new" ? "Nuevo Servicio" : "Editar Servicio"}
       </h1>
       {trialStatus && !trialStatus.isActive && (
@@ -121,9 +121,9 @@ export default function EditServicePage() {
           Tu trial ha expirado. Actualiza tu plan para agregar o editar servicios.
         </div>
       )}
-      <form onSubmit={handleSubmit} className="space-y-6 text-gray-600 max-w-2xl">
+      <form onSubmit={handleSubmit} className="space-y-6 text-gray-600 dark:text-gray-400 max-w-2xl">
         <div className="space-y-2">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Nombre
           </label>
           <Input   
@@ -135,7 +135,7 @@ export default function EditServicePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="duration" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="duration" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Duración (minutos)
           </label>
           <Input
@@ -149,7 +149,7 @@ export default function EditServicePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Precio
           </label>
           <Input
@@ -164,7 +164,7 @@ export default function EditServicePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Descripción
           </label>
           <Textarea
@@ -175,7 +175,7 @@ export default function EditServicePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="serviceImage" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="serviceImage" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Imagen del Servicio
           </label>
           <div className="flex items-center gap-4">
@@ -183,7 +183,7 @@ export default function EditServicePage() {
               <img
                 src={imagePreview}
                 alt={service?.name || 'Vista previa'}
-                className="h-16 w-16 rounded-md object-cover border border-gray-200"
+                className="h-16 w-16 rounded-md object-cover border border-gray-200 dark:border-gray-600"
               />
             )}
             <div className="flex items-center gap-2">
@@ -198,7 +198,7 @@ export default function EditServicePage() {
                 <button
                   type="button"
                   onClick={clearImage}
-                  className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
                   <X className="h-4 w-4" /> Quitar
                 </button>
@@ -206,9 +206,9 @@ export default function EditServicePage() {
             </div>
           </div>
           {imageName && (
-            <p className="text-xs text-gray-500">Seleccionado: {imageName}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Seleccionado: {imageName}</p>
           )}
-          <p className="text-xs text-gray-500">Formatos JPG o PNG, tamaño recomendado cuadrado.</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Formatos JPG o PNG, tamaño recomendado cuadrado.</p>
           <input
             id="serviceImage"
             name="serviceImage"

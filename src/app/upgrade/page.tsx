@@ -142,8 +142,9 @@ export default function UpgradePage() {
             {/* Header del plan */}
             <div className="bg-gradient-to-r from-rose-500 to-pink-600 px-8 py-6 text-white text-center">
               <h2 className="text-2xl font-bold mb-2">Plan Pro</h2>
-              <div className="text-4xl font-bold mb-2">$28000</div>
-              <div className="text-rose-100">por mes</div>
+              <div className="text-4xl font-bold mb-2">$28.000</div>
+              <div className="text-sm text-rose-100 mb-1">ARS/mes</div>
+              {/* <div className="text-rose-100">por mes</div> */}
             </div>
 
             {/* Features */}

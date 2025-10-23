@@ -282,8 +282,9 @@ export default function Home() {
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Pro</h3>
                 <div className="text-4xl font-bold text-rose-600 mb-2">
-                  $28000<span className="text-lg text-gray-600">/mes</span>
+                  $28.000<span className="text-lg text-gray-600"></span>
                 </div>
+                <p className="text-sm text-gray-500 -mt-1 mb-2">ARS/mes</p>
                 <p className="text-gray-600">
                   Perfecto para negocios pequeños y medianos
                 </p>
@@ -509,7 +510,7 @@ export default function Home() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-1">
                   Instagram
                 </h3>
-                <p className="text-gray-600">@3teamdeveloper</p>
+                <p className="text-gray-600">@3team.developer</p>
               </Link>
             </div>
 
@@ -532,7 +533,7 @@ export default function Home() {
                 <h3 className="text-xl font-semibold text-gray-900 mb-1">
                   WhatsApp
                 </h3>
-                <p className="text-gray-600">+54 9 11 2233 4455</p>
+                <p className="text-gray-600">+54 9 11 6819 8161</p>
               </Link>
             </div>
           </div>

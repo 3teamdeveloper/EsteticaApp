@@ -169,7 +169,7 @@ export default function EmployeesPage() {
 
       <div className="mb-6">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
           <Input
             type="text"
             placeholder="Buscar empleados..."
@@ -194,12 +194,12 @@ export default function EmployeesPage() {
                     {employee.employeeImage ? (
                       <img src={employee.employeeImage} alt={employee.name} className="w-10 h-10 rounded-full object-cover" />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-base font-bold text-gray-600">
+                      <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-base font-bold text-gray-600 dark:text-gray-200">
                         {employee.name ? employee.name.split(' ').map(n => n[0]).join('').toUpperCase() : '?'}
                       </div>
                     )}
                     <div>
-                      <h3 className="text-sm font-medium text-gray-900">
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-white">
                         {employee.name}
                       </h3>
                       <div className="mt-1">
@@ -211,7 +211,7 @@ export default function EmployeesPage() {
                               Invitación enviada
                             </span>
                             {employee.lastInvitationSentAt && (
-                              <span className="text-[11px] text-gray-500">
+                              <span className="text-[11px] text-gray-500 dark:text-gray-400">
                                 Enviada: {new Date(employee.lastInvitationSentAt).toLocaleString()}
                               </span>
                             )}
@@ -223,10 +223,10 @@ export default function EmployeesPage() {
                         )}
                       </div>
                       {employee.email && (
-                        <p className="text-sm text-gray-500">{employee.email}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{employee.email}</p>
                       )}
                       {employee.phone && (
-                        <p className="text-sm text-gray-500">{employee.phone}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{employee.phone}</p>
                       )}
                     </div>
                   </div>
@@ -242,7 +242,7 @@ export default function EmployeesPage() {
                         onClick={() => router.push(`/dashboard/employees/${employee.id}/schedules`)}
                         title="Gestionar horarios"
                       >
-                        <Clock className="w-4 h-4" />
+                        <Clock className="w-4 h-4 text-gray-600 dark:text-gray-500" />
                       </Button>
                       <Button
                         variant="outline"
@@ -251,7 +251,7 @@ export default function EmployeesPage() {
                         disabled={isTrialInactive}
                         title={isTrialInactive ? 'Actualiza tu plan para editar empleados' : ''}
                       >
-                        <Pencil className="w-4 h-4" />
+                        <Pencil className="w-4 h-4 text-gray-600 dark:text-gray-500" />
                       </Button>
                       {employee.email && (
                         <Button
@@ -261,7 +261,7 @@ export default function EmployeesPage() {
                           title={employee.hasPassword ? 'Cuenta activada' : 'Reenviar invitación para establecer contraseña'}
                           disabled={Boolean(employee.hasPassword)}
                         >
-                          <Send className="w-4 h-4" />
+                          <Send className="w-4 h-4 text-gray-600 dark:text-gray-500" />
                         </Button>
                       )}
                       <Button
@@ -269,7 +269,7 @@ export default function EmployeesPage() {
                         size="sm"
                         onClick={() => handleDeleteEmployee(employee)}
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-4 h-4 text-gray-600 dark:text-gray-500" />
                       </Button>
                     </div>
                   </div>

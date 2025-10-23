@@ -59,15 +59,15 @@ export default function NewServicePage() {
   }
 
   return (
-    <div className="container  text-gray-600 mx-auto py-10">
+    <div className="container text-gray-600 dark:text-gray-400 mx-auto py-10">
       <div className="mb-8">
-        <h1 className="text-2xl text-gray-900 font-bold">Nuevo Servicio</h1>
-        <p className="text-gray-500">Crea un nuevo servicio para tu negocio</p>
+        <h1 className="text-2xl text-gray-900 dark:text-white font-bold">Nuevo Servicio</h1>
+        <p className="text-gray-500 dark:text-gray-400">Crea un nuevo servicio para tu negocio</p>
       </div>
 
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
         <div className="space-y-2">
-          <label htmlFor="name" className="text-sm font-medium">
+          <label htmlFor="name" className="text-sm font-medium dark:text-gray-300">
             Nombre del Servicio
           </label>
           <Input
@@ -80,7 +80,7 @@ export default function NewServicePage() {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label htmlFor="duration" className="text-sm font-medium">
+            <label htmlFor="duration" className="text-sm font-medium dark:text-gray-300">
               Duración (minutos)
             </label>
             <Input
@@ -94,7 +94,7 @@ export default function NewServicePage() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="price" className="text-sm font-medium">
+            <label htmlFor="price" className="text-sm font-medium dark:text-gray-300">
               Precio
             </label>
             <Input
@@ -110,7 +110,7 @@ export default function NewServicePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="description" className="text-sm font-medium">
+          <label htmlFor="description" className="text-sm font-medium dark:text-gray-300">
             Descripción
           </label>
           <Textarea
@@ -122,7 +122,7 @@ export default function NewServicePage() {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="serviceImage" className="text-sm font-medium">
+          <label htmlFor="serviceImage" className="text-sm font-medium dark:text-gray-300">
             Imagen del Servicio
           </label>
           <div className="flex items-center gap-4">
@@ -130,7 +130,7 @@ export default function NewServicePage() {
               <img
                 src={imagePreview}
                 alt="Vista previa"
-                className="h-16 w-16 rounded-md object-cover border border-gray-200"
+                className="h-16 w-16 rounded-md object-cover border border-gray-200 dark:border-gray-600"
               />
             )}
             <div className="flex items-center gap-2">
@@ -145,7 +145,7 @@ export default function NewServicePage() {
                 <button
                   type="button"
                   onClick={clearImage}
-                  className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
                   <X className="h-4 w-4" /> Quitar
                 </button>
@@ -153,9 +153,9 @@ export default function NewServicePage() {
             </div>
           </div>
           {imageName && (
-            <p className="text-xs text-gray-500">Seleccionado: {imageName}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Seleccionado: {imageName}</p>
           )}
-          <p className="text-xs text-gray-500">Formatos JPG o PNG, tamaño recomendado cuadrado.</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Formatos JPG o PNG, tamaño recomendado cuadrado.</p>
           <input
             id="serviceImage"
             name="serviceImage"
@@ -170,7 +170,7 @@ export default function NewServicePage() {
           <button
             type="button"
             onClick={() => router.back()}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             Cancelar
           </button>

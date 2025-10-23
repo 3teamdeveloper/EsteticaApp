@@ -334,9 +334,9 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
 
   if (loading) {
     return (
-      <div className="bg-white shadow rounded-lg p-6">
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
               <div key={i} className="h-48 bg-gray-200 rounded"></div>
@@ -352,8 +352,8 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
       {/* Horarios organizados por servicio */}
       <div className="space-y-6">
         {assignedServices.length === 0 ? (
-          <div className="bg-white shadow rounded-lg p-6">
-            <p className="text-gray-800 text-center py-8">
+          <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+            <p className="text-gray-600 dark:text-gray-400 text-center py-8">
               Este empleado no tiene servicios asignados. Asigna servicios desde la página de empleados.
             </p>
           </div>
@@ -364,20 +364,20 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
             const isServiceActive = (service as any).isActive !== false; // Verificar si el servicio está activo
             
             return (
-              <div key={service.id} className={`bg-white shadow rounded-lg p-6 ${!isServiceActive ? 'opacity-60' : ''}`}>
+              <div key={service.id} className={`bg-white dark:bg-gray-800 shadow rounded-lg p-6 ${!isServiceActive ? 'opacity-60' : ''}`}>
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-semibold text-gray-900">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                       {service.name}
                     </h3>
                     {!isServiceActive && (
-                      <span className="px-2 py-1 text-xs bg-gray-200 text-gray-800 rounded-full">
+                      <span className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-full">
                         Deshabilitado
                       </span>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-800">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
                       {serviceSchedules.length} horario{serviceSchedules.length !== 1 ? 's' : ''}
                     </span>
                     <Button
@@ -393,9 +393,9 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
 
                 {/* Formulario para agregar horario a este servicio específico */}
                 {showForm && selectedServiceId === service.id && (
-                  <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                  <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <div className="flex justify-between items-center mb-4">
-                      <h4 className="text-md font-medium text-gray-900">
+                      <h4 className="text-md font-medium text-gray-900 dark:text-white">
                         Agregar Horario para {service.name}
                       </h4>
                       <Button
@@ -410,13 +410,13 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
                     <form onSubmit={handleSubmit} className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             Día
                           </label>
                           <select
                             value={formData.dayOfWeek}
                             onChange={(e) => setFormData({ ...formData, dayOfWeek: parseInt(e.target.value) })}
-                            className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
+                            className="w-full border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           >
                             {days.map((day) => (
                               <option key={day.key} value={day.key}>
@@ -430,12 +430,12 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
                       {/* Franjas horarias */}
                       <div className="space-y-4">
                         {formData.periods.length === 0 && (
-                          <div className="text-gray-800 text-sm">No hay franjas horarias agregadas</div>
+                          <div className="text-gray-600 dark:text-gray-400 text-sm">No hay franjas horarias agregadas</div>
                         )}
                         {formData.periods.map((period, index) => (
                           <div key={index} className="flex items-center gap-4">
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 Inicio
                               </label>
                               <Input
@@ -445,9 +445,9 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
                                 className="w-32"
                               />
                             </div>
-                            <div className="text-gray-800 mt-6">a</div>
+                            <div className="text-gray-600 dark:text-gray-400 mt-6">a</div>
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 Fin
                               </label>
                               <Input
@@ -505,10 +505,10 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
                       <div key={dayKey} className="p-3 border border-gray-200 rounded-lg">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <span className="font-medium text-gray-900 min-w-[80px]">
+                            <span className="font-medium text-gray-900 dark:text-white min-w-[80px]">
                               {days.find(d => d.key === parseInt(dayKey))?.name}
                             </span>
-                            <span className="text-gray-800">
+                            <span className="text-gray-600 dark:text-gray-400">
                               {formatSchedules(daySchedules)}
                             </span>
                           </div>
@@ -517,9 +517,9 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
                               variant="outline"
                               size="sm"
                               onClick={() => startEdit(daySchedules)}
-                              className="text-gray-800"
+                              className="text-gray-600 dark:text-gray-300"
                             >
-                              <Edit className="w-4 h-4 text-gray-800" />
+                              <Edit className="w-4 h-4 text-gray-600 dark:text-gray-500" />
                             </Button>
                             <Button
                               variant="outline"
@@ -527,7 +527,7 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
                               onClick={() => handleDeleteSchedule(daySchedules)}
                               className="text-red-600 hover:text-red-700 hover:bg-red-50"
                             >
-                              <Trash2 className="w-4 h-4 text-gray-800" />
+                              <Trash2 className="w-4 h-4 text-red-600 dark:text-red-400" />
                             </Button>
                           </div>
                         </div>
@@ -541,7 +541,7 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
                               {formData.periods.map((period, index) => (
                                 <div key={index} className="flex items-center gap-4">
                                   <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                       Inicio
                                     </label>
                                     <Input
@@ -551,9 +551,9 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
                                       className="w-32"
                                     />
                                   </div>
-                                  <div className="text-gray-800 mt-6">a</div>
+                                  <div className="text-gray-600 dark:text-gray-400 mt-6">a</div>
                                   <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                       Fin
                                     </label>
                                     <Input
@@ -606,7 +606,7 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
                     ))}
                   
                   {Object.keys(schedulesByDay).length === 0 && (
-                    <div className="text-center py-4 text-gray-800">
+                    <div className="text-center py-4 text-gray-600 dark:text-gray-400">
                       No hay horarios configurados para este servicio
                     </div>
                   )}
@@ -620,10 +620,10 @@ export default function EmployeeScheduleManager({ employeeId, employeeName }: Em
       {/* Modal de confirmación de eliminación */}
       {deleteModal.open && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
-          <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg max-w-sm w-full">
             <div className="flex items-center gap-2 mb-4">
               <Trash2 className="w-6 h-6 text-red-600" />
-              <span className="font-bold text-lg">Eliminar horario</span>
+              <span className="font-bold text-lg dark:text-white">Eliminar horario</span>
             </div>
             <p className="mb-6">¿Seguro que deseas eliminar este horario?</p>
             <div className="flex gap-2 justify-end">

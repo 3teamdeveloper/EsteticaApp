@@ -662,15 +662,15 @@ export default function CalendarCardsPage() {
       {/* Fila superior: título, botón y filtros */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 px-2">
         <div className="flex items-center gap-2 flex-wrap">
-          <h1 className="text-2xl font-bold text-gray-900">Agenda de Turnos</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Agenda de Turnos</h1>
         </div>
         
         {/* Filtros modernos - lado a lado en mobile */}
         <div className="flex gap-2 flex-wrap">
           <div className="flex-1 min-w-[140px]">
-            <label className="block text-xs font-medium text-gray-600 mb-1.5 pl-3">Servicio</label>
+            <label className="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1.5 pl-3">Servicio</label>
             <select
-              className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all hover:border-gray-300 appearance-none cursor-pointer"
+              className="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all hover:border-gray-300 dark:hover:border-gray-500 appearance-none cursor-pointer"
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
                 backgroundPosition: 'right 0.5rem center',
@@ -693,9 +693,9 @@ export default function CalendarCardsPage() {
           
           {userRole !== 'EMPLEADO' && (
             <div className="flex-1 min-w-[140px]">
-              <label className="block text-xs font-medium text-gray-600 mb-1.5 pl-3">Empleado</label>
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-300 mb-1.5 pl-3">Empleado</label>
               <select
-                className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all hover:border-gray-300 appearance-none cursor-pointer"
+                className="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all hover:border-gray-300 dark:hover:border-gray-500 appearance-none cursor-pointer"
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
                   backgroundPosition: 'right 0.5rem center',
@@ -720,11 +720,11 @@ export default function CalendarCardsPage() {
       <div className="flex flex-col md:flex-row gap-2">
         {/* Calendario compacto */}
         <div className="md:w-1/3 w-full flex flex-col">
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
             {/* Header del calendario con navegación */}
-            <div className="p-2 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+            <div className="p-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-700 border-b border-gray-200 dark:border-gray-600">
               <div className="text-center">
-                 <span className="text-sm font-semibold text-gray-700">
+                 <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                   {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                 </span>
               </div>
@@ -732,7 +732,7 @@ export default function CalendarCardsPage() {
               <div className="flex items-center justify-between mb-2">
                 <button
                   onClick={goToPreviousMonth}
-                  className="px-2 py-1 border rounded hover:bg-gray-100 text-xs"
+                  className="px-2 py-1 border dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-600 text-xs dark:text-gray-200"
                 >
                   ←
                 </button>
@@ -742,21 +742,21 @@ export default function CalendarCardsPage() {
           
             <button
               onClick={goToToday}
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
+              className="px-3 py-1 bg-blue-500 dark:bg-blue-600 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-500 text-xs"
             >
               Hoy
             </button>
        
                 <button
                   onClick={goToNextMonth}
-                  className="px-2 py-1 border rounded hover:bg-gray-100 text-xs"
+                  className="px-2 py-1 border dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-600 text-xs dark:text-gray-200"
                 >
                   →
                 </button>
               </div>
               <div className="grid grid-cols-7 gap-1">
                 {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map(day => (
-                  <div key={day} className="text-center text-xs font-semibold text-gray-700 py-1">
+                  <div key={day} className="text-center text-xs font-semibold text-gray-700 dark:text-gray-300 py-1">
                     {day}
                   </div>
                 ))}
@@ -779,12 +779,12 @@ export default function CalendarCardsPage() {
                     }}
                     className={`
                       min-h-[36px] md:min-h-[48px] p-0.5 border border-gray-200 rounded-lg transition-all duration-200 flex flex-col items-center justify-center
-                      ${isSelected ? 'bg-rose-100' : day.isCurrentMonth ? 'bg-white hover:bg-gray-50 cursor-pointer' : 'bg-gray-50'}
-                      ${isToday && !isSelected ? 'bg-blue-100' : ''}
-                      ${!day.isCurrentMonth ? 'text-gray-400' : 'text-gray-800'}
+                      ${isSelected ? 'bg-rose-100 dark:bg-rose-900/40' : day.isCurrentMonth ? 'bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer' : 'bg-gray-50 dark:bg-gray-800'}
+                      ${isToday && !isSelected ? 'bg-blue-100 dark:bg-blue-900/40' : ''}
+                      ${!day.isCurrentMonth ? 'text-gray-400 dark:text-gray-500' : 'text-gray-800 dark:text-gray-200'}
                     `}
                   >
-                    <div className={`text-[11px] font-bold mb-0.5 ${isToday ? 'text-blue-600' : day.isCurrentMonth ? 'text-gray-800' : 'text-gray-400'
+                    <div className={`text-[11px] font-bold mb-0.5 ${isToday ? 'text-blue-600 dark:text-blue-400' : day.isCurrentMonth ? 'text-gray-800 dark:text-gray-200' : 'text-gray-400 dark:text-gray-500'
                       }`}>
                       {day.dayNumber}
                     </div>
@@ -824,32 +824,32 @@ export default function CalendarCardsPage() {
           <div className="flex items-center gap-4 mt-2 px-2">
             <div className="flex items-center gap-1">
               <span className="w-3.5 h-3.5 rounded bg-green-200 border border-green-300 flex items-center justify-center text-[10px] font-bold text-green-900"></span>
-              <span className="text-xs text-gray-700">Disponibles</span>
+              <span className="text-xs text-gray-700 dark:text-gray-300">Disponibles</span>
             </div>
             <div className="flex items-center gap-1">
               <span className="w-3.5 h-3.5 rounded bg-blue-200 border border-blue-300 flex items-center justify-center text-[10px] font-bold text-blue-900"></span>
-              <span className="text-xs text-gray-700">Reservados</span>
+              <span className="text-xs text-gray-700 dark:text-gray-300">Reservados</span>
             </div>
           </div>
         </div>
         {/* Panel de horarios a la derecha */}
         <div className="w-full md:w-2/3">
           {selectedDay && selectedService !== "" ? (
-            <div className="bg-white rounded-lg shadow-lg border border-gray-200 py-4 px-1 md:px-2">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-4 px-1 md:px-2">
               {/* Título de servicio y precio */}
               {(() => {
                 const serviceObj = services.find(s => s.id.toString() === selectedService);
                 return serviceObj ? (
                   <div className="mb-2 flex items-center gap-2">
-                    <span className="font-bold text-lg text-gray-800">{serviceObj.name}</span>
+                    <span className="font-bold text-lg text-gray-800 dark:text-white">{serviceObj.name}</span>
                     {serviceObj.price && (
-                      <span className="text-sm text-gray-500">${serviceObj.price}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">${serviceObj.price}</span>
                     )}
                   </div>
                 ) : null;
               })()}
               <div className="mb-4">
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                   {selectedDay.toLocaleDateString('es-ES', {
                     weekday: 'long',
                     year: 'numeric',
@@ -857,7 +857,7 @@ export default function CalendarCardsPage() {
                     day: 'numeric'
                   })}
                 </h2>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   Horarios disponibles y ocupados
                 </p>
               </div>
@@ -867,7 +867,7 @@ export default function CalendarCardsPage() {
                   const daySlots = generateDayTimeSlots(selectedDay);
                   if (daySlots.length === 0) {
                     return (
-                      <div className="p-8 text-center text-gray-500">
+                      <div className="p-8 text-center text-gray-500 dark:text-gray-400">
                         <div className="text-lg font-medium">No hay horarios disponibles</div>
                         <div className="text-sm mt-1">
                           El local está cerrado este día o no hay empleados asignados
@@ -887,20 +887,20 @@ export default function CalendarCardsPage() {
                               className={`
                                 flex items-center  justify-between pt-2 pb-6 px-1 md:p-2  rounded-lg border relative transition-all duration-200 text-sm
                                 ${slot.isOccupied 
-                                  ? 'bg-blue-50 border-blue-200 hover:bg-blue-100' 
-                                  : 'bg-green-50 border-green-200 hover:bg-green-100 cursor-pointer'
+                                  ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-900/30' 
+                                  : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800/50 hover:bg-green-100 dark:hover:bg-green-900/30 cursor-pointer'
                                 }
                               `}
                               onClick={() => !slot.isOccupied && hasAccess('create_appointments') && handleSlotExpand(slotKey)}
                             >
                               {/* Izquierda: hora y empleado */}
                               <div className="flex items-center gap-2 min-w-0">
-                                <span className="font-mono font-bold text-base w-12 text-center">{slot.time}</span>
-                                <span className="truncate max-w-[120px]">{slot.employee?.name}</span>
+                                <span className="font-mono font-bold text-base w-12 text-center dark:text-white">{slot.time}</span>
+                                <span className="truncate max-w-[120px] dark:text-gray-200">{slot.employee?.name}</span>
                               </div>
                               {/* Centro: cliente si ocupado */}
                               {slot.isOccupied && (
-                                <span className="truncate max-w-[210px] text-blue-700 text-center flex-1 absolute md:static left-24 bottom-1">
+                                <span className="truncate max-w-[210px] text-blue-700 dark:text-blue-300 text-center flex-1 absolute md:static left-24 bottom-1">
                                   {slot.appointment?.extendedProps.client}
                                 </span>
                               )}

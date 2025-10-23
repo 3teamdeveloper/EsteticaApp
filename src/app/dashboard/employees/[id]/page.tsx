@@ -150,7 +150,7 @@ export default function EmployeeForm({ params }: { params: Promise<{ id: string 
   return (
     <div className="p-6">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
           {isEditing ? 'Editar Empleado' : 'Nuevo Empleado'}
         </h1>
         {trialStatus && !trialStatus.isActive && (
@@ -168,7 +168,7 @@ export default function EmployeeForm({ params }: { params: Promise<{ id: string 
                   Invitación enviada
                 </span>
                 {inviteInfo.lastInvitationSentAt && (
-                  <span className="text-[11px] text-gray-500">
+                  <span className="text-[11px] text-gray-500 dark:text-gray-400">
                     Enviada: {new Date(inviteInfo.lastInvitationSentAt).toLocaleString()}
                   </span>
                 )}
@@ -176,7 +176,7 @@ export default function EmployeeForm({ params }: { params: Promise<{ id: string 
             ) : null}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Imagen</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Imagen</label>
             <div className="flex items-center space-x-4 mt-1">
               <button
                 type="button"
@@ -188,14 +188,14 @@ export default function EmployeeForm({ params }: { params: Promise<{ id: string 
                   <img
                     src={imagePreview}
                     alt="Empleado"
-                    className="w-20 h-20 rounded-full object-cover border-2 border-gray-300 shadow group-hover:opacity-80 transition"
+                    className="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600 shadow group-hover:opacity-80 transition"
                   />
                 ) : (
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center border-2 border-gray-300 shadow relative">
-                    <span className="text-2xl font-semibold text-gray-500">
-                      {formData.name ? formData.name.split(' ').map(n => n[0]).join('').toUpperCase() : <Camera className="w-8 h-8 text-gray-400" />}
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 flex items-center justify-center border-2 border-gray-300 dark:border-gray-600 shadow relative">
+                    <span className="text-2xl font-semibold text-gray-500 dark:text-gray-300">
+                      {formData.name ? formData.name.split(' ').map(n => n[0]).join('').toUpperCase() : <Camera className="w-8 h-8 text-gray-400 dark:text-gray-500" />}
                     </span>
-                    <Camera className="w-7 h-7 text-gray-400 absolute bottom-2 right-2 bg-white rounded-full p-1 border border-gray-200 shadow-sm group-hover:scale-110 transition" />
+                    <Camera className="w-7 h-7 text-gray-400 dark:text-gray-500 absolute bottom-2 right-2 bg-white dark:bg-gray-700 rounded-full p-1 border border-gray-200 dark:border-gray-600 shadow-sm group-hover:scale-110 transition" />
                   </div>
                 )}
                 <input
@@ -210,7 +210,7 @@ export default function EmployeeForm({ params }: { params: Promise<{ id: string 
                 <button
                   type="button"
                   onClick={handleRemoveImage}
-                  className="ml-2 flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-gray-300 text-gray-500 text-xs font-medium shadow-sm hover:bg-red-100 hover:text-red-600 transition focus:outline-none focus:ring-2 focus:ring-red-200"
+                  className="ml-2 flex items-center gap-1 px-3 py-1 rounded-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-300 text-xs font-medium shadow-sm hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition focus:outline-none focus:ring-2 focus:ring-red-200"
                   title="Quitar imagen"
                 >
                   <Camera className="w-4 h-4 mr-1" /> Quitar
@@ -219,7 +219,7 @@ export default function EmployeeForm({ params }: { params: Promise<{ id: string 
             </div>
           </div>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Nombre
             </label>
             <Input
@@ -233,7 +233,7 @@ export default function EmployeeForm({ params }: { params: Promise<{ id: string 
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Email
             </label>
             <Input
@@ -246,7 +246,7 @@ export default function EmployeeForm({ params }: { params: Promise<{ id: string 
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Teléfono
             </label>
             <Input
