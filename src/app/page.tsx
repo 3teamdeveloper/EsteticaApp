@@ -505,7 +505,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <Link href="#" className="group inline-block">
+              <Link href="https://www.instagram.com/3team.developer" className="group inline-block">
                 <IconInstagram className="w-10 h-10 text-rose-600 mx-auto mb-3 group-hover:opacity-90 transition" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-1">
                   Instagram
@@ -515,7 +515,7 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <Link href="#" className="group inline-block">
+              <Link href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=3team.developer@gmail.com" className="group inline-block">
                 <Mail className="w-10 h-10 text-rose-600 mx-auto mb-3 group-hover:opacity-90 transition" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-1">
                   Email
@@ -526,7 +526,7 @@ export default function Home() {
 
             <div className="text-center">
               <Link
-                href="https://wa.me/15551234567"
+                href="https://wa.me/+5491168198161"
                 className="group inline-block"
               >
                 <Phone className="w-10 h-10 text-rose-600 mx-auto mb-3 group-hover:opacity-90 transition" />

@@ -16,6 +16,7 @@ import {
   ArrowLeftFromLine,
   ArrowRightFromLine,
   BookOpen,
+  History,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -55,6 +56,11 @@ const SIDEBAR_ITEMS = [
     title: 'Agenda de Turnos',
     href: '/dashboard/management',
     icon: Calendar
+  },
+  {
+    title: 'Historial y Consultas',
+    href: '/dashboard/history',
+    icon: History
   },
   {
     title: 'Configuración',
@@ -106,7 +112,7 @@ export function Sidebar({ currentPath, userRole, collapsed = false, onToggleColl
     <>
       {/* Botón hamburguesa solo en mobile */}
       <button
-        className={`fixed opacity-60 top-4 left-4 z-20 md:hidden bg-white border border-gray-200 rounded-lg p-2 shadow ${open ? 'hidden' : ''}`}
+        className={`fixed opacity-60 top-4 right-4 z-20 md:hidden bg-white border border-gray-200 rounded-lg p-2 shadow ${open ? 'hidden' : ''}`}
         onClick={() => setOpen(true)}
         aria-label="Abrir menú"
         aria-expanded={open}
