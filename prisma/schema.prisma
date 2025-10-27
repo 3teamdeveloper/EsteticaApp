@@ -293,9 +293,18 @@ model Payment {
   id                  Int      @id @default(autoincrement())
   userId              Int
   
-  // Información de Mercado Pago
-  mpPaymentId         String   @unique
+  // NUEVO: Provider del pago ('mercadopago' | 'paddle')
+  provider            String   @default("mercadopago")
+  
+  // Información de Mercado Pago (solo cuando provider = 'mercadopago')
+  mpPaymentId         String?  @unique
   mpPreferenceId      String?
+  
+  // Información de Paddle (solo cuando provider = 'paddle')
+  paddleTransactionId String?  @unique
+  paddleSubscriptionId String?
+  
+  // Campos comunes
   status              String   // 'approved', 'pending', 'rejected', 'refunded'
   statusDetail        String?
   
@@ -321,4 +330,6 @@ model Payment {
   
   @@index([userId])
   @@index([mpPaymentId])
+  @@index([paddleTransactionId])
+  @@index([provider])
 }
