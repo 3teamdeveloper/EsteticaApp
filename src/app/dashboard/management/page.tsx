@@ -201,8 +201,11 @@ export default function CalendarCardsPage() {
   // Función para calcular disponibilidad de un día
   const calculateDayAvailability = (date: Date, serviceId?: string, employeeIdFilter?: string): DayAvailability => {
     const dayOfWeek = date.getDay();
-    let totalSlots = 0;
     const servicesToCheck = serviceId ? services.filter(s => s.id.toString() === serviceId) : services;
+
+    // Generar slots únicos por combinación hora-empleado-servicio,
+    // alineado con la deduplicación de generateDayTimeSlots
+    const slotKeys = new Set<string>();
 
     for (const service of servicesToCheck) {
       // Obtener empleados que brindan este servicio
@@ -218,27 +221,31 @@ export default function CalendarCardsPage() {
         const start = timeToMinutes(schedule.startTime);
         const end = timeToMinutes(schedule.endTime);
         for (let time = start; time + service.duration <= end; time += service.duration) {
-          totalSlots++;
+          const timeString = minutesToTime(time);
+          const key = `${timeString}-${schedule.employeeId}-${service.id}`;
+          slotKeys.add(key);
         }
       }
     }
 
-         // Contar appointments reservados (PENDING, CONFIRMED o COMPLETED - todos ocupan slots)
-     const reservedSlots = events.filter(event => {
-       const eventDate = new Date(event.start);
-       const matchesDate = eventDate.toDateString() === date.toDateString();
-       const matchesService = !serviceId || event.extendedProps.service === services.find(s => s.id.toString() === serviceId)?.name;
-       
-       // Para empleados, comparar directamente con el nombre del appointment
-       // Para prestadores, buscar en el array de employees
-       const matchesEmployee = !employeeIdFilter || 
-         (userRole === 'EMPLEADO' 
-           ? event.extendedProps.employee === event.extendedProps.employee // Siempre true para empleados cuando hay filtro
-           : event.extendedProps.employee === employees.find(e => e.id.toString() === employeeIdFilter)?.name);
-       
-       const matchesStatus = ["PENDING", "CONFIRMED", "COMPLETED"].includes(event.extendedProps.status?.toUpperCase());
-       return matchesDate && matchesService && matchesEmployee && matchesStatus;
-     }).length;
+    const totalSlots = slotKeys.size;
+
+    // Contar appointments reservados (PENDING, CONFIRMED o COMPLETED - todos ocupan slots)
+    const reservedSlots = events.filter(event => {
+      const eventDate = new Date(event.start);
+      const matchesDate = eventDate.toDateString() === date.toDateString();
+      const matchesService = !serviceId || event.extendedProps.service === services.find(s => s.id.toString() === serviceId)?.name;
+      
+      // Para empleados, comparar directamente con el nombre del appointment
+      // Para prestadores, buscar en el array de employees
+      const matchesEmployee = !employeeIdFilter || 
+        (userRole === 'EMPLEADO' 
+          ? event.extendedProps.employee === event.extendedProps.employee // Siempre true para empleados cuando hay filtro
+          : event.extendedProps.employee === employees.find(e => e.id.toString() === employeeIdFilter)?.name);
+      
+      const matchesStatus = ["PENDING", "CONFIRMED", "COMPLETED"].includes(event.extendedProps.status?.toUpperCase());
+      return matchesDate && matchesService && matchesEmployee && matchesStatus;
+    }).length;
 
     return {
       totalSlots,

@@ -5,6 +5,7 @@ import { verifyToken } from "@/lib/auth";
 import { verifyTrialAccess } from "@/lib/trial";
 import { prisma } from "@/lib/db";
 import { uploadToBlob, deleteFromBlob } from "@/lib/blob";
+import { sanitizePlainText, sanitizeUrl } from "@/lib/utils";
 
 // GET /api/profile
 export async function GET() {
@@ -91,6 +92,23 @@ export async function POST(req: Request) {
     } else {
       data = await req.json();
     }
+
+    // Sanitizar campos de texto del perfil
+    data.urlName = sanitizePlainText(data.urlName, { maxLength: 64 }).toLowerCase();
+    data.pageTitle = sanitizePlainText(data.pageTitle, { maxLength: 120 });
+    data.bio = sanitizePlainText(data.bio, { maxLength: 2000 });
+    data.slogan = sanitizePlainText(data.slogan, { maxLength: 200 });
+
+    // Sanitizar y validar enlaces públicos
+    const rawLinks = Array.isArray(data.publicLinks) ? data.publicLinks : [];
+    data.publicLinks = rawLinks
+      .map((link: any) => {
+        const name = sanitizePlainText(link?.name, { maxLength: 100 });
+        const url = sanitizeUrl(link?.url);
+        if (!name || !url) return null;
+        return { name, url };
+      })
+      .filter(Boolean);
 
     // Validar que la URL sea única
     if (data.urlName) {

@@ -4,6 +4,7 @@ import { verifyTrialAccess } from "@/lib/trial"
 import { prisma } from "@/lib/db"
 import { cookies } from "next/headers"
 import { uploadToBlob, deleteFromBlob } from "@/lib/blob"
+import { sanitizePlainText } from "@/lib/utils"
 
 export async function GET(
   request: Request,
@@ -84,7 +85,12 @@ export async function PUT(
       payload = await request.json()
     }
 
-    const { name, description, price, duration } = payload
+    const name = sanitizePlainText(payload.name, { maxLength: 120 })
+    const description = payload.description != null
+      ? sanitizePlainText(payload.description, { maxLength: 2000 })
+      : null
+    const price = payload.price
+    const duration = payload.duration
 
     // Obtener servicio actual para eliminar imagen antigua si se reemplaza
     const currentService = await prisma.service.findUnique({

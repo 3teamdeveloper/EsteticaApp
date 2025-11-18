@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import crypto from 'crypto';
 import { generateUniqueUsername, slugifyUsername } from '@/lib/username';
 import { uploadToBlob, deleteFromBlob } from '@/lib/blob';
+import { sanitizePlainText } from '@/lib/utils';
 
 type PrismaTransactionClient = Parameters<Parameters<typeof prisma.$transaction>[0]>[0];
 
@@ -81,11 +82,15 @@ export async function PUT(
 
     // Soportar multipart/form-data
     const formData = await request.formData();
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string | null;
-    const phone = formData.get('phone') as string | null;
+    const rawName = formData.get('name');
+    const rawEmail = formData.get('email');
+    const rawPhone = formData.get('phone');
     const image = formData.get('employeeImage') as File | null;
     const removeImage = formData.get('removeImage') === 'true';
+
+    const name = sanitizePlainText(rawName, { maxLength: 120 });
+    const email = rawEmail ? sanitizePlainText(rawEmail, { maxLength: 190 }) : null;
+    const phone = rawPhone ? sanitizePlainText(rawPhone, { maxLength: 50 }) : null;
 
     // Obtener el empleado actual para saber si tiene imagen previa
     const current = await prisma.employee.findUnique({

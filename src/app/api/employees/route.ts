@@ -7,6 +7,7 @@ import crypto from 'crypto';
 import { generateUniqueUsername, slugifyUsername } from '@/lib/username';
 import { emailService } from '@/lib/email/emailService';
 import { uploadToBlob } from '@/lib/blob';
+import { sanitizePlainText } from '@/lib/utils';
 
 // GET /api/employees - Get all employees for the current user
 export async function GET() {
@@ -77,10 +78,14 @@ export async function POST(request: Request) {
 
     // Soportar multipart/form-data
     const formData = await request.formData();
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string | null;
-    const phone = formData.get('phone') as string | null;
+    const rawName = formData.get('name');
+    const rawEmail = formData.get('email');
+    const rawPhone = formData.get('phone');
     const image = formData.get('employeeImage') as File | null;
+
+    const name = sanitizePlainText(rawName, { maxLength: 120 });
+    const email = rawEmail ? sanitizePlainText(rawEmail, { maxLength: 190 }) : null;
+    const phone = rawPhone ? sanitizePlainText(rawPhone, { maxLength: 50 }) : null;
 
     if (!name) {
       return NextResponse.json(

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import { verifyTrialAccess } from "@/lib/trial";
+import { sanitizePlainText } from "@/lib/utils";
 
 // Función para asignar empleado usando Round Robin
 async function assignEmployeeRoundRobin(serviceId: number, appointmentDate: Date) {
@@ -205,28 +206,26 @@ export async function GET(request: Request) {
 // POST - Crear una nueva reserva
 export async function POST(request: Request) {
   try {
-    //console.log("🚀 POST /api/appointments iniciado");
-    
     // Verificar autenticación (OPCIONAL para reservas públicas)
     const token = (await cookies()).get("token")?.value;
     let session: { id: number; email: string } | null = null;
 
     if (token) {
       session = verifyToken(token) as { id: number; email: string };
-      
+
       // Si hay usuario logueado, verificar acceso del trial
       if (session?.id) {
-        const { hasAccess } = await verifyTrialAccess(session.id, 'create_appointments');
+        const { hasAccess } = await verifyTrialAccess(session.id, "create_appointments");
         if (!hasAccess) {
           return NextResponse.json(
-            { error: 'Tu trial ha expirado. Actualiza tu plan para crear nuevas reservas.' },
+            { error: "Tu trial ha expirado. Actualiza tu plan para crear nuevas reservas." },
             { status: 403 }
           );
         }
       }
     }
     // Si no hay token, es una reserva pública desde la minilanding (permitido)
-    
+
     const {
       serviceId,
       employeeId,
@@ -234,13 +233,15 @@ export async function POST(request: Request) {
       clientPhone,
       clientEmail,
       appointmentDate,
-      duration
+      duration,
     } = await request.json();
 
-    //console.log("📝 Datos recibidos:", { serviceId, employeeId, clientName, appointmentDate });
+    const safeClientName = sanitizePlainText(clientName, { maxLength: 120 });
+    const safeClientEmail = sanitizePlainText(clientEmail, { maxLength: 190 });
+    const safeClientPhone = sanitizePlainText(clientPhone, { maxLength: 50 });
 
-    // Validaciones
-    if (!serviceId || !clientName || !clientPhone || !clientEmail || !appointmentDate) {
+    // Validaciones básicas
+    if (!serviceId || !safeClientName || !safeClientPhone || !safeClientEmail || !appointmentDate) {
       return new NextResponse("Todos los campos son requeridos", { status: 400 });
     }
 
@@ -249,8 +250,8 @@ export async function POST(request: Request) {
       where: {
         id: parseInt(serviceId),
         isActive: true,
-        deleted: false
-      }
+        deleted: false,
+      },
     });
 
     if (!service) {
@@ -260,16 +261,12 @@ export async function POST(request: Request) {
     // Asignar empleado usando Round Robin si no se proporciona
     let finalEmployeeId = employeeId;
     if (!employeeId) {
-      //console.log("🎯 No se proporcionó employeeId, usando Round Robin");
       try {
         finalEmployeeId = await assignEmployeeRoundRobin(parseInt(serviceId), new Date(appointmentDate));
-        //console.log("✅ Round Robin asignó empleado:", finalEmployeeId);
       } catch (error) {
         console.error("❌ Error en Round Robin:", error);
         return new NextResponse("No hay empleados disponibles para este horario", { status: 400 });
       }
-    } else {
-      //console.log("👤 Usando employeeId proporcionado:", employeeId);
     }
 
     // Verificar que el empleado existe y tiene asignado este servicio
@@ -278,48 +275,40 @@ export async function POST(request: Request) {
         id: parseInt(finalEmployeeId),
         services: {
           some: {
-            serviceId: parseInt(serviceId)
-          }
-        }
-      }
+            serviceId: parseInt(serviceId),
+          },
+        },
+      },
     });
 
     if (!employee) {
       return new NextResponse("Empleado no encontrado o no asignado a este servicio", { status: 404 });
     }
 
-    //console.log("👤 Empleado verificado:", employee.name);
-
     // Crear o encontrar el cliente
     let client = await prisma.client.findFirst({
       where: {
-        OR: [
-          { email: clientEmail },
-          { phone: clientPhone }
-        ]
-      }
+        OR: [{ email: clientEmail }, { phone: clientPhone }],
+      },
     });
 
     if (!client) {
       client = await prisma.client.create({
         data: {
-          name: clientName,
-          email: clientEmail,
-          phone: clientPhone
-        }
+          name: safeClientName,
+          email: safeClientEmail,
+          phone: safeClientPhone,
+        },
       });
-      //console.log("👤 Cliente creado:", client.name);
     } else {
-      // Actualizar datos del cliente si es necesario
       client = await prisma.client.update({
         where: { id: client.id },
         data: {
-          name: clientName,
-          email: clientEmail,
-          phone: clientPhone
-        }
+          name: safeClientName,
+          email: safeClientEmail,
+          phone: safeClientPhone,
+        },
       });
-      //console.log("👤 Cliente actualizado:", client.name);
     }
 
     // Crear la reserva
@@ -328,55 +317,44 @@ export async function POST(request: Request) {
         date: new Date(appointmentDate),
         status: "PENDING",
         serviceId: parseInt(serviceId),
-        userId: service.userId, // El userId del prestador (dueño del servicio)
+        userId: service.userId,
         employeeId: parseInt(finalEmployeeId),
-        clientId: client.id
+        clientId: client.id,
       },
       include: {
         service: true,
         employee: true,
         client: true,
-        user: { // Incluir info del prestador para el email
+        user: {
+          // Info del prestador para el email
           select: {
             name: true,
             businessPhone: true,
             businessAddress: true,
-            businessWebsite: true
-          }
-        }
-      }
+            businessWebsite: true,
+          },
+        },
+      },
     });
-
-    /*console.log("✅ Cita creada exitosamente:", {
-      id: appointment.id,
-      employee: appointment.employee?.name || "Sin empleado",
-      service: appointment.service.name,
-      date: appointment.date
-    });*/
 
     // Enviar email de confirmación inmediata al cliente
     if (client.email) {
       try {
-        const { emailService } = await import('@/lib/email/emailService');
-        
-        await emailService.sendAppointmentCreated(
-          client.email,
-          client.name,
-          {
-            date: appointment.date,
-            serviceName: appointment.service.name,
-            employeeName: appointment.employee?.name || 'Sin asignar',
-            businessName: appointment.user.name,
-            duration: appointment.service.duration,
-            businessPhone: appointment.user.businessPhone || undefined,
-            businessAddress: appointment.user.businessAddress || undefined,
-            businessWebsite: appointment.user.businessWebsite || undefined,
-          }
-        );
-        
+        const { emailService } = await import("@/lib/email/emailService");
+
+        await emailService.sendAppointmentCreated(client.email, client.name, {
+          date: appointment.date,
+          serviceName: appointment.service.name,
+          employeeName: appointment.employee?.name || "Sin asignar",
+          businessName: appointment.user.name,
+          duration: appointment.service.duration,
+          businessPhone: appointment.user.businessPhone || undefined,
+          businessAddress: appointment.user.businessAddress || undefined,
+          businessWebsite: appointment.user.businessWebsite || undefined,
+        });
+
         console.log(`[Appointment] ✅ Email de creación enviado a ${client.email}`);
       } catch (emailError) {
-        // No bloquear la creación del turno si falla el email
         console.error(`[Appointment] ❌ Error enviando email:`, emailError);
       }
     }
@@ -384,11 +362,11 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       appointment,
-      message: "Reserva creada exitosamente"
+      message: "Reserva creada exitosamente",
     });
-
   } catch (error) {
     console.error("❌ Error al crear reserva:", error);
     return new NextResponse("Error interno del servidor", { status: 500 });
   }
-} 
+}
+ 

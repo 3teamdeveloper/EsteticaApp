@@ -4,6 +4,7 @@ import { cookies } from "next/headers"
 import { verifyToken } from "@/lib/auth"
 import { verifyTrialAccess } from "@/lib/trial"
 import { uploadToBlob } from "@/lib/blob"
+import { sanitizePlainText } from "@/lib/utils"
 
 export async function GET() {
   try {
@@ -75,7 +76,12 @@ export async function POST(req: Request) {
       payload = await req.json()
     }
 
-    const { name, duration, price, description } = payload
+    const name = sanitizePlainText(payload.name, { maxLength: 120 })
+    const description = payload.description != null
+      ? sanitizePlainText(payload.description, { maxLength: 2000 })
+      : null
+    const duration = payload.duration
+    const price = payload.price
     if (!name || !duration || !price) {
       return new NextResponse("Faltan campos requeridos", { status: 400 })
     }

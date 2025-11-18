@@ -14,9 +14,28 @@ export async function uploadToBlob(file: File, folder: string) {
     throw new Error('BLOB_READ_WRITE_TOKEN no está configurado');
   }
 
+  if (!file || file.size <= 0) {
+    throw new Error('Archivo inválido');
+  }
+
+  // Aceptar solo tipos de imagen comunes
+  const allowedTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/gif',
+    'image/avif'
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error('Tipo de archivo no permitido');
+  }
+
   // Generar nombre único para el archivo
   const timestamp = Date.now();
-  const sanitizedName = file.name.replace(/\s/g, '_');
+  const sanitizedName = file.name
+    .replace(/\s/g, '_')
+    .replace(/[^a-zA-Z0-9_.-]/g, '');
   const filename = `${folder}/${timestamp}_${sanitizedName}`;
 
   // Subir a Vercel Blob

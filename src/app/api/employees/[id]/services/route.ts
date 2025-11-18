@@ -75,12 +75,16 @@ async function copyBusinessHoursToDatabase(employeeId: number, serviceId: number
       const dayHours = businessHours[dayOfWeek];
       
       if (dayHours && dayHours.length > 0) {
-        for (const period of dayHours as Array<{ startTime: string; endTime: string }>) {
+        // Asignar period de forma explícita según la posición de la franja en el día
+        for (let index = 0; index < dayHours.length; index++) {
+          const period = dayHours[index] as { startTime: string; endTime: string };
+
           await prisma.schedule.create({
             data: {
               employeeId: employeeId,
               serviceId: serviceId,
               dayOfWeek: dayOfWeek,
+              period: index + 1,
               startTime: period.startTime,
               endTime: period.endTime,
               userId: employee.userId
@@ -228,22 +232,17 @@ export async function POST(
       return new NextResponse("El servicio ya está asignado a este empleado", { status: 400 });
     }
 
-    // Usar transacción para crear la relación y copiar horarios
-
-    await prisma.$transaction(async (tx: PrismaTransactionClient) => {
-
-      // Crear la relación
-      await tx.employeeService.create({
-        data: {
-          employeeId: parseInt(id),
-          serviceId: serviceId,
-          createdAt: new Date()
-        }
-      });
-
-      // Copiar horarios de negocio
-      await copyBusinessHoursToDatabase(parseInt(id), serviceId);
+    // Crear la relación entre empleado y servicio
+    await prisma.employeeService.create({
+      data: {
+        employeeId: parseInt(id),
+        serviceId: serviceId,
+        createdAt: new Date()
+      }
     });
+
+    // Copiar horarios de negocio fuera de transacción
+    await copyBusinessHoursToDatabase(parseInt(id), serviceId);
 
     return new NextResponse(null, { status: 201 });
   } catch (error) {
@@ -251,7 +250,6 @@ export async function POST(
     return new NextResponse("Error interno", { status: 500 });
   }
 }
-
 // DELETE /api/employees/[id]/services
 export async function DELETE(
   request: Request,

@@ -166,7 +166,7 @@ model Schedule {
   serviceId Int
 
   // @@index([dayOfWeek])
-  // @@unique([employeeId, dayOfWeek, serviceId, period])
+  @@unique([employeeId, dayOfWeek, serviceId, period])
 }
 
 model PublicProfile {

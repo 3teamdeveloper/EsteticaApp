@@ -15,7 +15,7 @@ export const sessionManager = {
     localStorage.setItem('userSession', JSON.stringify(data));
     
     // También en cookies para compatibilidad con SSR
-    document.cookie = `userSession=${JSON.stringify(data)}; path=/; max-age=${7 * 24 * 60 * 60}`;
+    document.cookie = `userSession=${encodeURIComponent(JSON.stringify(data))}; path=/; max-age=${7 * 24 * 60 * 60}`;
   },
 
   // Obtener sesión

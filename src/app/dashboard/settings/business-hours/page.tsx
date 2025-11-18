@@ -19,6 +19,7 @@ export default function BusinessHoursConfig() {
   const [hours, setHours] = useState<BusinessHours>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const toast = useToastContext();
   const router = useRouter();
   const { session } = useSession();
@@ -39,9 +40,14 @@ export default function BusinessHoursConfig() {
       router.push('/dashboard');
       return;
     }
+
+    if (!session || initialized) {
+      return;
+    }
     
     loadBusinessHours();
-  }, [session, router]);
+    setInitialized(true);
+  }, [session, router, initialized]);
 
   const loadBusinessHours = async () => {
     try {
