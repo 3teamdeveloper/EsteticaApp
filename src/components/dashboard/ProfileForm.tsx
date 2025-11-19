@@ -246,6 +246,9 @@ export function ProfileForm(props: ProfileFormProps) {
     setLoading(true);
     setError('');
 
+    // Conservar el urlName anterior para poder revalidar también el path viejo si cambió
+    const oldUrlName = initialData?.urlName;
+
     // Preparar los enlaces combinando redes sociales y enlaces personalizados
     const socialLinks = [
       { name: 'Instagram', url: `https://www.instagram.com/${formData.socialLinks.instagram}` },
@@ -296,6 +299,10 @@ export function ProfileForm(props: ProfileFormProps) {
       toast.push('success', 'Perfil guardado exitosamente');
 
       // Forzar la revalidación de la página pública
+      // Si cambió el urlName, revalidar también el path viejo para que deje de servir el contenido antiguo
+      if (oldUrlName && oldUrlName !== formData.urlName) {
+        await fetch(`/api/revalidate?path=/${oldUrlName}`);
+      }
       await fetch(`/api/revalidate?path=/${formData.urlName}`);
 
       // Actualizar la página actual (permanecer en dashboard/profile)

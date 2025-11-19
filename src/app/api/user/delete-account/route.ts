@@ -40,7 +40,25 @@ export async function DELETE(request: NextRequest) {
     // ELIMINACIÓN EN TRANSACCIÓN ATÓMICA
     // ====================================
     await prisma.$transaction(async (tx) => {
-      // 1. Obtener IDs de entidades relacionadas SOLO si es necesario
+      // 1. Registrar el usuario en el historial de usuarios eliminados
+      const currentUser = await tx.user.findUnique({
+        where: { id: userId },
+        select: { id: true, email: true, role: true, businessType: true }
+      });
+
+      if (currentUser) {
+        await tx.deletedUser.create({
+          data: {
+            userId: currentUser.id,
+            email: currentUser.email,
+            role: currentUser.role,
+            businessType: currentUser.businessType,
+            reason: 'user_requested',
+          }
+        });
+      }
+
+      // 2. Obtener IDs de entidades relacionadas SOLO si es necesario
       const [employees, services] = await Promise.all([
         tx.employee.findMany({
           where: { userId },
@@ -57,7 +75,7 @@ export async function DELETE(request: NextRequest) {
 
       console.log(`📊 Encontrados: ${employeeIds.length} empleados, ${serviceIds.length} servicios`);
 
-      // 2. Eliminar en paralelo todas las entidades que no dependen entre sí
+      // 3. Eliminar en paralelo todas las entidades que no dependen entre sí
       const deletionPromises = [];
 
       // RoundRobinTracking (relacionado a servicios)

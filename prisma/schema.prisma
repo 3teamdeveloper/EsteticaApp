@@ -322,3 +322,14 @@ model Payment {
   @@index([userId])
   @@index([mpPaymentId])
 }
+
+// Modelo para registrar usuarios eliminados (histórico)
+model DeletedUser {
+  id           Int       @id @default(autoincrement())
+  userId       Int       // ID original en la tabla User
+  email        String?   // Email del usuario en el momento de la eliminación
+  role         UserRole?
+  businessType String?
+  deletedAt    DateTime  @default(now())
+  reason       String?   // Ej: 'user_requested', 'admin'
+}

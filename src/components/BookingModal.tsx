@@ -404,7 +404,7 @@ export default function BookingModal({ service, isOpen, onClose }: BookingModalP
       onClick={handleBackdropClick}
     >
       {/* modal content */}
-      <div className="bg-white w-full max-w-4xl max-h-[100vh] overflow-y-auto">
+      <div className="bg-white w-full max-w-4xl max-h-[100vh] overflow-y-auto pt-4 md:pt-0">
 
         {/* Header - Sticky para que siempre sea visible */}
         <div className="sticky top-0 z-10 bg-white flex items-center justify-between p-4 md:p-6 border-b shadow-sm">

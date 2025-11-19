@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Info, ExternalLink } from "lucide-react";
+import { Info, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "@/hooks/useSession";
 
@@ -48,11 +48,6 @@ export default function CookieBanner() {
     setIsVisible(false);
   };
 
-  const handleClose = () => {
-    // Permitir cerrar sin guardar preferencia (se mostrará de nuevo)
-    setIsVisible(false);
-  };
-
   // No mostrar si no hay sesión o no es visible
   if (!session || !isVisible) return null;
 
@@ -95,14 +90,7 @@ export default function CookieBanner() {
               </div>
             </div>
             
-            {/* Botón cerrar */}
-            <button
-              onClick={handleClose}
-              className="flex-shrink-0 p-0.5 text-gray-400 hover:text-gray-600 transition-colors"
-              aria-label="Cerrar"
-            >
-              <X className="h-4 w-4" />
-            </button>
+            {/* Botón cerrar removido: ahora solo se puede descartar con "Entendido" para persistir la aceptación */}
           </div>
         </div>
       </div>
